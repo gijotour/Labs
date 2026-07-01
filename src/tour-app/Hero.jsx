@@ -18,7 +18,7 @@ const Hero = () => {
           <div className="hero-badge animate-up">Elite B2B Tour Platform</div>
           <p className="hero-subtext animate-up delay-1">Premium Experiences for Partners</p>
           <h1 className="hero-main-title animate-up delay-2">
-            GIJO <span className="highlight">TOUR</span>
+            GIJO <span className="highlight">LABS</span>
           </h1>
           <p className="hero-description animate-up delay-3">
             여행설계사와 비즈니스 파트너를 연결하는 하이엔드 B2B 투어 플랫폼.

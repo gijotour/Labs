@@ -118,7 +118,7 @@ const Login = ({ onBack, onLoginSuccess, onDesignerSignup, pendingRequests = [],
               <div className="login-header-elite">
                 <div className="elite-badge">PARTNERSHIP</div>
                 <h2>여행설계사 회원가입</h2>
-                <p>GIJO TOUR의 프리미엄 설계사로 등록하여 비즈니스를 시작하세요.</p>
+                <p>GIJO LABS의 프리미엄 설계사로 등록하여 비즈니스를 시작하세요.</p>
               </div>
 
               <form className="login-form-elite" onSubmit={handleSignupSubmit}>

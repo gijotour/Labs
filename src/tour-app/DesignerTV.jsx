@@ -164,12 +164,12 @@ function DesignerTV({ videos }) {
         <div className="container">
           <div className="footer-content">
             <div className="footer-brand">
-              <div className="logo-text-small">GIJO TOUR</div>
+              <div className="logo-text-small">GIJO LABS</div>
               <p className="brand-desc">Elite B2B Travel Architecture. Connecting visionaries with the world's most exclusive experiences.</p>
             </div>
           </div>
           <div className="footer-bottom" style={{ textAlign: 'center', marginTop: '3rem', opacity: 0.4, fontSize: '0.8rem' }}>
-            © 2026 GIJO TOUR. All rights reserved.
+            © 2026 GIJO LABS. All rights reserved.
           </div>
         </div>
       </footer>

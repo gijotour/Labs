@@ -36,6 +36,27 @@ html, body {
     width: 100%;
     height: 100dvh;
     position: relative;
+    z-index: 1;
+}
+
+#party-particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.aurora-bg {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle at 10% 20%, rgba(255, 0, 85, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0, 243, 255, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(162, 0, 255, 0.05) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
 }
 
 .screen {
@@ -44,12 +65,13 @@ html, body {
     left: 0;
     width: 100%;
     height: 100%;
-    padding: 24px;
+    padding: clamp(12px, 3vw, 24px);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     transition: opacity 0.3s ease;
+    box-sizing: border-box;
 }
 
 .screen.hidden {
@@ -103,17 +125,17 @@ h2.neon-text {
 .menu-buttons {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: clamp(10px, 2.5vw, 18px);
     width: 100%;
-    max-width: 420px;
+    max-width: 600px;
     flex: 1;
     align-content: center;
 }
 
 .menu-buttons .btn {
     height: 100%;
-    min-height: 80px;
-    font-size: 0.95rem;
+    min-height: clamp(80px, 12dvh, 120px);
+    font-size: clamp(0.9rem, 3vw, 1.1rem);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -124,7 +146,7 @@ h2.neon-text {
 }
 
 .menu-buttons .btn .menu-icon {
-    font-size: 1.8rem;
+    font-size: clamp(1.6rem, 5vw, 2.2rem);
 }
 
 /* ===== Main Quad Menu ===== */
@@ -135,7 +157,7 @@ h2.neon-text {
 
 .main-header {
     width: 100%;
-    padding: 18px 20px 14px 20px;
+    padding: clamp(14px, 4vw, 24px) 20px clamp(10px, 3vw, 20px) 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -143,7 +165,7 @@ h2.neon-text {
 }
 
 .main-header .title {
-    font-size: clamp(1.6rem, 7vw, 2.2rem);
+    font-size: clamp(1.6rem, 7vw, 2.5rem);
     margin-bottom: 8px;
 }
 
@@ -152,7 +174,7 @@ h2.neon-text {
     flex: 1;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-rows: repeat(3, 1fr);
     gap: 2px;
 }
 
@@ -178,18 +200,18 @@ h2.neon-text {
 }
 
 .quad-icon {
-    font-size: clamp(2.2rem, 11vw, 3.2rem);
+    font-size: clamp(2.2rem, 11vw, 3.5rem);
     line-height: 1;
 }
 
 .quad-label-en {
-    font-size: clamp(0.95rem, 4vw, 1.2rem);
+    font-size: clamp(0.95rem, 4vw, 1.3rem);
     font-weight: 700;
     letter-spacing: 0.01em;
 }
 
 .quad-label-kr {
-    font-size: clamp(0.75rem, 3.2vw, 0.9rem);
+    font-size: clamp(0.75rem, 3.2vw, 1rem);
     color: #bbb;
 }
 
@@ -199,17 +221,23 @@ h2.neon-text {
 .quad-2 { box-shadow: inset 0 0 30px rgba(0, 243, 255, 0.18); border-bottom: 1px solid rgba(255,255,255,0.08); }
 .quad-2 .quad-icon, .quad-2 .quad-label-en { text-shadow: 0 0 14px var(--secondary-neon); }
 
-.quad-3 { box-shadow: inset 0 0 30px rgba(162, 0, 255, 0.18); border-right: 1px solid rgba(255,255,255,0.08); }
+.quad-3 { box-shadow: inset 0 0 30px rgba(162, 0, 255, 0.18); border-right: 1px solid rgba(255,255,255,0.08); border-bottom: 1px solid rgba(255,255,255,0.08); }
 .quad-3 .quad-icon, .quad-3 .quad-label-en { text-shadow: 0 0 14px var(--tertiary-neon); }
 
-.quad-4 { box-shadow: inset 0 0 30px rgba(255, 170, 0, 0.18); }
+.quad-4 { box-shadow: inset 0 0 30px rgba(255, 170, 0, 0.18); border-bottom: 1px solid rgba(255,255,255,0.08); }
 .quad-4 .quad-icon, .quad-4 .quad-label-en { text-shadow: 0 0 14px #ffaa00; }
+
+.quad-5 { box-shadow: inset 0 0 30px rgba(0, 255, 170, 0.18); border-right: 1px solid rgba(255,255,255,0.08); }
+.quad-5 .quad-icon, .quad-5 .quad-label-en { text-shadow: 0 0 14px #00ffaa; }
+
+.quad-6 { box-shadow: inset 0 0 30px rgba(255, 0, 170, 0.18); }
+.quad-6 .quad-icon, .quad-6 .quad-label-en { text-shadow: 0 0 14px #ff00aa; }
 
 .btn {
     font-family: var(--font-main);
-    font-size: 1rem;
+    font-size: clamp(0.95rem, 3vw, 1.15rem);
     font-weight: 700;
-    padding: 10px 20px;
+    padding: clamp(10px, 2.5vw, 14px) clamp(16px, 4vw, 24px);
     border-radius: 16px;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -239,14 +267,14 @@ h2.neon-text {
 
 .btn-back {
     position: absolute;
-    top: 25px;
-    left: 20px;
+    top: clamp(16px, 4vw, 25px);
+    left: clamp(16px, 4vw, 20px);
     background: rgba(255, 255, 255, 0.1);
     border: none;
     color: var(--secondary-neon);
     font-family: var(--font-main);
-    font-size: 0.9rem;
-    padding: 8px 15px;
+    font-size: clamp(0.8rem, 2.5vw, 0.95rem);
+    padding: clamp(6px, 2vw, 8px) clamp(12px, 3vw, 15px);
     border-radius: 20px;
     cursor: pointer;
     transition: 0.3s;
@@ -261,8 +289,8 @@ h2.neon-text {
 /* Roulette */
 .roulette-container {
     position: relative;
-    width: min(80vw, 300px);
-    height: min(80vw, 300px);
+    width: min(85vw, 420px);
+    height: min(85vw, 420px);
     margin-bottom: 20px;
 }
 
@@ -270,19 +298,11 @@ h2.neon-text {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    border: 4px solid var(--primary-neon);
-    box-shadow: 0 0 20px var(--primary-neon);
+    border: 6px solid var(--primary-neon);
+    box-shadow: 0 0 35px var(--primary-neon), inset 0 0 25px rgba(255, 0, 85, 0.4);
     position: relative;
     overflow: hidden;
-    transition: transform 4s cubic-bezier(0.25, 0.1, 0.15, 1);
-    background: conic-gradient(
-        #ff0055 0deg 60deg, 
-        #a200ff 60deg 120deg, 
-        #00f3ff 120deg 180deg, 
-        #ff0055 180deg 240deg, 
-        #a200ff 240deg 300deg, 
-        #00f3ff 300deg 360deg
-    );
+    transition: transform 4s cubic-bezier(0.15, 0.85, 0.35, 1);
 }
 
 .roulette-wheel::after {
@@ -297,6 +317,25 @@ h2.neon-text {
     border-radius: 50%;
     border: 3px solid var(--secondary-neon);
     z-index: 5;
+}
+
+.roulette-slice-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform-origin: center center;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 15px;
+    font-weight: 800;
+    font-size: 0.75rem;
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 0 5px rgba(0, 0, 0, 0.8);
+    pointer-events: none;
+    box-sizing: border-box;
 }
 
 .roulette-pointer {
@@ -415,6 +454,15 @@ h2.neon-text {
     100% { box-shadow: inset -10px -10px 20px rgba(0,0,0,0.8), 0 0 60px rgba(255,0,0,0.9); transform: scale(1.05); }
 }
 
+.bomb-screen-panic {
+    animation: screen-panic-flash 0.5s infinite alternate;
+}
+
+@keyframes screen-panic-flash {
+    0% { box-shadow: inset 0 0 20px rgba(255, 0, 85, 0); }
+    100% { box-shadow: inset 0 0 80px rgba(255, 0, 85, 0.45); }
+}
+
 .timer {
     display: none;
 }
@@ -426,7 +474,7 @@ h2.neon-text {
     gap: 8px;
     margin-bottom: 20px;
     width: 100%;
-    max-width: 400px;
+    max-width: 520px;
 }
 
 .card {
@@ -646,6 +694,15 @@ textarea:focus {
     justify-content: flex-start !important;
     overflow: hidden;
     background: radial-gradient(ellipse at center, #0f3d22 0%, #06140d 75%, #030806 100%);
+    position: relative;
+}
+
+.croc-back-btn {
+    position: absolute !important;
+    top: 25px !important;
+    left: 20px !important;
+    margin: 0 !important;
+    z-index: 100 !important;
 }
 
 .croc-header {
@@ -760,13 +817,22 @@ textarea:focus {
 
 .croc-shuffle-btn {
     position: absolute;
-    bottom: 18px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 25px;
+    right: 20px;
     width: auto;
-    padding: 10px 26px;
-    z-index: 4;
-    font-size: 0.9rem;
+    padding: 6px 14px;
+    z-index: 100;
+    font-size: 0.8rem;
+    height: auto;
+    border-radius: 20px;
+    border: 1px solid var(--secondary-neon);
+    background: rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
+}
+
+.croc-shuffle-btn:hover {
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.5);
+    background: rgba(0, 243, 255, 0.15);
 }
 
 /* ===== Bite / Game Over Overlay ===== */
@@ -1120,6 +1186,184 @@ textarea:focus {
     40%, 60% { transform: translate3d(10px, 0, 0); }
 }
 
+/* Titanic Game Elements */
+.titanic-screen {
+    background: radial-gradient(ellipse at center, #001220 0%, #00070c 80%);
+}
+
+.titanic-game-area {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    flex: 1;
+    align-items: center;
+}
+
+.beer-glass {
+    width: clamp(180px, 35vw, 240px);
+    height: clamp(280px, 45vh, 420px);
+    position: relative;
+    background-image: url('beer_glass_neon.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    filter: drop-shadow(0 0 35px rgba(0, 243, 255, 0.45));
+}
+
+.beer-liquid {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 70%;
+    background: linear-gradient(to top, rgba(255, 170, 0, 0.75), rgba(255, 200, 0, 0.85));
+    border-radius: 0 0 20px 20px;
+    transition: height 0.3s;
+    box-shadow: 0 0 15px rgba(255, 170, 0, 0.4);
+}
+
+.beer-liquid::after {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: 0;
+    width: 100%;
+    height: 15px;
+    background: #fff;
+    border-radius: 5px 5px 0 0;
+    box-shadow: 0 -2px 5px rgba(255,255,255,0.8);
+}
+
+.soju-cup {
+    position: absolute;
+    width: clamp(70px, 13vw, 95px);
+    height: clamp(85px, 16vw, 115px);
+    left: 50%;
+    transform: translateX(-50%);
+    background-image: url('soju_cup_neon.png');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    transition: top 0.4s ease-out;
+}
+
+.soju-liquid {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background: rgba(0, 255, 170, 0.6);
+    border-radius: 0 0 7px 7px;
+    transition: height 0.1s linear;
+}
+
+.titanic-controls {
+    width: 100%;
+    max-width: 380px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.titanic-indicator {
+    text-align: center;
+    color: var(--secondary-neon);
+    font-weight: 800;
+    text-shadow: 0 0 8px var(--secondary-neon);
+    font-size: 1.1rem;
+}
+
+.pour-btn {
+    border-color: #ffaa00 !important;
+    box-shadow: 0 0 15px rgba(255, 170, 0, 0.4) !important;
+    user-select: none;
+    touch-action: none;
+}
+
+/* Bridge Screen Elements */
+.bridge-screen {
+    background: radial-gradient(ellipse at center, #1b002a 0%, #090010 85%);
+}
+
+.bridge-instructions {
+    text-align: center;
+    font-size: clamp(1rem, 4vw, 1.25rem);
+    font-weight: bold;
+    color: var(--tertiary-neon);
+    text-shadow: 0 0 10px var(--tertiary-neon);
+    margin-bottom: 12px;
+}
+
+.bridge-area {
+    width: 100%;
+    flex: 1;
+    position: relative;
+    border: 2px dashed rgba(162, 0, 255, 0.2);
+    border-radius: 20px;
+    background: rgba(162, 0, 255, 0.02);
+    overflow: hidden;
+}
+
+.bridge-player-node {
+    position: absolute;
+    width: clamp(70px, 15vw, 95px);
+    height: clamp(70px, 15vw, 95px);
+    border-radius: 50%;
+    border: 3px solid var(--secondary-neon);
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 800;
+    color: #fff;
+    text-shadow: 0 0 8px var(--secondary-neon);
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
+    background: rgba(0, 243, 255, 0.15);
+}
+
+.bridge-line {
+    position: absolute;
+    height: 4px;
+    background: linear-gradient(90deg, var(--secondary-neon), var(--primary-neon));
+    transform-origin: 0 50%;
+    box-shadow: 0 0 8px var(--secondary-neon);
+    z-index: 1;
+}
+
+.bridge-target-node {
+    position: absolute;
+    bottom: 25px;
+    width: clamp(80px, 20vw, 110px);
+    height: clamp(40px, 10vw, 55px);
+    border-radius: 12px;
+    border: 2px solid var(--primary-neon);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: #fff;
+    transform: translateX(-50%);
+    box-shadow: 0 0 15px rgba(255, 0, 85, 0.3);
+    background: rgba(255, 0, 85, 0.1);
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+.bridge-target-node.loser {
+    background: rgba(255, 0, 85, 0.6);
+    box-shadow: 0 0 35px var(--primary-neon);
+    animation: node-pulse 0.4s infinite alternate;
+}
+
+@keyframes node-pulse {
+    from { transform: translateX(-50%) scale(1); }
+    to { transform: translateX(-50%) scale(1.1); }
+}
+
 /* Footer */
 .footer-copyright {
     position: absolute;
@@ -1168,6 +1412,16 @@ textarea:focus {
                     <span class="quad-icon">&#128070;</span>
                     <span class="quad-label-en">Touch Roulette</span>
                     <span class="quad-label-kr">터치 룰렛</span>
+                </button>
+                <button class="quad-btn quad-5" onclick="app.navigate('titanic')">
+                    <span class="quad-icon">&#9973;</span>
+                    <span class="quad-label-en">Neon Titanic</span>
+                    <span class="quad-label-kr">찰랑찰랑 타이타닉</span>
+                </button>
+                <button class="quad-btn quad-6" onclick="app.navigate('bridge')">
+                    <span class="quad-icon">&#127983;</span>
+                    <span class="quad-label-en">Finger Bridge</span>
+                    <span class="quad-label-kr">손가락 사다리</span>
                 </button>
             </div>
         </section>
@@ -1230,7 +1484,7 @@ textarea:focus {
 
         <!-- Crocodile Screen -->
         <section id="screen-crocodile" class="screen hidden croc-screen">
-            <button class="btn-back" onclick="history.back()">&larr; Back</button>
+            <button class="btn-back croc-back-btn" onclick="history.back()">&larr; Back</button>
             <div class="croc-header">
                 <h2 class="neon-text croc-title">Crocodile Roulette<br><span class="title-kr">크로커다일 룰렛</span></h2>
             </div>
@@ -1280,6 +1534,36 @@ textarea:focus {
             <h2 class="neon-text">Touch Roulette<br><span class="title-kr">터치 룰렛</span></h2>
             <div class="finger-instructions" id="finger-msg">Everyone touch and hold the screen!<br>(Mobile/Tablet only)</div>
             <div id="finger-area" class="finger-area"></div>
+        </section>
+
+        <!-- Titanic Screen -->
+        <section id="screen-titanic" class="screen hidden titanic-screen">
+            <button class="btn-back" onclick="history.back()">&larr; Back</button>
+            <h2 class="neon-text">Neon Titanic<br><span class="title-kr">찰랑찰랑 타이타닉</span></h2>
+            <p class="subtitle">터치해서 술을 채우세요. 소주잔이 가라앉으면 벌칙!</p>
+            
+            <div class="titanic-game-area">
+                <div class="beer-glass" id="beer-glass">
+                    <div class="beer-liquid" id="beer-liquid"></div>
+                    <div class="soju-cup" id="soju-cup">
+                        <div class="soju-liquid" id="soju-liquid"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="titanic-controls">
+                <div class="titanic-indicator" id="titanic-indicator">소주잔 무게: 0%</div>
+                <button class="btn neon-btn pour-btn" id="pour-btn">🍺 술 따르기 (누르고 있기)</button>
+                <button class="btn neon-btn" onclick="app.initTitanic()">다음 판 시작</button>
+            </div>
+        </section>
+
+        <!-- Bridge Screen -->
+        <section id="screen-bridge" class="screen hidden bridge-screen">
+            <button class="btn-back" onclick="history.back()">&larr; Back</button>
+            <h2 class="neon-text">Finger Bridge<br><span class="title-kr">손가락 사다리</span></h2>
+            <div class="bridge-instructions" id="bridge-msg">화면에 손가락을 모두 올려주세요!</div>
+            <div id="bridge-area" class="bridge-area"></div>
         </section>
 
         <!-- Settings Screen -->
@@ -1557,6 +1841,8 @@ const app = {
             if(this.fingerTimer) clearTimeout(this.fingerTimer);
             if(this.fingerCountdownInterval) clearInterval(this.fingerCountdownInterval);
             if(this.crocOverlayTimeout) clearTimeout(this.crocOverlayTimeout);
+            if(this.titanicInterval) clearInterval(this.titanicInterval);
+            this.teardownBridgeEvents();
         }
         if (screenId === 'roulette-input') {
             document.getElementById('roulette-input-text').value = this.rouletteOptions.join(', ');
@@ -1585,10 +1871,16 @@ const app = {
         if (screenId === 'crocodile') this.initCrocodile();
         if (screenId === 'updown') this.initUpDown();
         if (screenId === 'finger') this.setupFingerRoulette();
+        if (screenId === 'titanic') this.initTitanic();
+        if (screenId === 'bridge') this.initBridge();
     },
 
     updateRouletteWheel(options) {
         const wheel = document.getElementById('roulette-wheel');
+        // Clear previous slice labels
+        const oldLabels = wheel.querySelectorAll('.roulette-slice-label');
+        oldLabels.forEach(el => el.remove());
+
         const colors = ['#ff0055', '#a200ff', '#00f3ff', '#ffaa00', '#00ffaa', '#ff00aa', '#5500ff'];
         let gradient = [];
         const angle = 360 / options.length;
@@ -1596,6 +1888,20 @@ const app = {
         for(let i=0; i<options.length; i++) {
             const color = colors[i % colors.length];
             gradient.push(`${color} ${i * angle}deg ${(i + 1) * angle}deg`);
+
+            // Inject rotation labels
+            const label = document.createElement('div');
+            label.className = 'roulette-slice-label';
+            // Align text rotation centered in the slice angle
+            const rotateDeg = (i * angle) + (angle / 2);
+            label.style.transform = `rotate(${rotateDeg}deg)`;
+            
+            // Limit character length to fit inside slices nicely
+            let text = options[i];
+            if (text.length > 8) text = text.substring(0, 7) + '..';
+            label.innerText = text;
+
+            wheel.appendChild(label);
         }
         
         wheel.style.background = `conic-gradient(${gradient.join(', ')})`;
@@ -1840,6 +2146,8 @@ const app = {
         this.isBombActive = false;
         const container = document.getElementById('bomb-container');
         container.classList.remove('active', 'exploded');
+        const screen = document.getElementById('screen-bomb');
+        if (screen) screen.classList.remove('bomb-screen-panic');
         document.getElementById('bomb-timer').innerText = '00:00';
         document.getElementById('bomb-result').innerText = '';
         document.getElementById('start-bomb-btn').style.display = 'block';
@@ -1868,7 +2176,13 @@ const app = {
             this.updateBombDisplay();
             
             if (this.bombTimeLeft > 0) {
-                soundFX.playTick(this.bombTimeLeft < 5);
+                // If panic zone (< 6s), raise audio beep pitch and alert
+                soundFX.playTick(this.bombTimeLeft < 6);
+                if (this.bombTimeLeft < 6) {
+                    const screen = document.getElementById('screen-bomb');
+                    if (screen) screen.classList.add('bomb-screen-panic');
+                    haptics.tick();
+                }
             }
             
             if (this.bombTimeLeft <= 0) {
@@ -1894,10 +2208,45 @@ const app = {
 
     passBomb() {
         if (!this.isBombActive) return;
+        
+        // Add random variation to time (hot potato tension)
+        const timeChange = Math.floor(Math.random() * 3) - 1; // -1, 0, +1
+        this.bombTimeLeft = Math.max(1, this.bombTimeLeft + timeChange);
+        this.updateBombDisplay();
+
         // Visual feedback for passing
         const container = document.getElementById('bomb-container');
-        container.style.transform = 'scale(0.9)';
-        setTimeout(() => container.style.transform = '', 100);
+        container.style.transform = 'scale(0.85) rotate(' + (Math.random() * 10 - 5) + 'deg)';
+        setTimeout(() => container.style.transform = '', 120);
+
+        // Sound and Haptic feedback on touch pass
+        soundFX.playTick(true);
+        haptics.tick();
+
+        // 35% Chance of a sudden pass mission card
+        const passMissions = [
+            "오른쪽 사람 이름 부르며 넘기기! 🗣️",
+            "윙크하면서 패스하기! 😉",
+            "3초간 얼음 후 넘기기! ❄️",
+            "손가락 하트 발사하고 패스! 🫶",
+            "하이파이브하고 넘기기! ✋",
+            "애교 부리면서 패스하기! 💕",
+            "양손으로 정중히 전달하기! 🙇"
+        ];
+
+        if (Math.random() < 0.35 && this.bombTimeLeft > 4) {
+            const mission = passMissions[Math.floor(Math.random() * passMissions.length)];
+            document.getElementById('bomb-result').innerText = `🚨 돌발 미션: ${mission}`;
+            // Mini vibration alert
+            haptics.buildUp();
+        } else {
+            document.getElementById('bomb-result').innerText = '폭탄이 옆 사람에게 패스되었습니다! 💣';
+            setTimeout(() => {
+                if (this.isBombActive && document.getElementById('bomb-result').innerText.includes('패스')) {
+                    document.getElementById('bomb-result').innerText = '화면의 폭탄을 터치해서 넘기세요!';
+                }
+            }, 1200);
+        }
     },
 
     explodeBomb() {
@@ -1907,8 +2256,11 @@ const app = {
         const container = document.getElementById('bomb-container');
         container.classList.remove('active');
         container.classList.add('exploded');
-        document.getElementById('bomb-timer').innerText = 'BOOM!';
-        document.getElementById('bomb-result').innerText = '💥 펑! 당첨입니다! 💥';
+        const screen = document.getElementById('screen-bomb');
+        if (screen) screen.classList.remove('bomb-screen-panic');
+        document.getElementById('bomb-timer').innerText = '💥 BOOM! 💥';
+        document.getElementById('bomb-result').innerText = '💥 펑! 당신 차례에 터졌습니다! 마셔라! 💥';
+        haptics.loser();
         
         setTimeout(() => {
             document.getElementById('start-bomb-btn').style.display = 'block';
@@ -2231,13 +2583,302 @@ const app = {
             this.fingerTouches = {};
             document.getElementById('finger-msg').innerHTML = 'Everyone touch and hold the screen!<br>(Mobile/Tablet only)';
         }, 3000);
+    },
+
+    // Neon Titanic Logic
+    titanicWeight: 0,
+    titanicLimit: 90, // Random limit between 75 and 95
+    titanicInterval: null,
+    titanicIsOver: false,
+    
+    initTitanic() {
+        soundFX.init();
+        this.titanicWeight = 0;
+        this.titanicIsOver = false;
+        this.titanicLimit = 75 + Math.floor(Math.random() * 20); // 75% to 95%
+        
+        const cup = document.getElementById('soju-cup');
+        const liquid = document.getElementById('soju-liquid');
+        const indicator = document.getElementById('titanic-indicator');
+        
+        cup.style.top = '15px';
+        cup.classList.remove('shake');
+        liquid.style.height = '0%';
+        indicator.innerText = '소주잔 무게: 0%';
+        indicator.style.color = 'var(--secondary-neon)';
+        
+        const btn = document.getElementById('pour-btn');
+        btn.onmousedown = btn.ontouchstart = (e) => {
+            e.preventDefault();
+            this.startPour();
+        };
+        btn.onmouseup = btn.onmouseleave = btn.ontouchend = (e) => {
+            e.preventDefault();
+            this.stopPour();
+        };
+    },
+
+    startPour() {
+        if (this.titanicIsOver) return;
+        clearInterval(this.titanicInterval);
+        
+        const glass = document.getElementById('beer-glass');
+        const cup = document.getElementById('soju-cup');
+        const liquid = document.getElementById('soju-liquid');
+        const indicator = document.getElementById('titanic-indicator');
+        
+        this.titanicInterval = setInterval(() => {
+            this.titanicWeight += 0.8;
+            
+            liquid.style.height = this.titanicWeight + '%';
+            indicator.innerText = `소주잔 무게: ${Math.floor(this.titanicWeight)}%`;
+            
+            // Dynamically calculate top sink travel based on current glass height minus cup height
+            const maxTravel = glass.clientHeight - cup.clientHeight - 20;
+            const sinkOffset = 15 + ((this.titanicWeight / 100) * maxTravel);
+            cup.style.top = `${sinkOffset}px`;
+            
+            soundFX.playTick(true);
+            haptics.tick();
+            
+            if (this.titanicWeight >= this.titanicLimit) {
+                this.sinkTitanic();
+            }
+        }, 30);
+    },
+
+    stopPour() {
+        clearInterval(this.titanicInterval);
+    },
+
+    sinkTitanic() {
+        clearInterval(this.titanicInterval);
+        this.titanicIsOver = true;
+        
+        const glass = document.getElementById('beer-glass');
+        const cup = document.getElementById('soju-cup');
+        const indicator = document.getElementById('titanic-indicator');
+        
+        // Shake then drop to bottom (sink)
+        cup.classList.add('shake');
+        soundFX.playBigBoom();
+        haptics.loser();
+        
+        setTimeout(() => {
+            // Sinks exactly to the bottom of the glass container dynamically
+            const bottomPos = glass.clientHeight - cup.clientHeight - 8;
+            cup.style.top = `${bottomPos}px`;
+            indicator.innerText = '🚢 타이타닉 침몰! 원샷!';
+            indicator.style.color = '#ff0055';
+        }, 400);
+    },
+
+    // Finger Bridge Logic
+    bridgeNodes: [],
+    bridgeLoserIndex: -1,
+    bridgeIsActive: false,
+    
+    initBridge() {
+        const area = document.getElementById('bridge-area');
+        area.innerHTML = '';
+        this.bridgeNodes = [];
+        this.bridgeLoserIndex = -1;
+        this.bridgeIsActive = false;
+        document.getElementById('bridge-msg').innerText = '화면에 손가락을 모두 올려주세요!';
+        
+        this.teardownBridgeEvents();
+        
+        this.handleBridgeStart = this.handleBridgeStart.bind(this);
+        this.handleBridgeEnd = this.handleBridgeEnd.bind(this);
+        
+        area.addEventListener('touchstart', this.handleBridgeStart, {passive: false});
+        area.addEventListener('touchend', this.handleBridgeEnd);
+        area.addEventListener('touchcancel', this.handleBridgeEnd);
+    },
+
+    teardownBridgeEvents() {
+        const area = document.getElementById('bridge-area');
+        if (!area) return;
+        area.removeEventListener('touchstart', this.handleBridgeStart);
+        area.removeEventListener('touchend', this.handleBridgeEnd);
+        area.removeEventListener('touchcancel', this.handleBridgeEnd);
+    },
+
+    handleBridgeStart(e) {
+        e.preventDefault();
+        if (this.bridgeIsActive) return;
+        soundFX.init();
+        
+        const area = document.getElementById('bridge-area');
+        area.innerHTML = '';
+        this.bridgeNodes = [];
+        
+        // Spawn player nodes at touch positions
+        for (let i = 0; i < e.touches.length; i++) {
+            const touch = e.touches[i];
+            const rect = area.getBoundingClientRect();
+            const x = touch.clientX - rect.left;
+            const y = touch.clientY - rect.top;
+            
+            const node = document.createElement('div');
+            node.className = 'bridge-player-node';
+            node.style.left = `${x}px`;
+            node.style.top = `${y}px`;
+            node.innerText = `P${i + 1}`;
+            area.appendChild(node);
+            
+            this.bridgeNodes.push({ x, y, el: node });
+        }
+        
+        // If at least 2 players, lock and draw bridges immediately
+        if (this.bridgeNodes.length >= 2) {
+            this.runBridgeGame();
+        }
+    },
+
+    handleBridgeEnd(e) {
+        // Safe to ignore once active
+    },
+
+    runBridgeGame() {
+        this.bridgeIsActive = true;
+        const area = document.getElementById('bridge-area');
+        document.getElementById('bridge-msg').innerText = '사다리 연결 중...';
+        
+        // Create target (loser) node at bottom center
+        const rect = area.getBoundingClientRect();
+        const targetX = rect.width / 2;
+        const targetY = rect.height - 50;
+        
+        const targetNode = document.createElement('div');
+        targetNode.className = 'bridge-target-node';
+        targetNode.style.left = `${targetX}px`;
+        targetNode.innerText = '벌칙';
+        area.appendChild(targetNode);
+        
+        // Determine random loser node
+        this.bridgeLoserIndex = Math.floor(Math.random() * this.bridgeNodes.length);
+        
+        // Animate laser bridges from all nodes to target
+        this.bridgeNodes.forEach((node, i) => {
+            const line = document.createElement('div');
+            line.className = 'bridge-line';
+            line.style.left = `${node.x}px`;
+            line.style.top = `${node.y}px`;
+            
+            // Calculate distance & angle to target
+            const dx = targetX - node.x;
+            const dy = targetY - node.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+            
+            line.style.transform = `rotate(${angle}deg)`;
+            area.appendChild(line);
+            
+            // Animate length
+            setTimeout(() => {
+                line.style.width = `${dist}px`;
+                soundFX.playTick(true);
+                haptics.tick();
+            }, 100 + (i * 150));
+        });
+        
+        // Trigger explosion at target Node for loser line completion
+        setTimeout(() => {
+            targetNode.classList.add('loser');
+            targetNode.innerText = `💥 P${this.bridgeLoserIndex + 1} 벌칙!`;
+            soundFX.playBigBoom();
+            haptics.loser();
+            document.getElementById('bridge-msg').innerText = '사다리 타기 결과!';
+        }, 150 + (this.bridgeNodes.length * 150));
     }
 };
 
 // Initialize app when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     app.init();
+    initPartyParticles();
 });
-    </script>
+
+// Canvas Party Particles Engine
+function initPartyParticles() {
+    const appEl = document.getElementById('app');
+    if (!appEl) return;
+    
+    // Inject Canvas Element and Aurora Background
+    const aurora = document.createElement('div');
+    aurora.className = 'aurora-bg';
+    appEl.appendChild(aurora);
+    
+    const canvas = document.createElement('canvas');
+    canvas.id = 'party-particles';
+    appEl.appendChild(canvas);
+    
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+    
+    window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+    });
+    
+    const particles = [];
+    const colors = ['#ff0055', '#00f3ff', '#a200ff', '#ffaa00', '#00ffaa'];
+    
+    class Particle {
+        constructor() {
+            this.x = Math.random() * width;
+            this.y = Math.random() * height;
+            this.radius = Math.random() * 2 + 1;
+            this.color = colors[Math.floor(Math.random() * colors.length)];
+            this.vx = (Math.random() - 0.5) * 0.4;
+            this.vy = (Math.random() - 0.5) * 0.4;
+            this.alpha = Math.random() * 0.5 + 0.2;
+            this.fadeSpeed = Math.random() * 0.005 + 0.002;
+        }
+        update() {
+            this.x += this.vx;
+            this.y += this.vy;
+            
+            // Boundary bounce
+            if (this.x < 0 || this.x > width) this.vx *= -1;
+            if (this.y < 0 || this.y > height) this.vy *= -1;
+            
+            // Soft glow pulse
+            this.alpha += this.fadeSpeed;
+            if (this.alpha > 0.7 || this.alpha < 0.2) {
+                this.fadeSpeed *= -1;
+            }
+        }
+        draw() {
+            ctx.save();
+            ctx.globalAlpha = this.alpha;
+            ctx.shadowBlur = 8;
+            ctx.shadowColor = this.color;
+            ctx.fillStyle = this.color;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+        }
+    }
+    
+    // Spawn 60 subtle particles
+    for (let i = 0; i < 60; i++) {
+        particles.push(new Particle());
+    }
+    
+    function animate() {
+        ctx.clearRect(0, 0, width, height);
+        particles.forEach(p => {
+            p.update();
+            p.draw();
+        });
+        requestAnimationFrame(animate);
+    }
+    animate();
+}
+</script>
 </body>
 </html>

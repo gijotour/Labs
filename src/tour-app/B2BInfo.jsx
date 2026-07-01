@@ -32,7 +32,7 @@ const B2BInfo = () => {
         <div className="section-header centered animate-up">
           <div className="section-badge">B2B PARTNERSHIP</div>
           <h2>여행설계사를 위한 <br /><span className="highlight">차별화된 플랫폼 서비스</span></h2>
-          <p>GIJO Labs의 메인 프로젝트인 GIJO TOUR는 전문 여행설계사들이 자신의 역량을 마음껏 펼칠 수 있는 <br />안전하고 투명한 엔터프라이즈 환경을 제공합니다.</p>
+          <p>GIJO Labs의 메인 프로젝트인 GIJO LABS 여행 서비스는 전문 여행설계사들이 자신의 역량을 마음껏 펼칠 수 있는 <br />안전하고 투명한 엔터프라이즈 환경을 제공합니다.</p>
         </div>
 
         <div className="features-grid animate-up delay-2">
@@ -53,7 +53,7 @@ const B2BInfo = () => {
           <div className="cta-premium-content">
             <span className="cta-label">JOIN AS A PARTNER</span>
             <h3>글로벌 여행 시장의 <span className="highlight">새로운 기준</span>이 되세요</h3>
-            <p>지금 바로 GIJO TOUR와 함께 프리미엄 여행 설계의 미래를 시작하세요.</p>
+            <p>지금 바로 GIJO LABS와 함께 프리미엄 여행 설계의 미래를 시작하세요.</p>
           </div>
           <button 
             className="btn-primary btn-large" 

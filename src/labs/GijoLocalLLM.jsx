@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import logoImg from '../assets/logo.png';
 
 const GijoLocalLLM = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('tech');
   const [copiedIndex, setCopiedIndex] = useState(null);
 
-  const logo = "https://img.icons8.com/isometric/100/artificial-intelligence.png";
+  const logo = logoImg;
 
   const prompts = [
     { title: "1. 로그 이상 행위 탐지", text: "다음 로그를 분석해 이상 행위를 찾아라. 공격 가능성, 의심 이유, 위험 수준(낮음/중간/높음)과 대응 방법을 근거와 함께 제시하라." },
@@ -317,8 +318,9 @@ const GijoLocalLLM = () => {
           margin-bottom: 1rem;
         }
         .llm-logo-img {
-          width: 90px;
+          width: 140px;
           filter: drop-shadow(0 0 25px rgba(155, 81, 224, 0.5));
+          opacity: 1;
         }
         .llm-logo-text {
           font-size: 3rem;

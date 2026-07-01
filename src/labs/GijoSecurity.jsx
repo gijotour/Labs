@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import logoImg from '../assets/logo.png';
 
 const GijoSecurity = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('arch');
 
-  const logo = "https://img.icons8.com/isometric/100/experimental-shield-isometric.png";
+  const logo = logoImg;
 
   return (
     <div className="security-wrapper page-fade-in">
@@ -332,8 +333,9 @@ const GijoSecurity = () => {
           margin-bottom: 1rem;
         }
         .sec-logo-img {
-          width: 90px;
+          width: 140px;
           filter: drop-shadow(0 0 25px rgba(0, 210, 255, 0.5));
+          opacity: 1;
         }
         .sec-logo-text {
           font-size: 3rem;

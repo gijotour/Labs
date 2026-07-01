@@ -1,10 +1,11 @@
 import { useNavigate } from 'react-router-dom';
+import logoImg from '../assets/logo.png';
 
 const GijoLab = () => {
   const navigate = useNavigate();
   const onEnterApp = () => navigate('/gijotour');
   
-  const logo = "https://img.icons8.com/isometric/100/experimental-rocket-isometric.png";
+  const logo = logoImg;
 
   return (
     <div className="lab-hub-wrapper page-fade-in">
@@ -173,8 +174,9 @@ const GijoLab = () => {
           margin-bottom: 1rem;
         }
         .hub-logo-img {
-          width: 100px;
+          width: 140px;
           filter: drop-shadow(0 0 20px rgba(0, 210, 255, 0.4));
+          opacity: 1;
         }
         .hub-logo-text {
           font-size: 3.5rem;
