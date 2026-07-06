@@ -4,7 +4,7 @@ import logoImg from '../assets/logo.png';
 const GijoLab = () => {
   const navigate = useNavigate();
   const onEnterApp = () => navigate('/gijotour');
-  
+
   const logo = logoImg;
 
   return (
@@ -15,6 +15,21 @@ const GijoLab = () => {
       </div>
 
       <div className="container hub-container">
+        <div
+          className="hub-top-banner animate-up"
+          onClick={() => window.open('https://gijo.ai', '_blank', 'noopener,noreferrer')}
+        >
+          <div className="hub-top-banner-content">
+            <div className="hub-top-banner-badge">MAIN SECURITY SYSTEM</div>
+            <h2 className="hub-top-banner-title">GIJO.AI</h2>
+            <p className="hub-top-banner-desc">글로벌 인텔리전스 보안 시스템 유통</p>
+          </div>
+          <div className="hub-top-banner-cta">
+            <span>VISIT SITE</span>
+            <span className="hub-arrow">→</span>
+          </div>
+        </div>
+
         <header className="hub-header animate-up">
           <div className="hub-logo-wrap">
             <img src={logo} alt="GIJO Labs" className="hub-logo-img" />
@@ -73,6 +88,27 @@ const GijoLab = () => {
               </div>
             </div>
             <div className="hub-card-bg-glow" style={{ background: 'radial-gradient(circle, rgba(155, 81, 224, 0.15) 0%, transparent 70%)' }}></div>
+          </div>
+
+          {/* Notion Research Notes */}
+          <div
+            className="hub-card animate-up delay-4"
+            onClick={() => window.open('https://app.notion.com/p/394c101e9b2081488281dad0ab1e308d', '_blank', 'noopener,noreferrer')}
+            style={{ borderColor: 'rgba(245, 194, 73, 0.25)' }}
+          >
+            <div className="hub-card-content">
+              <div className="hub-card-badge" style={{ background: 'rgba(245, 194, 73, 0.12)', borderColor: 'rgba(245, 194, 73, 0.3)', color: '#f5c249' }}>RESEARCH NOTES</div>
+              <h2 className="hub-card-title">GIJO 연구노트</h2>
+              <p className="hub-card-desc">
+                프로젝트 리서치와 아이디어를 기록하는 <br />
+                노션 워크스페이스
+              </p>
+              <div className="hub-card-footer" style={{ color: '#f5c249' }}>
+                <span className="hub-cta">OPEN NOTION</span>
+                <span className="hub-arrow">→</span>
+              </div>
+            </div>
+            <div className="hub-card-bg-glow" style={{ background: 'radial-gradient(circle, rgba(245, 194, 73, 0.15) 0%, transparent 70%)' }}></div>
           </div>
         </div>
 
@@ -163,6 +199,71 @@ const GijoLab = () => {
           text-align: center;
           padding: 4rem 2rem;
         }
+        .hub-top-banner {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 2rem;
+          max-width: 1200px;
+          margin: 0 auto 3rem;
+          padding: 1.75rem 2.5rem;
+          background: rgba(255, 45, 85, 0.06);
+          border: 1px solid rgba(255, 45, 85, 0.3);
+          border-radius: 24px;
+          text-align: left;
+          cursor: pointer;
+          transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .hub-top-banner:hover {
+          background: rgba(255, 45, 85, 0.12);
+          border-color: rgba(255, 45, 85, 0.55);
+          transform: translateY(-4px);
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+        .hub-top-banner-badge {
+          display: inline-block;
+          padding: 5px 14px;
+          background: rgba(255, 45, 85, 0.12);
+          border: 1px solid rgba(255, 45, 85, 0.3);
+          color: #ff2d55;
+          border-radius: 50px;
+          font-size: 0.65rem;
+          font-weight: 800;
+          letter-spacing: 1px;
+          margin-bottom: 0.9rem;
+        }
+        .hub-top-banner-title {
+          font-size: 1.8rem;
+          font-weight: 800;
+          margin: 0 0 0.5rem;
+          letter-spacing: 0.5px;
+        }
+        .hub-top-banner-desc {
+          font-size: 1rem;
+          opacity: 0.7;
+          margin: 0;
+        }
+        .hub-top-banner-cta {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          color: #ff2d55;
+          font-weight: 700;
+          letter-spacing: 1px;
+          white-space: nowrap;
+          font-size: 0.9rem;
+        }
+        .hub-top-banner:hover .hub-arrow {
+          transform: translateX(8px);
+        }
+        @media (max-width: 640px) {
+          .hub-top-banner {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1.5rem;
+          }
+        }
         .hub-header {
           margin-bottom: 5rem;
         }
@@ -191,9 +292,9 @@ const GijoLab = () => {
         }
         .hub-selection-grid {
           display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          gap: 2.5rem;
-          max-width: 1200px;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 2rem;
+          max-width: 1000px;
           margin: 0 auto;
         }
         .hub-card {
