@@ -3,8 +3,7 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './shared/Navbar';
 import Footer from './shared/Footer';
 import GijoLab from './labs/GijoLab';
-import GijoSecurity from './labs/GijoSecurity';
-import GijoLocalLLM from './labs/GijoLocalLLM';
+import GijoResearch from './labs/GijoResearch';
 import GijoTourApp from './tour-app/GijoTourApp';
 import SizeControl from './shared/SizeControl';
 
@@ -65,8 +64,8 @@ function App() {
       <main style={{ paddingTop: (!isLabView && location.pathname !== '/gijotour' && location.pathname !== '/gijotour/') ? '80px' : '0' }}>
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<GijoLab />} />
-          <Route path="/security" element={<GijoSecurity />} />
-          <Route path="/llm" element={<GijoLocalLLM />} />
+          <Route path="/security" element={<GijoResearch />} />
+          <Route path="/llm" element={<GijoResearch />} />
 
           <Route path="/gijotour/*" element={
             <GijoTourApp 
