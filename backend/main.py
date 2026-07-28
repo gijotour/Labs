@@ -5,6 +5,7 @@ from fastapi.staticfiles import StaticFiles
 import shutil
 import os
 import uuid
+from datetime import datetime, timezone
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -44,6 +45,38 @@ def create_proposal(proposal: schemas.ProposalCreate, db: Session = Depends(get_
     db.commit()
     db.refresh(db_proposal)
     return db_proposal
+
+@app.get("/api/matching-requests", response_model=list[schemas.MatchingRequestResponse])
+def get_matching_requests(db: Session = Depends(get_db)):
+    """관리자 화면에서 접수된 매칭 신청을 최신순으로 조회한다."""
+    return db.query(models.MatchingRequest).order_by(models.MatchingRequest.id.desc()).all()
+
+@app.post("/api/matching-requests", response_model=schemas.MatchingRequestResponse)
+def create_matching_request(payload: schemas.MatchingRequestCreate, db: Session = Depends(get_db)):
+    """랜딩 페이지의 고객 매칭 신청을 접수한다."""
+    db_request = models.MatchingRequest(
+        **payload.model_dump(),
+        status="접수",
+        created_at=datetime.now(timezone.utc).isoformat(timespec="seconds"),
+    )
+    db.add(db_request)
+    db.commit()
+    db.refresh(db_request)
+    return db_request
+
+@app.patch("/api/matching-requests/{request_id}", response_model=schemas.MatchingRequestResponse)
+def update_matching_request(
+    request_id: int,
+    payload: schemas.MatchingRequestStatusUpdate,
+    db: Session = Depends(get_db),
+):
+    db_request = db.query(models.MatchingRequest).filter(models.MatchingRequest.id == request_id).first()
+    if db_request is None:
+        raise HTTPException(status_code=404, detail="Matching request not found")
+    db_request.status = payload.status
+    db.commit()
+    db.refresh(db_request)
+    return db_request
 
 @app.get("/api/videos", response_model=list[schemas.VideoResponse])
 def get_videos(db: Session = Depends(get_db)):

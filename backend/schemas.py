@@ -15,6 +15,23 @@ class ProposalResponse(ProposalCreate):
     class Config:
         orm_mode = True
 
+class MatchingRequestCreate(BaseModel):
+    people: str
+    travel_date: str
+    contact: str
+    budget: str = ""
+    purpose: str = ""
+
+class MatchingRequestResponse(MatchingRequestCreate):
+    id: int
+    status: str
+    created_at: Optional[str] = None
+    class Config:
+        orm_mode = True
+
+class MatchingRequestStatusUpdate(BaseModel):
+    status: str
+
 class VideoCreate(BaseModel):
     title: str
     category: str

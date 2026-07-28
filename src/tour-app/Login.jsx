@@ -7,9 +7,11 @@ const Login = ({ onBack, onLoginSuccess, onDesignerSignup, pendingRequests = [],
   const [id, setId] = useState('');
   const [pw, setPw] = useState('');
   const [signupData, setSignupData] = useState({ name: '', email: '', region: '', bio: '' });
+  const [loginError, setLoginError] = useState('');
 
   const handleLogin = (e) => {
     e.preventDefault();
+    setLoginError('');
     const inputId = id.trim();
 
     // 1. 승인 대기 목록을 먼저 체크 (가장 높은 우선순위, TypeError 방지를 위해 안전한 옵셔널 체이닝 적용)
@@ -23,8 +25,19 @@ const Login = ({ onBack, onLoginSuccess, onDesignerSignup, pendingRequests = [],
       return;
     }
 
-    // 2. 이미 승인된 활성 설계사 목록 체크 (TypeError 방지를 위해 안전한 옵셔널 체이닝 적용)
-    const isActive = activeDesigners.find(d => 
+    // 2. 관리자 계정 (목업 단계 전용: admin / admin)
+    //    주의: 클라이언트에서 비교하는 목업 자격증명이다. 실제 인증은 서버에서 검증해야 한다.
+    if (inputId.toLowerCase() === 'admin') {
+      if (pw !== 'admin') {
+        setLoginError('관리자 비밀번호가 올바르지 않습니다.');
+        return;
+      }
+      onLoginSuccess('admin', '관리자');
+      return;
+    }
+
+    // 3. 이미 승인된 활성 설계사 목록 체크 (TypeError 방지를 위해 안전한 옵셔널 체이닝 적용)
+    const isActive = activeDesigners.find(d =>
       d.name?.toLowerCase() === inputId.toLowerCase()
     );
 
@@ -33,7 +46,7 @@ const Login = ({ onBack, onLoginSuccess, onDesignerSignup, pendingRequests = [],
       // 로그인 성공 시 'designer' 역할로 세션 성공 전달
       onLoginSuccess('designer', finalName);
     } else {
-      alert('등록되지 않은 계정이거나 승인 대기 중입니다. 가입 정보를 확인해 주세요. (데모 테스트용 ID: demo)');
+      setLoginError('등록되지 않은 계정이거나 승인 대기 중입니다. 가입 정보를 확인해 주세요. (테스트 ID: demo / admin)');
     }
   };
 
@@ -99,12 +112,36 @@ const Login = ({ onBack, onLoginSuccess, onDesignerSignup, pendingRequests = [],
               <form className="login-form-elite" onSubmit={handleLogin}>
                 <div className="elite-input-group">
                   <label>ID / EMAIL</label>
-                  <input type="text" placeholder="이름 또는 이메일을 입력하세요 (테스트 ID: demo)" value={id} onChange={(e) => setId(e.target.value)} required />
+                  <input
+                    type="text"
+                    placeholder="이름 또는 이메일 (테스트 ID: demo / admin)"
+                    value={id}
+                    onChange={(e) => { setId(e.target.value); setLoginError(''); }}
+                    aria-invalid={loginError ? true : undefined}
+                    aria-describedby={loginError ? 'login-error' : undefined}
+                    required
+                  />
                 </div>
                 <div className="elite-input-group">
                   <label>PASSWORD</label>
-                  <input type="password" placeholder="••••••••" value={pw} onChange={(e) => setPw(e.target.value)} required />
+                  <input
+                    type="password"
+                    placeholder="••••••••"
+                    value={pw}
+                    onChange={(e) => { setPw(e.target.value); setLoginError(''); }}
+                    aria-invalid={loginError ? true : undefined}
+                    required
+                  />
                 </div>
+                {loginError && (
+                  <p
+                    id="login-error"
+                    role="alert"
+                    style={{ margin: '0 0 1rem', color: '#ff6b81', fontSize: '0.9rem', lineHeight: 1.6 }}
+                  >
+                    {loginError}
+                  </p>
+                )}
                 <button type="submit" className="btn-login-elite">SECURE LOGIN</button>
               </form>
 

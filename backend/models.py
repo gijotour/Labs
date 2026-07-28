@@ -19,6 +19,18 @@ class Proposal(Base):
     status = Column(String) # 'Pending', 'Active'
     description = Column(String)
 
+class MatchingRequest(Base):
+    """고객이 랜딩에서 제출한 1:1 전문가 매칭 신청."""
+    __tablename__ = "matching_requests"
+    id = Column(Integer, primary_key=True, index=True)
+    people = Column(String)          # 동반 인원
+    travel_date = Column(String)     # 희망 일정
+    budget = Column(String)          # 예산 범위
+    purpose = Column(String)         # 희망 테마
+    contact = Column(String)         # 연락처
+    status = Column(String, default="접수")  # 접수 / 상담중 / 매칭완료 / 취소
+    created_at = Column(String)      # ISO 날짜 문자열
+
 class Video(Base):
     __tablename__ = "videos"
     id = Column(Integer, primary_key=True, index=True)

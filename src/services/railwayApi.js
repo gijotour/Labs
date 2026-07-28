@@ -28,6 +28,17 @@ export const railwayApi = {
     body: JSON.stringify(payload)
   }),
 
+  // 고객 매칭 신청 (랜딩 → 관리자)
+  getMatchingRequests: () => request('/api/matching-requests'),
+  createMatchingRequest: (payload) => request('/api/matching-requests', {
+    method: 'POST',
+    body: JSON.stringify(payload)
+  }),
+  updateMatchingRequest: (id, payload) => request(`/api/matching-requests/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(payload)
+  }),
+
   getGuides: () => request('/api/guides'),
   createGuide: (payload) => request('/api/guides', {
     method: 'POST',

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 const NoticeBoard = ({ notices, isLoggedIn, userName, onAddNotice, onDeleteNotice, forceWrite, filterUserName, onClearFilter }) => {
   const [isWriting, setIsWriting] = React.useState(false);
