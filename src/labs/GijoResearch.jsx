@@ -1,33 +1,33 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import logoImg from '../assets/logo.png';
+import '../tour-app/tour-theme.css';
 
 const GijoResearch = () => {
   const navigate = useNavigate();
   const location = useLocation();
   
-  // URL 경로에 따라 디폴트 활성화 탭을 맞춰줍니다.
-  const [activeTab, setActiveTab] = useState(() => {
-    if (location.pathname === '/llm') return 'llm';
-    return 'security';
-  });
+  // 활성 탭은 URL에서 파생한다. 별도 state로 두면 useEffect로 다시 동기화해야 하고
+  // 뒤로가기 시 어긋난다.
+  //  · security / llm  → 경로로 구분 (/security, /llm)
+  //  · progress        → 전용 경로가 없어 쿼리로 구분 (?tab=progress)
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeTab =
+    searchParams.get('tab') === 'progress'
+      ? 'progress'
+      : location.pathname === '/llm' ? 'llm' : 'security';
 
-  // 탭 변경 시 브라우저 주소창 경로도 자연스럽게 맞춰줍니다.
   const handleTabChange = (tab) => {
-    setActiveTab(tab);
-    if (tab === 'security') navigate('/security');
-    else if (tab === 'llm') navigate('/llm');
+    if (tab === 'progress') {
+      setSearchParams({ tab: 'progress' });
+      return;
+    }
+    navigate(tab === 'llm' ? '/llm' : '/security');
   };
-
-  useEffect(() => {
-    if (location.pathname === '/llm') setActiveTab('llm');
-    else if (location.pathname === '/security') setActiveTab('security');
-  }, [location.pathname]);
 
   const logo = logoImg;
 
   return (
-    <div className="research-wrapper page-fade-in">
+    <div className="lab-surface research-wrapper page-fade-in">
       {/* 폰트는 index.html <head>에서 preconnect와 함께 로드 */}
       <div className="res-bg">
         <div className="res-mesh res-mesh-1"></div>
@@ -94,7 +94,7 @@ const GijoResearch = () => {
           </button>
           <button 
             className={`res-tab-btn ${activeTab === 'progress' ? 'active prog-active' : ''}`} 
-            onClick={() => setActiveTab('progress')}
+            onClick={() => handleTabChange('progress')}
           >
             📊 3. 개발 진척도 & 타임라인
           </button>
@@ -350,13 +350,13 @@ const GijoResearch = () => {
 
       <style>{`
         .research-wrapper {
-          font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
           min-height: 100vh;
-          background: #030508;
-          color: white;
-          padding: 4rem 2rem;
+          padding: 3.5rem 1.5rem;
           position: relative;
-          overflow: hidden;
+          /* blur(150px) 메시 3개 + 무한 애니메이션 → 정지된 그라데이션 1개 */
+          background:
+            radial-gradient(1100px 550px at 50% -8%, rgba(53, 214, 255, 0.06), transparent 70%),
+            var(--t-bg);
         }
         
         .res-bg {
@@ -365,13 +365,7 @@ const GijoResearch = () => {
           z-index: 0;
           pointer-events: none;
         }
-        .res-mesh {
-          position: absolute;
-          border-radius: 50%;
-          filter: blur(150px);
-          opacity: 0.08;
-          animation: floatGlow 15s infinite alternate ease-in-out;
-        }
+        .res-mesh { display: none; }
         .res-mesh-1 {
           width: 600px; height: 600px;
           background: #00d2ff;
@@ -407,11 +401,11 @@ const GijoResearch = () => {
         .btn-back-hub {
           position: absolute;
           top: 0; left: 0;
-          background: rgba(255, 255, 255, 0.03);
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          color: rgba(255, 255, 255, 0.6);
+          background: transparent;
+          border: 1px solid var(--t-line-strong);
+          color: var(--t-fg-muted);
           padding: 8px 16px;
-          border-radius: 50px;
+          border-radius: 8px;
           cursor: pointer;
           font-weight: 600;
           font-size: 0.85rem;
@@ -449,22 +443,20 @@ const GijoResearch = () => {
         .res-subtitle {
           font-size: 0.8rem;
           letter-spacing: 0.4em;
-          opacity: 0.4;
+          color: var(--t-fg-subtle);
           font-weight: 700;
           margin-left: 0.4em;
         }
         
         /* General Cards */
         .res-card {
-          background: rgba(255, 255, 255, 0.02);
-          border: 1px solid rgba(255, 255, 255, 0.04);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
-          border-radius: 24px;
-          padding: 2.5rem;
-          margin-bottom: 2rem;
+          background: var(--t-surface-1);
+          border: 1px solid var(--t-line);
+          border-radius: var(--t-radius);
+          padding: 2rem;
+          margin-bottom: 1rem;
           text-align: left;
-          transition: border-color 0.4s ease, box-shadow 0.4s ease;
+          transition: border-color 0.18s ease;
         }
         .res-card:hover {
           border-color: rgba(255, 255, 255, 0.08);
@@ -485,10 +477,10 @@ const GijoResearch = () => {
         .res-card-badge {
           display: inline-block;
           padding: 4px 10px;
-          background: rgba(255, 255, 255, 0.05);
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          color: rgba(255, 255, 255, 0.5);
-          border-radius: 50px;
+          background: var(--t-accent-weak);
+          border: 1px solid var(--t-accent-line);
+          color: var(--t-accent);
+          border-radius: 6px;
           font-size: 0.6rem;
           font-weight: 800;
           letter-spacing: 1.5px;
@@ -512,7 +504,7 @@ const GijoResearch = () => {
         }
         .spec-label {
           font-size: 0.7rem;
-          opacity: 0.4;
+          color: var(--t-fg-subtle);
           text-transform: uppercase;
           font-weight: 700;
           letter-spacing: 0.5px;
@@ -537,9 +529,9 @@ const GijoResearch = () => {
           flex: 1;
           background: transparent;
           border: none;
-          color: rgba(255, 255, 255, 0.5);
+          color: var(--t-fg-muted);
           padding: 12px 20px;
-          border-radius: 50px;
+          border-radius: 8px;
           cursor: pointer;
           font-weight: 600;
           font-size: 0.95rem;
@@ -550,8 +542,9 @@ const GijoResearch = () => {
           background: rgba(255, 255, 255, 0.03);
         }
         .res-tab-btn.active {
-          color: white;
-          font-weight: 800;
+          color: var(--t-accent);
+          background: var(--t-accent-weak);
+          font-weight: 700;
         }
         .sec-active {
           background: rgba(0, 210, 255, 0.12) !important;
@@ -630,7 +623,7 @@ const GijoResearch = () => {
         .layer-num {
           font-size: 1.2rem;
           font-weight: 800;
-          opacity: 0.2;
+          opacity: 0.45;
         }
         .layer-main-info h4 {
           margin: 0 0 4px;
@@ -741,7 +734,7 @@ const GijoResearch = () => {
           font-weight: 700;
           font-size: 0.85rem;
           background: rgba(255, 255, 255, 0.01);
-          opacity: 0.4;
+          color: var(--t-fg-subtle);
           border-right: 1px solid rgba(255, 255, 255, 0.03);
         }
         .spec-td {
@@ -780,7 +773,7 @@ const GijoResearch = () => {
         }
         .extra-note {
           font-size: 0.8rem;
-          opacity: 0.4;
+          color: var(--t-fg-subtle);
           margin: 0;
         }
         
@@ -851,7 +844,7 @@ const GijoResearch = () => {
           color: rgba(255, 255, 255, 0.75);
         }
         .chk-box {
-          color: rgba(255, 255, 255, 0.25);
+          color: var(--t-fg-subtle);
           font-weight: bold;
           flex-shrink: 0;
         }
@@ -887,7 +880,7 @@ const GijoResearch = () => {
           width: 100px;
           font-size: 0.85rem;
           font-weight: 700;
-          opacity: 0.4;
+          color: var(--t-fg-subtle);
           text-align: right;
           padding-top: 6px;
         }

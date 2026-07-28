@@ -1,724 +1,476 @@
 import { useNavigate } from 'react-router-dom';
 import logoImg from '../assets/logo.png';
+import '../tour-app/tour-theme.css';
+
+const NEWS = [
+  {
+    id: 'gijo-as',
+    badge: 'SPEC ACTIVE',
+    lead: 'GIJO AS (보안전문담당자용 보안 툴)',
+    body: '보안 관제 제품 실시간 개발 진행 중'
+  },
+  {
+    id: 'gijo-tour',
+    badge: 'LIVE NEWS',
+    lead: '지아이조 투어',
+    body: '“검증된 현지 전문가와 함께하는 실패 없는 맞춤형 여정” 서비스 활성화 중'
+  }
+];
+
+const GAME_MODES = [
+  '미션 룰렛',
+  '크로커다일 룰렛',
+  '시간 폭탄',
+  '터치 룰렛',
+  '찰랑찰랑 타이타닉',
+  '손가락 사다리'
+];
 
 const GijoLab = () => {
   const navigate = useNavigate();
-  const onEnterApp = () => navigate('/gijotour');
-
-  const logo = logoImg;
 
   return (
-    <div className="lab-hub-wrapper page-fade-in">
-      {/* 폰트는 index.html <head>에서 preconnect와 함께 로드 */}
-      <div className="hub-background">
-        <div className="hub-mesh hub-mesh-1"></div>
-        <div className="hub-mesh hub-mesh-2"></div>
-        <div className="hub-mesh hub-mesh-3"></div>
-      </div>
-
-      <div className="container hub-container">
-        <a
-          className="hub-top-banner animate-up"
-          href="https://gijo.ai"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <div className="hub-top-banner-content">
-            <div className="hub-top-banner-badge">MAIN SECURITY SYSTEM</div>
-            <h2 className="hub-top-banner-title">GIJO.AI</h2>
-            <p className="hub-top-banner-desc">글로벌 인텔리전스 보안 시스템 유통</p>
-          </div>
-          <div className="hub-top-banner-cta">
-            <span>VISIT SITE</span>
-            <span className="hub-arrow" aria-hidden="true">→</span>
-          </div>
+    <div className="lab-surface lab-hub page-fade-in">
+      <div className="lab-shell">
+        {/* ── GIJO.AI 배너 ── */}
+        <a className="lab-banner" href="https://gijo.ai" target="_blank" rel="noopener noreferrer">
+          <span className="lab-banner__body">
+            <span className="lab-eyebrow">Main Security System</span>
+            <strong className="lab-banner__title">GIJO.AI</strong>
+            <span className="lab-banner__desc">글로벌 인텔리전스 보안 시스템 유통</span>
+          </span>
+          <span className="lab-banner__cta">
+            VISIT SITE <span className="lab-arrow" aria-hidden="true">→</span>
+          </span>
         </a>
 
-        <header className="hub-header animate-up">
-          <div className="hub-logo-wrap">
-            <div className="hub-logo-badge">
-              <img src={logo} alt="GIJO Labs" className="hub-logo-img" />
-            </div>
-            <h1 className="logo-text hub-logo-text">GIJO Labs</h1>
-          </div>
-          <p className="hub-subtitle">Advanced Travel Technology & Innovation</p>
-          
-          <div className="dev-news-container">
-            {/* 뉴스 1: GIJO AS 보안 관제 제품 실시간 개발 진행 중 */}
-            <div className="dev-news-banner banner-cyan">
-              <div className="news-badge spec-badge-news">SPEC ACTIVE</div>
-              <div className="news-ticker">
-                <span className="pulse-dot-cyan"></span>
-                <span className="news-text">
-                  <strong>GIJO AS (보안전문담당자용 보안 툴)</strong> 보안 관제 제품 실시간 개발 진행 중
-                </span>
-              </div>
-            </div>
-
-            {/* 뉴스 2: 지아이조 투어 슬로건 */}
-            <div className="dev-news-banner banner-red">
-              <div className="news-badge">LIVE NEWS</div>
-              <div className="news-ticker">
-                <span className="pulse-dot-red"></span>
-                <span className="news-text">
-                  <strong>지아이조 투어</strong> "검증된 현지 전문가와 함께하는 실패 없는 맞춤형 여정" 서비스 활성화 중
-                </span>
-              </div>
-            </div>
-          </div>
+        {/* ── 헤더 ── */}
+        <header className="lab-head">
+          <img src={logoImg} alt="" className="lab-logo" />
+          <h1 className="lab-title">GIJO Labs</h1>
+          <p className="lab-sub">Advanced Travel Technology &amp; Innovation</p>
         </header>
 
-        <div className="hub-selection-grid">
-          {/* Main Entry: GIJO TOUR */}
-          <button type="button" className="hub-card flagship animate-up delay-1" onClick={onEnterApp}>
-            <div className="hub-card-content">
-              <div className="hub-card-badge">FLAGSHIP PROJECT</div>
-              <h2 className="hub-card-title">지아이조 투어</h2>
-              <p className="hub-card-desc">
-                전문 여행설계사와 비즈니스를 연결하는 <br />
-                하이엔드 B2B 투어 플랫폼
+        {/* ── 개발 소식 ── */}
+        <section className="lab-news" aria-label="개발 현황">
+          {NEWS.map((item) => (
+            <article key={item.id} className="lab-news__item">
+              <span className="lab-news__badge">{item.badge}</span>
+              <span className="lab-dot" aria-hidden="true" />
+              <p className="lab-news__text">
+                <strong>{item.lead}</strong> {item.body}
               </p>
-              <div className="hub-card-footer">
-                <span className="hub-cta">ENTER PORTAL</span>
-                <span className="hub-arrow" aria-hidden="true">→</span>
-              </div>
-            </div>
-            <div className="hub-card-bg-glow"></div>
+            </article>
+          ))}
+        </section>
+
+        {/* ── 프로젝트 ── */}
+        <section className="lab-grid" aria-label="프로젝트">
+          <button type="button" className="lab-card lab-card--lead" onClick={() => navigate('/gijotour')}>
+            <span className="lab-eyebrow">Flagship Project</span>
+            <h2 className="lab-card__title">지아이조 투어</h2>
+            <p className="lab-card__desc">
+              전문 여행설계사와 비즈니스를 연결하는 하이엔드 B2B 투어 플랫폼
+            </p>
+            <span className="lab-card__cta">
+              ENTER PORTAL <span className="lab-arrow" aria-hidden="true">→</span>
+            </span>
           </button>
 
-          {/* Secondary Entries: GIJO Security */}
-          <button type="button" className="hub-card card-security animate-up delay-2" onClick={() => navigate('/security')}>
-            <div className="hub-card-content">
-              <div className="hub-card-badge badge-security">ACTIVE RESEARCH</div>
-              <h2 className="hub-card-title">GIJO SECURITY</h2>
-              <p className="hub-card-desc">
-                Kali Linux 및 로컬 LLM 기반 <br />
-                지속적 내부 자산 취약점 관리 시스템
-              </p>
-              <div className="hub-card-footer footer-security">
-                <span className="hub-cta">OPEN PLANNING</span>
-                <span className="hub-arrow" aria-hidden="true">→</span>
-              </div>
-            </div>
-            <div className="hub-card-bg-glow glow-security"></div>
+          <button type="button" className="lab-card" onClick={() => navigate('/security')}>
+            <span className="lab-eyebrow">Active Research</span>
+            <h2 className="lab-card__title">GIJO Security</h2>
+            <p className="lab-card__desc">
+              Kali Linux 및 로컬 LLM 기반 지속적 내부 자산 취약점 관리 시스템
+            </p>
+            <span className="lab-card__cta">
+              OPEN PLANNING <span className="lab-arrow" aria-hidden="true">→</span>
+            </span>
           </button>
 
-          {/* Tertiary Entries: GIJO LOCAL LLM */}
-          <button type="button" className="hub-card card-llm animate-up delay-3" onClick={() => navigate('/llm')}>
-            <div className="hub-card-content">
-              <div className="hub-card-badge badge-llm">ACTIVE RESEARCH</div>
-              <h2 className="hub-card-title">GIJO LOCAL LLM</h2>
-              <p className="hub-card-desc">
-                Gemma 3/4 및 Ollama 기반 <br />
-                오프라인 보안 AI Copilot 구축 계획
-              </p>
-              <div className="hub-card-footer footer-llm">
-                <span className="hub-cta">OPEN PLANNING</span>
-                <span className="hub-arrow" aria-hidden="true">→</span>
-              </div>
-            </div>
-            <div className="hub-card-bg-glow glow-llm"></div>
+          <button type="button" className="lab-card" onClick={() => navigate('/llm')}>
+            <span className="lab-eyebrow">Active Research</span>
+            <h2 className="lab-card__title">GIJO Local LLM</h2>
+            <p className="lab-card__desc">
+              Gemma 3/4 및 Ollama 기반 오프라인 보안 AI Copilot 구축 계획
+            </p>
+            <span className="lab-card__cta">
+              OPEN PLANNING <span className="lab-arrow" aria-hidden="true">→</span>
+            </span>
           </button>
 
-          {/* Notion Research Notes */}
           <a
-            className="hub-card card-notion animate-up delay-4"
+            className="lab-card"
             href="https://app.notion.com/p/394c101e9b2081488281dad0ab1e308d"
             target="_blank"
             rel="noopener noreferrer"
           >
-            <div className="hub-card-content">
-              <div className="hub-card-badge badge-notion">RESEARCH NOTES</div>
-              <h2 className="hub-card-title">GIJO 연구노트</h2>
-              <p className="hub-card-desc">
-                프로젝트 리서치와 아이디어를 기록하는 <br />
-                노션 워크스페이스
-              </p>
-              <div className="hub-card-footer footer-notion">
-                <span className="hub-cta">OPEN NOTION</span>
-                <span className="hub-arrow" aria-hidden="true">→</span>
-              </div>
-            </div>
-            <div className="hub-card-bg-glow glow-notion"></div>
+            <span className="lab-eyebrow">Research Notes</span>
+            <h2 className="lab-card__title">GIJO 연구노트</h2>
+            <p className="lab-card__desc">
+              프로젝트 리서치와 아이디어를 기록하는 노션 워크스페이스
+            </p>
+            <span className="lab-card__cta">
+              OPEN NOTION <span className="lab-arrow" aria-hidden="true">→</span>
+            </span>
           </a>
-        </div>
+        </section>
 
-        <footer className="hub-footer animate-up delay-5">
+        {/* ── 게임 (하단 전용 섹션) ── */}
+        <section className="lab-game" aria-labelledby="lab-game-title">
+          <div className="lab-game__body">
+            <span className="lab-eyebrow">Side Project</span>
+            <h2 id="lab-game-title" className="lab-game__title">GIJO Drink · 파티 게임</h2>
+            <p className="lab-game__desc">
+              모임 자리에서 바로 켜서 즐기는 웹 파티 게임입니다. 설치 없이 브라우저에서 실행됩니다.
+            </p>
+
+            <ul className="lab-game__modes">
+              {GAME_MODES.map((mode) => (
+                <li key={mode}>{mode}</li>
+              ))}
+            </ul>
+
+            <a
+              className="lab-game__cta"
+              href="/GIJO_Drink_v3_0_1.html"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              게임 실행 <span className="lab-arrow" aria-hidden="true">→</span>
+            </a>
+          </div>
+
+          <div className="lab-game__art" aria-hidden="true">
+            <img src="/soju_cup_neon.png" alt="" loading="lazy" />
+            <img src="/beer_glass_neon.png" alt="" loading="lazy" />
+          </div>
+        </section>
+
+        {/* ── 푸터 ── */}
+        <footer className="lab-foot">
           <p>© {new Date().getFullYear()} GIJO Labs. All projects are part of the GIJO Ecosystem.</p>
-          <a
-            className="gijo-game-launcher"
-            href="/GIJO_Drink_v3_0_1.html"
-            target="_blank"
-            rel="noopener noreferrer"
-            title="GIJO Drink Party Game 실행"
-          >
-            <span className="game-icon-glow" aria-hidden="true">🎮</span>
-            <span>GIJO GAME</span>
-          </a>
         </footer>
       </div>
 
       <style>{`
-        /* 개발 상태 뉴스 컨테이너 & 배너들 */
-        .dev-news-container {
-          display: flex;
-          flex-direction: column;
-          gap: 10px;
-          max-width: 800px;
-          margin: 2.2rem auto 0;
-          width: 100%;
-        }
-        .dev-news-banner {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          padding: 8px 18px;
-          border-radius: 12px;
-          width: 100%;
-          backdrop-filter: blur(12px);
-          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
-          text-align: left;
-          transition: border-color 0.3s ease, background 0.3s ease;
-        }
-        
-        /* 배너 색상 클래스별 스타일링 */
-        .banner-red {
-          background: rgba(255, 45, 85, 0.02);
-          border: 1px solid rgba(255, 45, 85, 0.08);
-        }
-        .banner-red:hover {
-          border-color: rgba(255, 45, 85, 0.25);
-          background: rgba(255, 45, 85, 0.04);
-        }
-        .banner-red .news-text strong {
-          color: #ff2d55;
-          font-weight: 800;
-        }
-
-        .banner-cyan {
-          background: rgba(0, 210, 255, 0.02);
-          border: 1px solid rgba(0, 210, 255, 0.08);
-        }
-        .banner-cyan:hover {
-          border-color: rgba(0, 210, 255, 0.25);
-          background: rgba(0, 210, 255, 0.04);
-        }
-        .banner-cyan .news-text strong {
-          color: #00d2ff;
-          font-weight: 800;
-        }
-
-        .news-badge {
-          background: #ff2d55;
-          color: white;
-          padding: 4px 8px;
-          font-size: 0.68rem;
-          font-weight: 900;
-          border-radius: 4px;
-          letter-spacing: 1px;
-          text-transform: uppercase;
-          box-shadow: 0 0 10px rgba(255, 45, 85, 0.3);
-          animation: badgeBlink 2.5s infinite ease-in-out;
-          flex-shrink: 0;
-        }
-        .spec-badge-news {
-          background: #00d2ff !important;
-          box-shadow: 0 0 10px rgba(0, 210, 255, 0.3) !important;
-        }
-        @keyframes badgeBlink {
-          0% { opacity: 0.85; }
-          50% { opacity: 1; filter: brightness(1.15); }
-          100% { opacity: 0.85; }
-        }
-        .news-ticker {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          font-size: 0.82rem;
-          color: #f3f4f6;
-          font-weight: 600;
-          letter-spacing: 0.2px;
-        }
-        .pulse-dot-red {
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          background: #ff2d55;
-          box-shadow: 0 0 8px #ff2d55;
-          animation: pulseRed 1.8s infinite ease-in-out;
-          flex-shrink: 0;
-        }
-        .pulse-dot-cyan {
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          background: #00d2ff;
-          box-shadow: 0 0 8px #00d2ff;
-          animation: pulseCyan 1.8s infinite ease-in-out;
-          flex-shrink: 0;
-        }
-        @keyframes pulseRed {
-          0% { transform: scale(0.85); opacity: 0.5; }
-          50% { transform: scale(1.25); opacity: 1; box-shadow: 0 0 12px #ff2d55; }
-          100% { transform: scale(0.85); opacity: 0.5; }
-        }
-        @keyframes pulseCyan {
-          0% { transform: scale(0.85); opacity: 0.5; }
-          50% { transform: scale(1.25); opacity: 1; box-shadow: 0 0 12px #00d2ff; }
-          100% { transform: scale(0.85); opacity: 0.5; }
-        }
-
-        /* 글로벌 Outfit 폰트 지정 */
-        .lab-hub-wrapper {
-          font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+        .lab-hub {
           min-height: 100vh;
-          background: #030508;
-          color: white;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          position: relative;
-          overflow: hidden;
+          padding: 2.5rem 1.5rem 3rem;
+          /* 이전의 blur(160px) 메시 3개 대신 정지된 미묘한 그라데이션 하나 */
+          background:
+            radial-gradient(1200px 600px at 50% -10%, rgba(53, 214, 255, 0.06), transparent 70%),
+            var(--t-bg);
         }
-        .hub-background {
-          position: absolute;
-          top: 0; left: 0; width: 100%; height: 100%;
-          z-index: 0;
-        }
-        .hub-mesh {
-          position: absolute;
-          border-radius: 50%;
-          filter: blur(160px);
-          opacity: 0.12;
-          animation: floatGlow 12s infinite alternate ease-in-out;
-        }
-        .hub-mesh-1 {
-          width: 700px; height: 700px;
-          background: radial-gradient(circle, #00d2ff 0%, transparent 80%);
-          top: -20%; left: -10%;
-          animation-delay: 0s;
-        }
-        .hub-mesh-2 {
-          width: 600px; height: 600px;
-          background: radial-gradient(circle, #9b51e0 0%, transparent 80%);
-          bottom: -15%; right: -10%;
-          animation-delay: 3s;
-        }
-        .hub-mesh-3 {
-          width: 500px; height: 500px;
-          background: radial-gradient(circle, #ff2d55 0%, transparent 80%);
-          top: 40%; left: 50%;
-          transform: translate(-50%, -50%);
-          opacity: 0.06;
-          animation-duration: 18s;
-        }
-        @keyframes floatGlow {
-          0% { transform: translateY(0) scale(1); }
-          100% { transform: translateY(40px) scale(1.1); }
-        }
-        
-        .hub-container {
-          position: relative;
-          z-index: 10;
-          text-align: center;
-          padding: 5rem 2rem;
-          max-width: 1200px;
-          width: 100%;
-        }
-        
-        /* a/button으로 바뀐 인터랙션 요소의 기본 스타일 초기화 */
-        .hub-top-banner,
-        .hub-card,
-        .gijo-game-launcher {
-          font: inherit;
-          color: inherit;
-          text-decoration: none;
-          -webkit-appearance: none;
-          appearance: none;
-        }
-        /* 키보드 포커스 표시 */
-        .hub-top-banner:focus-visible,
-        .hub-card:focus-visible,
-        .gijo-game-launcher:focus-visible {
-          outline: 2px solid #00d2ff;
-          outline-offset: 4px;
-        }
-
-        .hub-top-banner {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 2rem;
-          max-width: 1000px;
-          margin: 0 auto 4rem;
-          padding: 1.5rem 2.5rem;
-          background: rgba(255, 45, 85, 0.04);
-          border: 1px solid rgba(255, 45, 85, 0.2);
-          backdrop-filter: blur(12px);
-          border-radius: 24px;
-          text-align: left;
-          cursor: pointer;
-          transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .hub-top-banner:hover {
-          background: rgba(255, 45, 85, 0.1);
-          border-color: rgba(255, 45, 85, 0.5);
-          transform: translateY(-4px);
-          box-shadow: 0 20px 40px rgba(255, 45, 85, 0.08);
-        }
-        .hub-top-banner-badge {
-          display: inline-block;
-          padding: 4px 12px;
-          background: rgba(255, 45, 85, 0.12);
-          border: 1px solid rgba(255, 45, 85, 0.25);
-          color: #ff2d55;
-          border-radius: 50px;
-          font-size: 0.65rem;
-          font-weight: 800;
-          letter-spacing: 1.5px;
-          margin-bottom: 0.75rem;
-        }
-        .hub-top-banner-title {
-          font-size: 1.6rem;
-          font-weight: 800;
-          margin: 0 0 0.25rem;
-          letter-spacing: 0.5px;
-        }
-        .hub-top-banner-desc {
-          font-size: 0.95rem;
-          opacity: 0.6;
-          margin: 0;
-        }
-        .hub-top-banner-cta {
-          display: flex;
-          align-items: center;
-          gap: 0.75rem;
-          color: #ff2d55;
-          font-weight: 700;
-          letter-spacing: 1.5px;
-          white-space: nowrap;
-          font-size: 0.85rem;
-        }
-        .hub-top-banner:hover .hub-arrow {
-          transform: translateX(8px);
-        }
-
-        .hub-header {
-          margin-bottom: 4.5rem;
-        }
-        .hub-logo-wrap {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          gap: 1.25rem;
-          margin-bottom: 1rem;
-        }
-        .hub-logo-badge {
-          position: relative;
-          width: 168px;
-          height: 168px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          border-radius: 50%;
-          background: rgba(255, 255, 255, 0.04);
-          border: 1px solid rgba(0, 210, 255, 0.22);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
-          box-shadow:
-            inset 0 1px 1px rgba(255, 255, 255, 0.14),
-            inset 0 -18px 34px rgba(0, 210, 255, 0.06),
-            0 0 32px rgba(0, 210, 255, 0.14);
-          transition: border-color 0.6s ease, box-shadow 0.6s ease;
-        }
-        /* 유리 표면 하이라이트 */
-        .hub-logo-badge::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          border-radius: 50%;
-          background: linear-gradient(
-            145deg,
-            rgba(255, 255, 255, 0.10) 0%,
-            rgba(255, 255, 255, 0) 42%
-          );
-          pointer-events: none;
-        }
-        .hub-logo-wrap:hover .hub-logo-badge {
-          border-color: rgba(0, 210, 255, 0.55);
-          box-shadow:
-            inset 0 1px 1px rgba(255, 255, 255, 0.2),
-            inset 0 -18px 34px rgba(0, 210, 255, 0.12),
-            0 0 52px rgba(0, 210, 255, 0.28);
-        }
-        .hub-logo-img {
-          position: relative;
-          width: 120px;
-          filter: drop-shadow(0 0 25px rgba(0, 210, 255, 0.35));
-          transition: transform 0.8s ease;
-        }
-        .hub-logo-wrap:hover .hub-logo-img {
-          transform: rotate(360deg);
-        }
-        /* 모션 최소화 설정 시 무한 반복 애니메이션 전부 정지
-           (badgeBlink, pulseRed, pulseCyan, floatGlow + 로고 회전) */
-        @media (prefers-reduced-motion: reduce) {
-          .hub-logo-wrap:hover .hub-logo-img { transform: none; }
-          .news-badge,
-          .pulse-dot-red,
-          .pulse-dot-cyan,
-          .hub-mesh {
-            animation: none !important;
-          }
-          .hub-card,
-          .hub-top-banner,
-          .gijo-game-launcher,
-          .hub-arrow {
-            transition: none;
-          }
-          .hub-card:hover,
-          .hub-top-banner:hover,
-          .gijo-game-launcher:hover {
-            transform: none;
-          }
-        }
-        .hub-logo-text {
-          font-family: 'Syncopate', sans-serif;
-          font-size: 3rem;
-          font-weight: 700;
-          letter-spacing: -1px;
-          margin: 0;
-          background: linear-gradient(135deg, #ffffff 40%, #a5b4fc 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-        }
-        .hub-subtitle {
-          font-size: 0.95rem;
-          letter-spacing: 0.4em;
-          text-transform: uppercase;
-          /* 0.4 → 0.62 (대비비 3.71:1 → 7.7:1, WCAG AA 통과) */
-          opacity: 0.62;
-          font-weight: 600;
-          margin-left: 0.4em;
-        }
-        .hub-slogan {
-          font-size: 1.15rem;
-          font-weight: 500;
-          color: rgba(255, 255, 255, 0.85);
-          margin-top: 1.8rem;
-          margin-bottom: 0;
-          letter-spacing: 0.5px;
-          background: linear-gradient(135deg, #ffffff 60%, #a5b4fc 100%);
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          font-style: italic;
-          opacity: 0.9;
-        }
-
-        .hub-selection-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 2rem;
-          max-width: 1000px;
+        .lab-shell {
+          width: min(1080px, 100%);
           margin: 0 auto;
         }
-        .hub-card {
-          position: relative;
-          width: 100%;
-          background: rgba(255, 255, 255, 0.02);
-          border: 1px solid rgba(255, 255, 255, 0.05);
-          backdrop-filter: blur(16px);
-          -webkit-backdrop-filter: blur(16px);
-          border-radius: 28px;
-          padding: 3.5rem 2.5rem;
-          text-align: left;
-          transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-          cursor: pointer;
-          overflow: hidden;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-        }
-        
-        /* 플래그십 카드 (지아이조 투어) */
-        .hub-card.flagship {
-          background: rgba(0, 210, 255, 0.02);
-          border-color: rgba(0, 210, 255, 0.15);
-        }
-        .hub-card.flagship:hover {
-          border-color: rgba(0, 210, 255, 0.6);
-          box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 210, 255, 0.15);
-          background: rgba(0, 210, 255, 0.04);
-        }
-        .hub-card.flagship .hub-card-bg-glow {
-          background: radial-gradient(circle at 80% 20%, rgba(0, 210, 255, 0.15) 0%, transparent 60%);
-        }
 
-        /* 보안 카드 */
-        .hub-card.card-security {
-          background: rgba(39, 174, 96, 0.02);
-          border-color: rgba(39, 174, 96, 0.15);
+        .lab-eyebrow {
+          display: block;
+          font-size: 0.6875rem;
+          font-weight: 700;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+          color: var(--t-accent);
         }
-        .hub-card.card-security:hover {
-          border-color: rgba(39, 174, 96, 0.6);
-          box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(39, 174, 96, 0.15);
-          background: rgba(39, 174, 96, 0.04);
-        }
-        .badge-security {
-          background: rgba(39, 174, 96, 0.1) !important;
-          border-color: rgba(39, 174, 96, 0.25) !important;
-          color: #27ae60 !important;
-        }
-        .footer-security { color: #27ae60 !important; }
-        .glow-security {
-          background: radial-gradient(circle at 80% 20%, rgba(39, 174, 96, 0.15) 0%, transparent 60%);
-        }
-
-        /* LLM 카드 */
-        .hub-card.card-llm {
-          background: rgba(155, 81, 224, 0.02);
-          border-color: rgba(155, 81, 224, 0.15);
-        }
-        .hub-card.card-llm:hover {
-          border-color: rgba(155, 81, 224, 0.6);
-          box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(155, 81, 224, 0.15);
-          background: rgba(155, 81, 224, 0.04);
-        }
-        .badge-llm {
-          background: rgba(155, 81, 224, 0.1) !important;
-          border-color: rgba(155, 81, 224, 0.25) !important;
-          color: #be93e4 !important;
-        }
-        .footer-llm { color: #be93e4 !important; }
-        .glow-llm {
-          background: radial-gradient(circle at 80% 20%, rgba(155, 81, 224, 0.15) 0%, transparent 60%);
-        }
-
-        /* 노션 카드 */
-        .hub-card.card-notion {
-          background: rgba(245, 194, 73, 0.02);
-          border-color: rgba(245, 194, 73, 0.15);
-        }
-        .hub-card.card-notion:hover {
-          border-color: rgba(245, 194, 73, 0.6);
-          box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 30px rgba(245, 194, 73, 0.15);
-          background: rgba(245, 194, 73, 0.04);
-        }
-        .badge-notion {
-          background: rgba(245, 194, 73, 0.12) !important;
-          border-color: rgba(245, 194, 73, 0.3) !important;
-          color: #f5c249 !important;
-        }
-        .footer-notion { color: #f5c249 !important; }
-        .glow-notion {
-          background: radial-gradient(circle at 80% 20%, rgba(245, 194, 73, 0.15) 0%, transparent 60%);
-        }
-
-        .hub-card:hover {
-          transform: translateY(-10px) scale(1.01);
-        }
-        
-        .hub-card-badge {
+        .lab-arrow {
           display: inline-block;
-          padding: 5px 12px;
-          background: rgba(0, 210, 255, 0.08);
-          border: 1px solid rgba(0, 210, 255, 0.2);
-          color: #00d2ff;
-          border-radius: 50px;
-          font-size: 0.65rem;
-          font-weight: 800;
-          letter-spacing: 1px;
-          margin-bottom: 2.5rem;
+          transition: transform 0.18s ease;
         }
-        .hub-card-title {
-          font-size: 2rem;
+
+        /* ── 배너 ── */
+        .lab-banner {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 1.5rem;
+          padding: 1.25rem 1.5rem;
+          border: 1px solid var(--t-line);
+          border-radius: var(--t-radius);
+          background: var(--t-surface-1);
+          text-decoration: none;
+          transition: border-color 0.18s ease, background 0.18s ease;
+        }
+        .lab-banner:hover {
+          border-color: var(--t-accent-line);
+          background: var(--t-surface-2);
+        }
+        .lab-banner:hover .lab-arrow { transform: translateX(4px); }
+        .lab-banner__body { display: block; }
+        .lab-banner__title {
+          display: block;
+          margin: 0.375rem 0 0.125rem;
+          font-size: 1.375rem;
+          font-weight: 700;
+          letter-spacing: -0.01em;
+          color: var(--t-fg);
+        }
+        .lab-banner__desc { font-size: 0.9375rem; color: var(--t-fg-muted); }
+        .lab-banner__cta {
+          flex-shrink: 0;
+          font-size: 0.8125rem;
+          font-weight: 700;
+          letter-spacing: 0.08em;
+          color: var(--t-accent);
+          white-space: nowrap;
+        }
+
+        /* ── 헤더 ── */
+        .lab-head {
+          text-align: center;
+          padding: 3rem 0 2rem;
+        }
+        .lab-logo {
+          width: 84px;
+          height: 84px;
+          object-fit: contain;
           margin-bottom: 1rem;
-          font-weight: 800;
-          letter-spacing: -0.5px;
         }
-        .hub-card-desc {
-          font-size: 1rem;
-          line-height: 1.6;
-          opacity: 0.6;
-          margin-bottom: 3.5rem;
+        .lab-title {
+          font-family: 'Syncopate', 'Outfit', sans-serif;
+          font-size: 2.75rem;
+          font-weight: 700;
+          letter-spacing: -0.02em;
+          color: var(--t-fg);
+          margin: 0 0 0.75rem;
         }
-        .hub-card-footer {
+        .lab-sub {
+          font-size: 0.8125rem;
+          font-weight: 600;
+          letter-spacing: 0.24em;
+          text-transform: uppercase;
+          color: var(--t-fg-subtle);
+          margin: 0;
+        }
+
+        /* ── 개발 소식 ── */
+        .lab-news {
+          display: grid;
+          gap: 0.5rem;
+          max-width: 780px;
+          margin: 0 auto 2.5rem;
+        }
+        .lab-news__item {
           display: flex;
           align-items: center;
           gap: 0.75rem;
-          color: #00d2ff;
+          padding: 0.75rem 1rem;
+          border: 1px solid var(--t-line);
+          border-radius: var(--t-radius-sm);
+          background: var(--t-surface-1);
+        }
+        .lab-news__badge {
+          flex-shrink: 0;
+          padding: 0.1875rem 0.5rem;
+          border-radius: 4px;
+          border: 1px solid var(--t-accent-line);
+          background: var(--t-accent-weak);
+          color: var(--t-accent);
+          font-size: 0.625rem;
           font-weight: 700;
-          letter-spacing: 1px;
-          font-size: 0.85rem;
-          margin-top: auto;
+          letter-spacing: 0.08em;
         }
-        .hub-card-bg-glow {
-          position: absolute;
-          top: 0; left: 0; width: 100%; height: 100%;
-          z-index: -1;
-          pointer-events: none;
-          transition: opacity 0.5s ease;
+        .lab-dot {
+          flex-shrink: 0;
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: var(--t-accent);
+          animation: labPulse 2s infinite ease-in-out;
         }
-        
-        .hub-arrow {
-          transition: transform 0.3s ease;
+        @keyframes labPulse {
+          0%, 100% { opacity: 0.35; }
+          50% { opacity: 1; }
         }
-        .hub-card:hover .hub-arrow {
-          transform: translateX(8px);
+        .lab-news__text {
+          margin: 0;
+          font-size: 0.875rem;
+          line-height: 1.5;
+          color: var(--t-fg-muted);
         }
-        
-        .gijo-game-launcher {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          background: rgba(255, 0, 85, 0.08);
-          border: 1px solid rgba(255, 0, 85, 0.25);
-          padding: 8px 16px;
-          border-radius: 20px;
-          margin-top: 1.5rem;
-          cursor: pointer;
-          color: #ff0055;
-          font-weight: 800;
-          font-size: 0.85rem;
-          letter-spacing: 0.5px;
-          box-shadow: 0 0 15px rgba(255, 0, 85, 0.1);
-          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        .lab-news__text strong { color: var(--t-fg); font-weight: 650; }
+
+        /* ── 프로젝트 그리드 ── */
+        .lab-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 1rem;
         }
-        .gijo-game-launcher:hover {
-          background: rgba(255, 0, 85, 0.16);
-          border-color: rgba(255, 0, 85, 0.5);
-          color: white;
-          transform: translateY(-3px) scale(1.05);
-          box-shadow: 0 5px 20px rgba(255, 0, 85, 0.3), 0 0 10px rgba(255, 0, 85, 0.2);
-        }
-        .game-icon-glow {
-          filter: drop-shadow(0 0 6px rgba(255, 0, 85, 0.8));
-          font-size: 1.1rem;
-        }
-        .hub-footer {
-          margin-top: 6rem;
-          font-size: 0.9rem;
+        .lab-card {
           display: flex;
           flex-direction: column;
-          align-items: center;
-          gap: 0.5rem;
+          align-items: flex-start;
+          gap: 0.625rem;
+          padding: 1.75rem;
+          border: 1px solid var(--t-line);
+          border-radius: var(--t-radius);
+          background: var(--t-surface-1);
+          text-align: left;
+          text-decoration: none;
+          font: inherit;
+          color: inherit;
+          cursor: pointer;
+          transition: border-color 0.18s ease, background 0.18s ease;
         }
-        /* 부모의 opacity 0.8을 제거했다. 자식과 곱해져(0.8×0.3=0.24)
-           저작권 문구가 1.97:1, 게임 런처가 3.61:1까지 떨어지던 원인. */
-        .hub-footer p {
-          /* 실효 0.24 → 0.48 (1.97:1 → 4.94:1, WCAG AA 통과) */
-          opacity: 0.48;
+        .lab-card:hover {
+          border-color: var(--t-accent-line);
+          background: var(--t-surface-2);
+        }
+        .lab-card:hover .lab-arrow { transform: translateX(4px); }
+
+        /* 플래그십은 전체 폭을 차지해 위계를 만든다 */
+        .lab-card--lead {
+          grid-column: 1 / -1;
+          padding: 2.25rem;
+        }
+        .lab-card--lead .lab-card__title { font-size: 1.75rem; }
+        .lab-card--lead .lab-card__desc { max-width: 42ch; }
+
+        .lab-card__title {
+          margin: 0;
+          font-size: 1.25rem;
+          font-weight: 700;
+          letter-spacing: -0.01em;
+          color: var(--t-fg);
+        }
+        .lab-card__desc {
+          margin: 0;
+          font-size: 0.9375rem;
+          line-height: 1.6;
+          color: var(--t-fg-muted);
+          flex-grow: 1;
+        }
+        .lab-card__cta {
+          margin-top: 0.75rem;
+          font-size: 0.75rem;
+          font-weight: 700;
+          letter-spacing: 0.1em;
+          color: var(--t-accent);
         }
 
-        @media (max-width: 1024px) {
-          .hub-selection-grid {
-            grid-template-columns: 1fr;
-            max-width: 500px;
-          }
-          .hub-logo-text { font-size: 2.25rem; }
-          .hub-logo-badge { width: 132px; height: 132px; }
-          .hub-logo-img { width: 94px; }
-          .hub-card { padding: 2.5rem 2rem; }
+        /* ── 푸터 ── */
+        .lab-foot {
+          margin-top: 2rem;
+          padding-top: 1.5rem;
+          border-top: 1px solid var(--t-line);
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 1rem;
+          flex-wrap: wrap;
+        }
+        .lab-foot p {
+          margin: 0;
+          font-size: 0.8125rem;
+          color: var(--t-fg-subtle);
+        }
+        /* ── 게임 섹션 ── */
+        .lab-game {
+          display: grid;
+          grid-template-columns: 1fr 260px;
+          gap: 1.5rem;
+          align-items: center;
+          margin-top: 2.5rem;
+          padding: 2rem;
+          border: 1px solid var(--t-line);
+          border-radius: var(--t-radius);
+          background: var(--t-surface-1);
+          overflow: hidden;
+        }
+        .lab-game__title {
+          margin: 0.375rem 0 0.5rem;
+          font-size: 1.375rem;
+          font-weight: 700;
+          letter-spacing: -0.01em;
+          color: var(--t-fg);
+        }
+        .lab-game__desc {
+          margin: 0 0 1rem;
+          font-size: 0.9375rem;
+          line-height: 1.6;
+          color: var(--t-fg-muted);
+          max-width: 46ch;
+        }
+        .lab-game__modes {
+          list-style: none;
+          margin: 0 0 1.25rem;
+          padding: 0;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.375rem;
+        }
+        .lab-game__modes li {
+          padding: 0.3125rem 0.625rem;
+          border: 1px solid var(--t-line);
+          border-radius: 999px;
+          font-size: 0.75rem;
+          color: var(--t-fg-subtle);
+        }
+        .lab-game__cta {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.4375rem;
+          padding: 0.6875rem 1.125rem;
+          border-radius: var(--t-radius-sm);
+          background: var(--t-accent);
+          color: var(--t-accent-ink);
+          font-size: 0.9375rem;
+          font-weight: 650;
+          text-decoration: none;
+          transition: background 0.18s ease;
+        }
+        .lab-game__cta:hover { background: #5ee0ff; }
+        .lab-game__cta:hover .lab-arrow { transform: translateX(3px); }
+
+        .lab-game__art {
+          display: flex;
+          align-items: flex-end;
+          justify-content: center;
+          gap: 0.5rem;
+        }
+        .lab-game__art img {
+          width: 50%;
+          max-width: 118px;
+          height: auto;
+          object-fit: contain;
+          filter: saturate(0.85);
+        }
+
+        /* ── 포커스 ── */
+        .lab-hub a:focus-visible,
+        .lab-hub button:focus-visible {
+          outline: 2px solid var(--t-accent);
+          outline-offset: 3px;
+        }
+
+        /* ── 반응형 ── */
+        @media (max-width: 900px) {
+          .lab-hub { padding: 2.5rem 1.25rem; }
+          .lab-grid { grid-template-columns: repeat(2, 1fr); }
+          .lab-head { padding: 2rem 0 1.5rem; }
+          .lab-title { font-size: 2.25rem; }
+          .lab-banner { flex-direction: column; align-items: flex-start; gap: 1rem; }
+          .lab-game { grid-template-columns: 1fr; }
+          .lab-game__art { order: -1; justify-content: flex-start; }
+          .lab-game__art img { max-width: 92px; }
+        }
+        @media (max-width: 600px) {
+          .lab-grid { grid-template-columns: 1fr; }
+          .lab-title { font-size: 1.875rem; }
+          .lab-logo { width: 64px; height: 64px; }
+          .lab-news__item { flex-wrap: wrap; }
+          .lab-foot { flex-direction: column; align-items: flex-start; }
+          .lab-game { padding: 1.5rem; }
+          .lab-game__cta { width: 100%; justify-content: center; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .lab-dot { animation: none; opacity: 1; }
+          .lab-arrow, .lab-card, .lab-banner, .lab-game { transition: none; }
+          .lab-card:hover .lab-arrow,
+          .lab-banner:hover .lab-arrow { transform: none; }
         }
       `}</style>
     </div>
