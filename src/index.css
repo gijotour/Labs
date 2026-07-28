@@ -1,6 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+/* 폰트는 index.html <head>에서 preconnect와 함께 로드 (CSS @import는 렌더 차단) */
 
-/* 
+/*
   GIJO TOUR - State-of-the-Art Design System
   Elite B2B Architecture
 */

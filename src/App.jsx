@@ -31,9 +31,7 @@ function App() {
   }, [isLoggedIn, userRole, userName]);
   
   useEffect(() => {
-    console.log("GIJO-TOUR-DEBUG: Current Path is", location.pathname);
     window.scrollTo(0, 0);
-    // 메뉴 닫기 및 드롭다운 초기화 유도
   }, [location.pathname]);
 
   const isLabView = location.pathname === '/' || location.pathname === '/security' || location.pathname === '/llm';
@@ -61,7 +59,8 @@ function App() {
         />
       )}
 
-      <main style={{ paddingTop: (!isLabView && location.pathname !== '/gijotour' && location.pathname !== '/gijotour/') ? '80px' : '0' }}>
+      {/* 내비가 sticky라 본문에 상단 여백을 밀어줄 필요가 없다 */}
+      <main>
         <Routes location={location} key={location.pathname}>
           <Route path="/" element={<GijoLab />} />
           <Route path="/security" element={<GijoResearch />} />

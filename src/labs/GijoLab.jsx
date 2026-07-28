@@ -9,9 +9,7 @@ const GijoLab = () => {
 
   return (
     <div className="lab-hub-wrapper page-fade-in">
-      {/* 폰트 임포트 */}
-      <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Syncopate:wght@700&display=swap" rel="stylesheet" />
-      
+      {/* 폰트는 index.html <head>에서 preconnect와 함께 로드 */}
       <div className="hub-background">
         <div className="hub-mesh hub-mesh-1"></div>
         <div className="hub-mesh hub-mesh-2"></div>
@@ -19,9 +17,11 @@ const GijoLab = () => {
       </div>
 
       <div className="container hub-container">
-        <div
+        <a
           className="hub-top-banner animate-up"
-          onClick={() => window.open('https://gijo.ai', '_blank', 'noopener,noreferrer')}
+          href="https://gijo.ai"
+          target="_blank"
+          rel="noopener noreferrer"
         >
           <div className="hub-top-banner-content">
             <div className="hub-top-banner-badge">MAIN SECURITY SYSTEM</div>
@@ -30,13 +30,15 @@ const GijoLab = () => {
           </div>
           <div className="hub-top-banner-cta">
             <span>VISIT SITE</span>
-            <span className="hub-arrow">→</span>
+            <span className="hub-arrow" aria-hidden="true">→</span>
           </div>
-        </div>
+        </a>
 
         <header className="hub-header animate-up">
           <div className="hub-logo-wrap">
-            <img src={logo} alt="GIJO Labs" className="hub-logo-img" />
+            <div className="hub-logo-badge">
+              <img src={logo} alt="GIJO Labs" className="hub-logo-img" />
+            </div>
             <h1 className="logo-text hub-logo-text">GIJO Labs</h1>
           </div>
           <p className="hub-subtitle">Advanced Travel Technology & Innovation</p>
@@ -67,8 +69,8 @@ const GijoLab = () => {
         </header>
 
         <div className="hub-selection-grid">
-          {/* Main Entry: GIJO TOUR (지아지조 -> 지아이조 오타 정정) */}
-          <div className="hub-card flagship animate-up delay-1" onClick={onEnterApp}>
+          {/* Main Entry: GIJO TOUR */}
+          <button type="button" className="hub-card flagship animate-up delay-1" onClick={onEnterApp}>
             <div className="hub-card-content">
               <div className="hub-card-badge">FLAGSHIP PROJECT</div>
               <h2 className="hub-card-title">지아이조 투어</h2>
@@ -78,14 +80,14 @@ const GijoLab = () => {
               </p>
               <div className="hub-card-footer">
                 <span className="hub-cta">ENTER PORTAL</span>
-                <span className="hub-arrow">→</span>
+                <span className="hub-arrow" aria-hidden="true">→</span>
               </div>
             </div>
             <div className="hub-card-bg-glow"></div>
-          </div>
+          </button>
 
           {/* Secondary Entries: GIJO Security */}
-          <div className="hub-card card-security animate-up delay-2" onClick={() => navigate('/security')}>
+          <button type="button" className="hub-card card-security animate-up delay-2" onClick={() => navigate('/security')}>
             <div className="hub-card-content">
               <div className="hub-card-badge badge-security">ACTIVE RESEARCH</div>
               <h2 className="hub-card-title">GIJO SECURITY</h2>
@@ -95,14 +97,14 @@ const GijoLab = () => {
               </p>
               <div className="hub-card-footer footer-security">
                 <span className="hub-cta">OPEN PLANNING</span>
-                <span className="hub-arrow">→</span>
+                <span className="hub-arrow" aria-hidden="true">→</span>
               </div>
             </div>
             <div className="hub-card-bg-glow glow-security"></div>
-          </div>
+          </button>
 
           {/* Tertiary Entries: GIJO LOCAL LLM */}
-          <div className="hub-card card-llm animate-up delay-3" onClick={() => navigate('/llm')}>
+          <button type="button" className="hub-card card-llm animate-up delay-3" onClick={() => navigate('/llm')}>
             <div className="hub-card-content">
               <div className="hub-card-badge badge-llm">ACTIVE RESEARCH</div>
               <h2 className="hub-card-title">GIJO LOCAL LLM</h2>
@@ -112,16 +114,18 @@ const GijoLab = () => {
               </p>
               <div className="hub-card-footer footer-llm">
                 <span className="hub-cta">OPEN PLANNING</span>
-                <span className="hub-arrow">→</span>
+                <span className="hub-arrow" aria-hidden="true">→</span>
               </div>
             </div>
             <div className="hub-card-bg-glow glow-llm"></div>
-          </div>
+          </button>
 
           {/* Notion Research Notes */}
-          <div
+          <a
             className="hub-card card-notion animate-up delay-4"
-            onClick={() => window.open('https://app.notion.com/p/394c101e9b2081488281dad0ab1e308d', '_blank', 'noopener,noreferrer')}
+            href="https://app.notion.com/p/394c101e9b2081488281dad0ab1e308d"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             <div className="hub-card-content">
               <div className="hub-card-badge badge-notion">RESEARCH NOTES</div>
@@ -132,19 +136,25 @@ const GijoLab = () => {
               </p>
               <div className="hub-card-footer footer-notion">
                 <span className="hub-cta">OPEN NOTION</span>
-                <span className="hub-arrow">→</span>
+                <span className="hub-arrow" aria-hidden="true">→</span>
               </div>
             </div>
             <div className="hub-card-bg-glow glow-notion"></div>
-          </div>
+          </a>
         </div>
 
         <footer className="hub-footer animate-up delay-5">
-          <p>© 2026 GIJO Labs. All projects are part of the GIJO Ecosystem.</p>
-          <div className="gijo-game-launcher" title="GIJO Drink Party Game 실행" onClick={() => window.open('/GIJO_Drink_v3_0_1.html', '_blank')}>
-            <div className="game-icon-glow">🎮</div>
+          <p>© {new Date().getFullYear()} GIJO Labs. All projects are part of the GIJO Ecosystem.</p>
+          <a
+            className="gijo-game-launcher"
+            href="/GIJO_Drink_v3_0_1.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="GIJO Drink Party Game 실행"
+          >
+            <span className="game-icon-glow" aria-hidden="true">🎮</span>
             <span>GIJO GAME</span>
-          </div>
+          </a>
         </footer>
       </div>
 
@@ -316,6 +326,24 @@ const GijoLab = () => {
           width: 100%;
         }
         
+        /* a/button으로 바뀐 인터랙션 요소의 기본 스타일 초기화 */
+        .hub-top-banner,
+        .hub-card,
+        .gijo-game-launcher {
+          font: inherit;
+          color: inherit;
+          text-decoration: none;
+          -webkit-appearance: none;
+          appearance: none;
+        }
+        /* 키보드 포커스 표시 */
+        .hub-top-banner:focus-visible,
+        .hub-card:focus-visible,
+        .gijo-game-launcher:focus-visible {
+          outline: 2px solid #00d2ff;
+          outline-offset: 4px;
+        }
+
         .hub-top-banner {
           display: flex;
           align-items: center;
@@ -385,13 +413,74 @@ const GijoLab = () => {
           gap: 1.25rem;
           margin-bottom: 1rem;
         }
+        .hub-logo-badge {
+          position: relative;
+          width: 168px;
+          height: 168px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.04);
+          border: 1px solid rgba(0, 210, 255, 0.22);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          box-shadow:
+            inset 0 1px 1px rgba(255, 255, 255, 0.14),
+            inset 0 -18px 34px rgba(0, 210, 255, 0.06),
+            0 0 32px rgba(0, 210, 255, 0.14);
+          transition: border-color 0.6s ease, box-shadow 0.6s ease;
+        }
+        /* 유리 표면 하이라이트 */
+        .hub-logo-badge::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          border-radius: 50%;
+          background: linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.10) 0%,
+            rgba(255, 255, 255, 0) 42%
+          );
+          pointer-events: none;
+        }
+        .hub-logo-wrap:hover .hub-logo-badge {
+          border-color: rgba(0, 210, 255, 0.55);
+          box-shadow:
+            inset 0 1px 1px rgba(255, 255, 255, 0.2),
+            inset 0 -18px 34px rgba(0, 210, 255, 0.12),
+            0 0 52px rgba(0, 210, 255, 0.28);
+        }
         .hub-logo-img {
+          position: relative;
           width: 120px;
           filter: drop-shadow(0 0 25px rgba(0, 210, 255, 0.35));
           transition: transform 0.8s ease;
         }
         .hub-logo-wrap:hover .hub-logo-img {
           transform: rotate(360deg);
+        }
+        /* 모션 최소화 설정 시 무한 반복 애니메이션 전부 정지
+           (badgeBlink, pulseRed, pulseCyan, floatGlow + 로고 회전) */
+        @media (prefers-reduced-motion: reduce) {
+          .hub-logo-wrap:hover .hub-logo-img { transform: none; }
+          .news-badge,
+          .pulse-dot-red,
+          .pulse-dot-cyan,
+          .hub-mesh {
+            animation: none !important;
+          }
+          .hub-card,
+          .hub-top-banner,
+          .gijo-game-launcher,
+          .hub-arrow {
+            transition: none;
+          }
+          .hub-card:hover,
+          .hub-top-banner:hover,
+          .gijo-game-launcher:hover {
+            transform: none;
+          }
         }
         .hub-logo-text {
           font-family: 'Syncopate', sans-serif;
@@ -407,7 +496,8 @@ const GijoLab = () => {
           font-size: 0.95rem;
           letter-spacing: 0.4em;
           text-transform: uppercase;
-          opacity: 0.4;
+          /* 0.4 → 0.62 (대비비 3.71:1 → 7.7:1, WCAG AA 통과) */
+          opacity: 0.62;
           font-weight: 600;
           margin-left: 0.4em;
         }
@@ -434,6 +524,7 @@ const GijoLab = () => {
         }
         .hub-card {
           position: relative;
+          width: 100%;
           background: rgba(255, 255, 255, 0.02);
           border: 1px solid rgba(255, 255, 255, 0.05);
           backdrop-filter: blur(16px);
@@ -606,15 +697,17 @@ const GijoLab = () => {
         }
         .hub-footer {
           margin-top: 6rem;
-          opacity: 0.8;
           font-size: 0.9rem;
           display: flex;
           flex-direction: column;
           align-items: center;
           gap: 0.5rem;
         }
+        /* 부모의 opacity 0.8을 제거했다. 자식과 곱해져(0.8×0.3=0.24)
+           저작권 문구가 1.97:1, 게임 런처가 3.61:1까지 떨어지던 원인. */
         .hub-footer p {
-          opacity: 0.3;
+          /* 실효 0.24 → 0.48 (1.97:1 → 4.94:1, WCAG AA 통과) */
+          opacity: 0.48;
         }
 
         @media (max-width: 1024px) {
@@ -623,6 +716,8 @@ const GijoLab = () => {
             max-width: 500px;
           }
           .hub-logo-text { font-size: 2.25rem; }
+          .hub-logo-badge { width: 132px; height: 132px; }
+          .hub-logo-img { width: 94px; }
           .hub-card { padding: 2.5rem 2rem; }
         }
       `}</style>

@@ -28,9 +28,7 @@ const GijoResearch = () => {
 
   return (
     <div className="research-wrapper page-fade-in">
-      {/* 폰트 지정 */}
-      <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Syncopate:wght@700&display=swap" rel="stylesheet" />
-      
+      {/* 폰트는 index.html <head>에서 preconnect와 함께 로드 */}
       <div className="res-bg">
         <div className="res-mesh res-mesh-1"></div>
         <div className="res-mesh res-mesh-2"></div>
