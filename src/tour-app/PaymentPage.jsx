@@ -1,17 +1,30 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import './tour-theme.css';
+
+const METHODS = [
+  { key: 'paypal', name: 'PayPal (MCP Secured)', desc: '전 세계 어디서나 안전한 결제' },
+  { key: 'card', name: '신용 · 체크카드', desc: '법인카드 및 개인카드' }
+];
+
+const priceOf = (pkg) => (pkg.detailedPlan?.pricing ?? '상담 후 제안').split(' (')[0];
 
 const PaymentPage = ({ pkg, onBack }) => {
   const [paymentMethod, setPaymentMethod] = useState('paypal');
-  const [step, setStep] = useState(1); // 1: Info, 2: Success
+  const [step, setStep] = useState(1);
   const [taxInvoice, setTaxInvoice] = useState(false);
 
   if (!pkg) {
     return (
-      <div className="empty-state-wrap section-padding">
-        <span className="empty-icon">⚠️</span>
-        <h3>상품 정보가 없습니다.</h3>
-        <button className="btn-secondary mt-8" onClick={onBack}>홈으로 돌아가기</button>
-      </div>
+      <main className="tour-surface pay">
+        <div className="t-shell pay__empty">
+          <span aria-hidden="true">⚠️</span>
+          <h1>상품 정보가 없습니다</h1>
+          <p>결제할 상품을 먼저 선택해 주세요.</p>
+          <button type="button" className="t-btn t-btn--secondary" onClick={onBack}>
+            돌아가기
+          </button>
+        </div>
+      </main>
     );
   }
 
@@ -23,167 +36,284 @@ const PaymentPage = ({ pkg, onBack }) => {
 
   if (step === 2) {
     return (
-      <section className="payment-success section-padding page-fade-in">
-        <div className="container centered">
-          <div className="success-card glass-card">
-            <div className="check-icon-wrap">
-              <span className="check-icon">✓</span>
-            </div>
-            <h2 className="text-3xl font-bold mt-8 mb-4">결제가 완료되었습니다!</h2>
-            <p className="text-gray-400 mb-8">
-              담당 여행설계사 <strong>{pkg.designer}</strong>님이 곧 상세 일정을 확정하여 연락드릴 예정입니다.<br />
-              이용해 주셔서 감사합니다.
+      <main className="tour-surface pay">
+        <div className="t-shell pay__done">
+          <div className="t-card pay__donecard" role="status">
+            <span className="pay__check" aria-hidden="true">✓</span>
+            <h1>결제가 완료되었습니다</h1>
+            <p>
+              담당 여행설계사 <strong>{pkg.designer}</strong>님이 곧 상세 일정을 확정하여
+              연락드릴 예정입니다.
             </p>
-            <div className="success-details mb-8">
-              <div className="flex justify-between py-2 border-b border-white/10">
-                <span>결제 금액</span>
-                <span className="text-accent">{(pkg.detailedPlan?.pricing ?? "상담 후 제안").split(' (')[0]}</span>
+
+            <dl className="pay__receipt">
+              <div><dt>결제 금액</dt><dd className="pay__accent">{priceOf(pkg)}</dd></div>
+              <div>
+                <dt>결제 수단</dt>
+                <dd>{METHODS.find((m) => m.key === paymentMethod)?.name}</dd>
               </div>
-              <div className="flex justify-between py-2">
-                <span>결제 수단</span>
-                <span className="capitalize">{paymentMethod}</span>
-              </div>
-            </div>
-            <button className="btn-primary w-full" onClick={onBack}>홈으로 돌아가기</button>
+            </dl>
+
+            <button type="button" className="t-btn t-btn--primary" onClick={onBack}>
+              홈으로 돌아가기
+            </button>
           </div>
         </div>
-      </section>
+      </main>
     );
   }
 
   return (
-    <section className="payment-page section-padding page-fade-in">
-      <div className="container overflow-visible">
-        <div className="payment-grid">
-          {/* Left: Order Info */}
-          <div className="order-details-panel">
-            <h2 className="section-title text-left mb-8">주문 정보 확인</h2>
-            
-            <div className="order-card-elite glass-card mb-8">
-              <div className="pkg-thumb">
-                <img src={pkg.image} alt={pkg.title} />
-              </div>
-              <div className="pkg-info p-6">
-                <span className="badge-premium">{pkg.region}</span>
-                <h3 className="text-xl font-bold mt-2">{pkg.title}</h3>
-                <div className="designer-info-small mt-4">
-                  <span className="label">DESIGNER</span>
-                  <span className="value">{pkg.designer} 여행설계사</span>
-                </div>
-              </div>
-            </div>
+    <main className="tour-surface pay">
+      <div className="t-shell">
+        <header className="pay__head">
+          <span className="t-eyebrow">Checkout</span>
+          <h1>주문 정보 확인</h1>
+        </header>
 
-            <div className="billing-section glass-card p-8">
-              <h3 className="text-xl font-bold mb-6">주문자 정보</h3>
-              <div className="elite-form-group">
-                <label>예약자 성함 (실명)</label>
-                <input type="text" placeholder="예: 홍길동" />
+        <div className="pay__grid">
+          {/* ── 좌: 주문 상품 + 주문자 정보 ── */}
+          <div className="pay__col">
+            <article className="t-card pay__item">
+              <img src={pkg.image} alt="" className="pay__thumb" />
+              <div className="pay__iteminfo">
+                <span className="t-eyebrow">{pkg.region}</span>
+                <h2 className="pay__itemtitle">{pkg.title}</h2>
+                <p className="pay__designer">{pkg.designer} 여행설계사</p>
               </div>
-              <div className="elite-form-row">
-                <div className="elite-form-group">
-                  <label>연락처</label>
-                  <input type="text" placeholder="010-0000-0000" />
+            </article>
+
+            <section className="t-card pay__form">
+              <h2 className="pay__formtitle">주문자 정보</h2>
+
+              <div className="t-field">
+                <label htmlFor="pay-name">예약자 성함 (실명)</label>
+                <input id="pay-name" type="text" placeholder="홍길동" autoComplete="name" />
+              </div>
+
+              <div className="pay__row">
+                <div className="t-field">
+                  <label htmlFor="pay-tel">연락처</label>
+                  <input id="pay-tel" type="tel" placeholder="010-0000-0000" autoComplete="tel" />
                 </div>
-                <div className="elite-form-group">
-                  <label>이메일</label>
-                  <input type="email" placeholder="example@gijo.co.kr" />
+                <div className="t-field">
+                  <label htmlFor="pay-email">이메일</label>
+                  <input id="pay-email" type="email" placeholder="example@gijo.co.kr" autoComplete="email" />
                 </div>
               </div>
-              
-              <div className="tax-invoice-toggle mt-4">
-                <label className="flex items-center gap-3 cursor-pointer">
-                  <input 
-                    type="checkbox" 
-                    checked={taxInvoice} 
-                    onChange={(e) => setTaxInvoice(e.target.checked)}
-                  />
-                  <span>법인 세금계산서 발행 신청 (B2B 전용)</span>
-                </label>
-              </div>
+
+              <label className="pay__check-row" htmlFor="pay-tax">
+                <input
+                  id="pay-tax"
+                  type="checkbox"
+                  checked={taxInvoice}
+                  onChange={(e) => setTaxInvoice(e.target.checked)}
+                />
+                <span>법인 세금계산서 발행 신청 (B2B 전용)</span>
+              </label>
 
               {taxInvoice && (
-                <div className="tax-form mt-6 pt-6 border-t border-white/10">
-                  <div className="elite-form-group">
-                    <label>사업자 등록 번호</label>
-                    <input type="text" placeholder="000-00-00000" />
+                <div className="pay__tax">
+                  <div className="t-field">
+                    <label htmlFor="pay-bizno">사업자 등록 번호</label>
+                    <input id="pay-bizno" type="text" placeholder="000-00-00000" />
                   </div>
-                  <div className="elite-form-group">
-                    <label>법인명 / 사업장 주소</label>
-                    <input type="text" placeholder="사업자 등록증 상의 정보 입력" />
+                  <div className="t-field">
+                    <label htmlFor="pay-bizname">법인명 · 사업장 주소</label>
+                    <input id="pay-bizname" type="text" placeholder="사업자 등록증 상의 정보" />
                   </div>
                 </div>
               )}
-            </div>
+            </section>
           </div>
 
-          {/* Right: Payment Method & Summary */}
-          <div className="payment-summary-panel">
-            <div className="summary-sticky-card glass-card p-8">
-              <h3 className="text-xl font-bold mb-8">최종 결제 금액</h3>
-              
-              <div className="price-breakdown mb-8">
-                <div className="flex justify-between mb-4">
-                  <span className="text-gray-400">상품 금액</span>
-                  <span>{(pkg.detailedPlan?.pricing ?? "상담 후 제안").split(' (')[0]}</span>
-                </div>
-                <div className="flex justify-between mb-4">
-                  <span className="text-gray-400">예약 대행 수수료</span>
-                  <span className="text-green-400">FREE</span>
-                </div>
-                <div className="total-row mt-6 pt-6 border-t border-white/20 flex justify-between items-baseline">
-                  <span className="text-xl font-bold">합계</span>
-                  <div className="text-right">
-                    <span className="text-3xl font-black text-accent">{(pkg.detailedPlan?.pricing ?? "상담 후 제안").split(' (')[0]}</span>
-                  </div>
-                </div>
+          {/* ── 우: 결제 요약 (스크롤 따라감) ── */}
+          <aside className="pay__side">
+            <div className="t-card pay__summary">
+              <h2 className="pay__formtitle">결제 금액</h2>
+
+              <dl className="pay__breakdown">
+                <div><dt>상품 금액</dt><dd>{priceOf(pkg)}</dd></div>
+                <div><dt>예약 대행 수수료</dt><dd className="pay__free">무료</dd></div>
+              </dl>
+
+              <div className="pay__total">
+                <span>합계</span>
+                <strong>{priceOf(pkg)}</strong>
               </div>
 
-              <div className="method-selection mb-10">
-                <h4 className="text-sm font-bold text-gray-400 mb-4 tracking-widest">PAYMENT METHOD</h4>
-                
-                <div 
-                  className={`payment-option-card ${paymentMethod === 'paypal' ? 'active' : ''}`}
-                  onClick={() => setPaymentMethod('paypal')}
-                >
-                  <div className="radio-circle"></div>
-                  <div className="method-info">
-                    <span className="font-bold">PayPal (MCP Secured)</span>
-                    <p className="text-xs text-gray-500">Global secure payment with PayPal</p>
-                  </div>
-                  <div className="method-logo">
-                    <span className="text-blue-400 font-black italic">PP</span>
-                  </div>
-                </div>
+              <fieldset className="pay__methods">
+                <legend className="t-eyebrow">결제 수단</legend>
+                {METHODS.map((m) => (
+                  <label
+                    key={m.key}
+                    className={`pay__method ${paymentMethod === m.key ? 'is-active' : ''}`}
+                  >
+                    <input
+                      type="radio"
+                      name="payment-method"
+                      value={m.key}
+                      checked={paymentMethod === m.key}
+                      onChange={() => setPaymentMethod(m.key)}
+                    />
+                    <span className="pay__methodinfo">
+                      <strong>{m.name}</strong>
+                      <em>{m.desc}</em>
+                    </span>
+                  </label>
+                ))}
+              </fieldset>
 
-                <div 
-                  className={`payment-option-card ${paymentMethod === 'card' ? 'active' : ''}`}
-                  onClick={() => setPaymentMethod('card')}
-                >
-                  <div className="radio-circle"></div>
-                  <div className="method-info">
-                    <span className="font-bold">Credit / Debit Card</span>
-                    <p className="text-xs text-gray-500">Corporate & Personal cards</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="payment-actions">
-                <button className="btn-primary w-full btn-large py-5" onClick={handlePayment}>
-                  {paymentMethod === 'paypal' ? 'PayPal로 안전 결제' : '카드 결제 하기'}
+              <div className="pay__actions">
+                <button type="button" className="t-btn t-btn--primary" onClick={handlePayment}>
+                  {paymentMethod === 'paypal' ? 'PayPal로 안전 결제' : '카드로 결제하기'}
                 </button>
-                <button className="btn-secondary w-full mt-4" onClick={onBack}>주문 취소</button>
+                <button type="button" className="t-btn t-btn--secondary" onClick={onBack}>
+                  주문 취소
+                </button>
               </div>
 
-              <div className="security-badges mt-8 pt-8 border-t border-white/10 flex justify-center gap-6 opacity-40">
-                <span className="text-xs">🔒 SSL SECURED</span>
-                <span className="text-xs">🛡️ ANTI-FRAUD</span>
-                <span className="text-xs">💳 PCI DSS</span>
-              </div>
+              <p className="pay__trust">🔒 SSL 암호화 · 🛡️ 이상거래 탐지 · 💳 PCI DSS</p>
             </div>
-          </div>
+          </aside>
         </div>
       </div>
-    </section>
+
+      <style>{`
+        .pay { padding: 3rem 0 var(--t-section); }
+        .pay__head { margin-bottom: var(--t-gap-lg); }
+        .pay__head h1 { font-size: 2rem; margin: 0; }
+
+        .pay__grid {
+          display: grid;
+          grid-template-columns: 1fr 380px;
+          gap: var(--t-gap-lg);
+          align-items: start;
+        }
+        .pay__col { display: grid; gap: var(--t-gap); }
+
+        .pay__item { display: flex; gap: var(--t-gap); align-items: center; }
+        .pay__thumb {
+          width: 108px; height: 78px;
+          object-fit: cover;
+          border-radius: var(--t-radius-sm);
+          flex-shrink: 0;
+        }
+        .pay__itemtitle { font-size: 1.125rem; margin: 0.25rem 0 0.375rem; }
+        .pay__designer { font-size: var(--t-small); color: var(--t-fg-subtle); margin: 0; }
+
+        .pay__form { display: grid; gap: var(--t-gap); }
+        .pay__formtitle { font-size: 1.125rem; margin: 0; }
+        .pay__row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--t-gap-sm); }
+
+        .pay__check-row {
+          display: flex;
+          align-items: center;
+          gap: 0.625rem;
+          font-size: var(--t-small);
+          color: var(--t-fg-muted);
+          cursor: pointer;
+        }
+        .pay__check-row input { width: 16px; height: 16px; accent-color: var(--t-accent); }
+        .pay__tax {
+          display: grid;
+          gap: var(--t-gap-sm);
+          padding-top: var(--t-gap);
+          border-top: 1px solid var(--t-line);
+        }
+
+        /* 요약은 스크롤을 따라간다 */
+        .pay__side { position: sticky; top: 88px; }
+        .pay__summary { display: grid; gap: var(--t-gap); }
+
+        .pay__breakdown, .pay__receipt { margin: 0; display: grid; gap: 0.5rem; }
+        .pay__breakdown > div,
+        .pay__receipt > div { display: flex; justify-content: space-between; gap: 1rem; }
+        .pay__breakdown dt, .pay__receipt dt { color: var(--t-fg-subtle); font-size: var(--t-small); }
+        .pay__breakdown dd, .pay__receipt dd { margin: 0; color: var(--t-fg-muted); font-size: var(--t-small); }
+        .pay__free { color: var(--t-accent) !important; }
+        .pay__accent { color: var(--t-accent) !important; font-weight: 650; }
+
+        .pay__total {
+          display: flex;
+          justify-content: space-between;
+          align-items: baseline;
+          padding-top: var(--t-gap);
+          border-top: 1px solid var(--t-line);
+          font-weight: 650;
+        }
+        .pay__total strong { font-size: 1.5rem; color: var(--t-accent); letter-spacing: -0.02em; }
+
+        .pay__methods { border: 0; padding: 0; margin: 0; display: grid; gap: 0.5rem; }
+        .pay__methods legend { padding: 0; margin-bottom: 0.5rem; }
+        .pay__method {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          padding: 0.875rem;
+          border: 1px solid var(--t-line);
+          border-radius: var(--t-radius-sm);
+          cursor: pointer;
+          transition: border-color 0.18s ease, background 0.18s ease;
+        }
+        .pay__method:hover { border-color: var(--t-accent-line); }
+        .pay__method.is-active { border-color: var(--t-accent); background: var(--t-accent-weak); }
+        .pay__method input { width: 16px; height: 16px; accent-color: var(--t-accent); flex-shrink: 0; }
+        .pay__methodinfo { display: grid; gap: 0.125rem; }
+        .pay__methodinfo strong { font-size: 0.9375rem; color: var(--t-fg); font-weight: 650; }
+        .pay__methodinfo em { font-style: normal; font-size: 0.8125rem; color: var(--t-fg-subtle); }
+
+        .pay__actions { display: grid; gap: 0.5rem; }
+        .pay__trust {
+          margin: 0;
+          padding-top: var(--t-gap);
+          border-top: 1px solid var(--t-line);
+          text-align: center;
+          font-size: 0.75rem !important;
+          color: var(--t-fg-subtle) !important;
+        }
+
+        /* 완료 화면 */
+        .pay__done { display: grid; place-items: center; min-height: 60vh; }
+        .pay__donecard { max-width: 480px; text-align: center; display: grid; gap: var(--t-gap); }
+        .pay__check {
+          justify-self: center;
+          display: grid; place-items: center;
+          width: 56px; height: 56px;
+          border-radius: 50%;
+          background: var(--t-accent-weak);
+          border: 1px solid var(--t-accent-line);
+          color: var(--t-accent);
+          font-size: 1.5rem;
+        }
+        .pay__donecard h1 { font-size: 1.5rem; margin: 0; }
+        .pay__donecard p { margin: 0; }
+        .pay__receipt {
+          padding: var(--t-gap) 0;
+          border-top: 1px solid var(--t-line);
+          border-bottom: 1px solid var(--t-line);
+          text-align: left;
+        }
+
+        .pay__empty {
+          display: grid; place-items: center; gap: var(--t-gap);
+          min-height: 60vh; text-align: center;
+        }
+        .pay__empty span { font-size: 2rem; }
+        .pay__empty h1 { font-size: 1.5rem; margin: 0; }
+        .pay__empty p { margin: 0; }
+
+        @media (max-width: 900px) {
+          .pay__grid { grid-template-columns: 1fr; }
+          .pay__side { position: static; }
+        }
+        @media (max-width: 600px) {
+          .pay__row { grid-template-columns: 1fr; }
+          .pay__item { flex-direction: column; align-items: flex-start; }
+          .pay__thumb { width: 100%; height: 160px; }
+        }
+      `}</style>
+    </main>
   );
 };
 

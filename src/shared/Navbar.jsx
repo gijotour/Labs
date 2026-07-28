@@ -21,9 +21,6 @@ const Navbar = ({ isLoggedIn, onLogout, userName, userRole }) => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // 라우트가 바뀌면 모바일 메뉴를 닫는다
-  useEffect(() => setMenuOpen(false), [location.pathname]);
-
   const isStaffArea = location.pathname.includes('/admin') || location.pathname.includes('/designer');
 
   return (
@@ -88,11 +85,22 @@ const Navbar = ({ isLoggedIn, onLogout, userName, userRole }) => {
       {menuOpen && !isStaffArea && (
         <nav className="t-nav__mobile" id="t-nav-mobile" aria-label="모바일 메뉴">
           {MENU.map((item) => (
-            <NavLink key={item.to} to={item.to} className="t-nav__mobile-link">
+            <NavLink
+              key={item.to}
+              to={item.to}
+              className="t-nav__mobile-link"
+              onClick={() => setMenuOpen(false)}
+            >
               {item.label}
             </NavLink>
           ))}
-          <Link to="/gijotour#request" className="t-nav__mobile-link is-cta">무료 상담 신청</Link>
+          <Link
+            to="/gijotour#request"
+            className="t-nav__mobile-link is-cta"
+            onClick={() => setMenuOpen(false)}
+          >
+            무료 상담 신청
+          </Link>
         </nav>
       )}
 

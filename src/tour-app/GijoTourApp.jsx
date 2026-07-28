@@ -186,7 +186,10 @@ function GijoTourApp({
   };
 
   const handleDesignerSignup = (data) => {
-    setPendingDesigners((prev) => [...prev, { ...data, id: Date.now() }]);
+    setPendingDesigners((prev) => [
+      ...prev,
+      { ...data, id: Date.now(), date: new Date().toISOString().slice(0, 10) }
+    ]);
   };
 
   // ── 관리자: 설계사 승인 ─────────────────────────────────────────────
@@ -308,7 +311,6 @@ function GijoTourApp({
             tvVideos={tvVideos}
             onAddTvVideo={handleAddTvVideo}
             matchingRequests={matchingRequests}
-            setMatchingRequests={setMatchingRequests}
           />
         ))}
       />
