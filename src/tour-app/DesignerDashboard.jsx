@@ -1,5 +1,14 @@
-import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import DashboardShell from './DashboardShell';
+
+const TABS = [
+  { key: 'proposals', icon: '📄', label: '나의 제안 관리', title: '나의 제안 관리', desc: '등록한 맞춤 제안서를 확인하고 새로운 여정을 등록합니다.' },
+  { key: 'matching', icon: '📩', label: '고객 매칭 의뢰', title: '고객 매칭 의뢰 내역', desc: '고객이 남긴 맞춤 설계 의뢰를 확인하고 제안서를 작성합니다.' },
+  { key: 'tv', icon: '📺', label: 'TV 영상 관리', title: '여행설계사 TV 관리', desc: '영상을 통해 고객들에게 신뢰와 현장감을 전달하세요.' },
+  { key: 'account', icon: '👤', label: '마스터 프로필', title: '전문 여행설계사 마스터 프로필', desc: '전문성을 입증할 상세 경력과 포트폴리오를 관리합니다.' },
+  { key: 'settlements', icon: '💰', label: '정산 및 수익', title: '정산 및 수익', desc: '확정된 프로젝트의 정산 내역과 지급 상태를 확인합니다.' }
+];
 
 const DesignerDashboard = ({
   userName,
@@ -8,16 +17,16 @@ const DesignerDashboard = ({
   onAddProposal,
   tvVideos = [],
   onAddTvVideo,
-  matchingRequests = [],
-  setMatchingRequests
+  matchingRequests = []
 }) => {
   const location = useLocation();
-  const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
   const activeTab = queryParams.get('tab') || 'proposals';
   const [showModal, setShowModal] = useState(false);
   const [showTvModal, setShowTvModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [formError, setFormError] = useState('');
+  const [toast, setToast] = useState('');
 
   // 내 제안서 필터링 (로그인한 사용자 것만 표시)
   const myProposals = proposals.filter(p => p.designer === userName || p.designer === "Alex Kim");
@@ -50,9 +59,10 @@ const DesignerDashboard = ({
 
   const handleSubmitProposal = () => {
     if (!newProposal.title || !newProposal.region) {
-      alert('필수 정보를 모두 입력해주세요.');
+      setFormError('제안 제목과 활동 지역은 필수입니다.');
       return;
     }
+    setFormError('');
 
     const created = {
       id: Date.now(),
@@ -65,17 +75,19 @@ const DesignerDashboard = ({
     onAddProposal(created);
     setShowModal(false);
     setNewProposal({ title: '', region: '', price: '', youtubeUrl: '', description: '', itinerary: [{ day: 1, content: '' }] });
-    alert('새로운 제안서가 등록되었습니다!');
+    setToast('새로운 제안서가 등록되었습니다.');
   };
 
   // 고객 매칭 의뢰를 수락하여 제안서를 작성하는 핸들러
   const handleCreateProposalForRequest = (req) => {
+    // 매칭 신청 레코드의 실제 필드는 travel_date / contact 이며 name·date는 없다
+    const theme = req.purpose || '맞춤 설계';
     setNewProposal({
-      title: `${req.name} 고객 초개인화 맞춤 일정 제안`,
-      region: req.purpose.split(' ')[0] || '동남아',
-      price: req.budget,
+      title: `${theme} 초개인화 맞춤 일정 제안`,
+      region: theme.split(' ')[0] || '동남아',
+      price: req.budget || '',
       youtubeUrl: '',
-      description: `의뢰내용: ${req.purpose} / ${req.people} / 일정: ${req.date}`,
+      description: `의뢰내용: ${theme} / ${req.people ?? '-'} / 일정: ${req.travel_date ?? '-'} / 연락처: ${req.contact ?? '-'}`,
       itinerary: [
         { day: 1, content: '공항 VIP 픽업 및 전용 리조트 체크인 후 휴식' },
         { day: 2, content: '현지 전문 설계사 동행 맞춤 투어 진행' },
@@ -88,9 +100,10 @@ const DesignerDashboard = ({
 
   const handleSubmitTvVideo = async () => {
     if (!newTvVideo.title || !newTvVideo.youtubeUrl || !newTvVideo.category) {
-      alert('필수 정보를 모두 입력해주세요.');
+      setFormError('영상 제목, 카테고리, YouTube 링크는 필수입니다.');
       return;
     }
+    setFormError('');
 
     let finalThumbnail = newTvVideo.thumbnail;
 
@@ -109,7 +122,7 @@ const DesignerDashboard = ({
         }
       } catch (e) {
         console.error("Image upload failed:", e);
-        alert("이미지 업로드에 실패했습니다. 기본 썸네일이 사용됩니다.");
+        setToast('이미지 업로드에 실패해 기본 썸네일을 사용합니다.');
       }
     }
 
@@ -128,7 +141,7 @@ const DesignerDashboard = ({
     });
     setShowTvModal(false);
     setNewTvVideo({ title: '', category: '', youtubeUrl: '', file: null, thumbnail: 'https://images.unsplash.com/photo-1552465011-b4e21bd6e79a?q=80&w=2039&auto=format&fit=crop' });
-    alert('새로운 TV 영상이 등록되었습니다!');
+    setToast('새로운 TV 영상이 등록되었습니다.');
   };
 
   const settlements = [
@@ -154,47 +167,38 @@ const DesignerDashboard = ({
       case 'matching':
         return (
           <div className="elite-tab-container page-fade-in">
-            <div className="elite-card-header">
-              <h2>고객 매칭 의뢰 내역</h2>
-              <p>플랫폼을 통해 고객들이 남긴 맞춤 설계 의뢰를 직접 확인하고 맞춤 제안서를 제안하세요.</p>
-            </div>
-            <div className="elite-proposal-grid" style={{ marginTop: '2rem' }}>
+            <div className="elite-proposal-grid">
               {matchingRequests.map(req => (
-                <div key={req.id} className="elite-proposal-card glass-card" style={{ borderLeft: '4px solid var(--accent-color, #00d2ff)' }}>
+                <article key={req.id} className="elite-proposal-card">
                   <div className="p-header">
-                    <span className="p-tag" style={{ color: 'var(--accent-color, #00d2ff)' }}>{req.dateCreated}</span>
-                    <span className="p-badge Active">{req.status}</span>
-                  </div>
-                  <h3 style={{ margin: '10px 0 15px' }}>{req.name} 고객의 매칭 의뢰</h3>
-
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '0.9rem', opacity: 0.85, marginBottom: '20px' }}>
-                    <div><strong>인원:</strong> {req.people}</div>
-                    <div><strong>일정:</strong> {req.date}</div>
-                    <div><strong>예산:</strong> {req.budget}</div>
-                    <div><strong>스타일/테마:</strong> {req.purpose}</div>
-                    <div><strong>연락처:</strong> {req.contact}</div>
+                    <span className="p-tag">접수 {(req.created_at ?? '').slice(0, 10) || '—'}</span>
+                    <span className="p-badge">{req.status}</span>
                   </div>
 
-                  <div className="p-footer" style={{ borderTop: '1px solid var(--glass-border)', paddingTop: '15px' }}>
-                    <button className="btn-p-view" onClick={() => handleCreateProposalForRequest(req)} style={{
-                      width: '100%',
-                      background: 'var(--accent-brand, linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%))',
-                      color: '#000',
-                      border: 0,
-                      fontWeight: '800',
-                      padding: '10px',
-                      borderRadius: '8px',
-                      cursor: 'pointer'
-                    }}>
+                  <h3 className="d-reqtitle">{req.purpose || '맞춤 설계'} 매칭 의뢰</h3>
+
+                  <dl className="d-reqlist">
+                    <div className="d-reqline"><dt>인원</dt><dd>{req.people || '—'}</dd></div>
+                    <div className="d-reqline"><dt>일정</dt><dd>{req.travel_date || '—'}</dd></div>
+                    <div className="d-reqline"><dt>예산</dt><dd>{req.budget || '—'}</dd></div>
+                    <div className="d-reqline"><dt>연락처</dt><dd>{req.contact || '—'}</dd></div>
+                  </dl>
+
+                  <div className="d-reqfoot">
+                    <button
+                      type="button"
+                      className="btn-p-view primary"
+                      onClick={() => handleCreateProposalForRequest(req)}
+                    >
                       이 고객에게 맞춤 제안 작성
                     </button>
                   </div>
-                </div>
+                </article>
               ))}
               {matchingRequests.length === 0 && (
-                <div className="empty-state-wrap glass-card" style={{ gridColumn: '1 / -1', padding: '5rem', textAlign: 'center' }}>
-                  <span style={{ fontSize: '3rem' }}>🔍</span>
-                  <p style={{ marginTop: '1rem', opacity: 0.6 }}>새로운 고객 매칭 의뢰가 없습니다.</p>
+                <div className="d-empty">
+                  <span aria-hidden="true">🔍</span>
+                  <p>새로운 고객 매칭 의뢰가 없습니다.</p>
                 </div>
               )}
             </div>
@@ -204,11 +208,8 @@ const DesignerDashboard = ({
         return (
           <div className="elite-tab-container page-fade-in">
             <div className="elite-card-header-flex">
-              <div>
-                <h2>여행설계사 TV 관리</h2>
-                <p>영상을 통해 고객들에게 신뢰와 현장감을 전달하세요.</p>
-              </div>
-              <button className="btn-elite-add" onClick={() => setShowTvModal(true)}>+ 새로운 영상 등록</button>
+              <div />
+              <button className="btn-elite-add" onClick={() => { setFormError(''); setShowTvModal(true); }}>+ 새로운 영상 등록</button>
             </div>
             <div className="elite-table-box glass-card" style={{ marginTop: '2rem' }}>
               <table className="elite-dashboard-table">
@@ -244,10 +245,6 @@ const DesignerDashboard = ({
       case 'account':
         return (
           <div className="elite-tab-container page-fade-in">
-            <div className="elite-card-header">
-              <h2>전문 여행설계사 마스터 프로필</h2>
-              <p>귀하의 전문성을 입증할 수 있는 상세 경력과 포트폴리오를 관리하세요.</p>
-            </div>
 
             <div className="elite-profile-grid-layout">
               <div className="elite-profile-form glass-card">
@@ -439,34 +436,15 @@ const DesignerDashboard = ({
   };
 
   return (
-    <div className="dashboard-elite-layout">
-      {/* Sidebar Navigation */}
-      <aside className="elite-sidebar">
-        <div className="sidebar-header-elite">
-          <div className="gt-symbol">GT</div>
-          <span className="brand-logo-text">GIJO PARTNER</span>
-        </div>
-        <nav className="sidebar-nav-elite">
-          <button className={`nav-item-elite ${activeTab === 'proposals' ? 'active' : ''}`} onClick={() => navigate('?tab=proposals')}>
-            <span className="icon">📄</span>나의 제안 관리
-          </button>
-          <button className={`nav-item-elite ${activeTab === 'matching' ? 'active' : ''}`} onClick={() => navigate('?tab=matching')}>
-            <span className="icon">📩</span>고객 매칭 의뢰
-          </button>
-          <button className={`nav-item-elite ${activeTab === 'tv' ? 'active' : ''}`} onClick={() => navigate('?tab=tv')}>
-            <span className="icon">📺</span>TV 영상 관리
-          </button>
-          <button className={`nav-item-elite ${activeTab === 'account' ? 'active' : ''}`} onClick={() => navigate('?tab=account')}>
-            <span className="icon">👤</span>마스터 프로필
-          </button>
-          <button className={`nav-item-elite ${activeTab === 'settlements' ? 'active' : ''}`} onClick={() => navigate('?tab=settlements')}>
-            <span className="icon">💰</span>정산 및 수익
-          </button>
-        </nav>
-        <div className="sidebar-footer-elite">
-          <button className="btn-sidebar-logout" onClick={onLogout}>로그아웃</button>
-        </div>
-      </aside>
+    <DashboardShell
+      brand="GIJO PARTNER"
+      tabs={TABS}
+      activeTab={activeTab}
+      onLogout={onLogout}
+      toast={toast}
+      onCloseToast={() => setToast('')}
+    >
+      {renderContent()}
 
       {/* Proposal Modal */}
       {showModal && (
@@ -533,8 +511,9 @@ const DesignerDashboard = ({
                 </div>
               </div>
             </div>
+            {formError && <p className="d-formerror" role="alert">{formError}</p>}
             <div className="modal-footer-elite">
-              <button className="btn-close-elite" onClick={() => setShowModal(false)}>취소</button>
+              <button className="btn-close-elite" onClick={() => { setShowModal(false); setFormError(''); }}>취소</button>
               <button className="btn-submit-elite" onClick={handleSubmitProposal}>데이터 등록하기</button>
             </div>
           </div>
@@ -596,36 +575,64 @@ const DesignerDashboard = ({
                 </div>
               </div>
             </div>
+            {formError && <p className="d-formerror" role="alert">{formError}</p>}
             <div className="modal-footer-elite">
-              <button className="btn-close-elite" onClick={() => setShowTvModal(false)}>취소</button>
+              <button className="btn-close-elite" onClick={() => { setShowTvModal(false); setFormError(''); }}>취소</button>
               <button className="btn-submit-elite" onClick={handleSubmitTvVideo}>영상 등록하기</button>
             </div>
           </div>
         </div>
       )}
 
-      <main className="dashboard-main-elite">
-        <div className="elite-dashboard-content custom-scrollbar">
-          {renderContent()}
-        </div>
-      </main>
-
       <style>{`
-        .dashboard-elite-layout { display: flex; min-height: 100vh; background: var(--bg-color, #050a14); color: #fff; }
-        .elite-sidebar { width: 260px; background: rgba(10, 17, 40, 0.9); border-right: 1px solid var(--glass-border, rgba(255, 255, 255, 0.08)); padding: 2rem 1.5rem; display: flex; flex-direction: column; gap: 2rem; backdrop-filter: var(--glass-blur, blur(20px)); }
-        .sidebar-header-elite { display: flex; align-items: center; gap: 12px; }
-        .brand-logo-text { font-size: 1.2rem; font-weight: 900; letter-spacing: 0.5px; background: var(--accent-brand, linear-gradient(90deg, #00d2ff 0%, #3a7bd5 100%)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
-        .sidebar-nav-elite { display: flex; flex-direction: column; gap: 0.5rem; flex-grow: 1; }
-        .nav-item-elite { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border: 0; background: transparent; color: var(--text-secondary, #b0c4de); font-size: 0.95rem; font-weight: 700; border-radius: 12px; cursor: pointer; text-align: left; transition: var(--transition-smooth, all 0.3s ease); }
-        .nav-item-elite:hover { background: rgba(255,255,255,0.03); color: #fff; }
-        .nav-item-elite.active { background: rgba(0, 210, 255, 0.1); color: var(--accent-color, #00d2ff); border: 1px solid rgba(0, 210, 255, 0.2); }
-        .nav-item-elite .icon { font-size: 1.1rem; }
-        .sidebar-footer-elite { border-top: 1px solid var(--glass-border, rgba(255, 255, 255, 0.08)); padding-top: 1.5rem; }
-        .btn-sidebar-logout { width: 100%; padding: 12px; border: 1px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); color: #fff; border-radius: 10px; font-weight: 700; cursor: pointer; transition: var(--transition-smooth, all 0.3s ease); }
-        .btn-sidebar-logout:hover { background: rgba(255, 50, 50, 0.1); border-color: rgba(255, 50, 50, 0.3); color: #ff5252; }
-        
-        .dashboard-main-elite { flex-grow: 1; padding: 3rem; overflow-y: auto; height: 100vh; }
-        .elite-dashboard-content { max-width: 1200px; margin: 0 auto; }
+        .d-formerror {
+          margin: 0 1.5rem 0.75rem;
+          padding: 0.75rem 0.875rem;
+          border-radius: var(--t-radius-sm);
+          border: 1px solid rgba(255,128,149,.35);
+          background: rgba(255,128,149,.1);
+          color: var(--t-danger) !important;
+          font-size: 0.875rem !important;
+        }
+        .d-toast {
+          position: fixed; left: 50%; bottom: 1.5rem; transform: translateX(-50%);
+          z-index: 1200; display: flex; align-items: center; gap: 1rem;
+          padding: 0.875rem 1.25rem; border-radius: 10px;
+          background: var(--t-surface-3); border: 1px solid var(--t-accent-line);
+          color: var(--t-fg); font-size: 0.9375rem; max-width: calc(100% - 2rem);
+        }
+        .d-toast button {
+          background: transparent; border: 0; color: var(--t-fg-subtle);
+          cursor: pointer; font-size: 0.875rem;
+        }
+        .d-reqtitle { font-size: 1.0625rem; margin: 0.25rem 0 0.875rem; color: var(--t-fg); }
+        .d-reqlist { display: flex; flex-direction: column; gap: 0.375rem; margin: 0 0 1rem; }
+        .d-reqfoot { margin-top: auto; padding-top: 0.875rem; border-top: 1px solid var(--t-line); }
+        .d-empty {
+          grid-column: 1 / -1;
+          padding: 3.5rem 1rem;
+          text-align: center;
+          border: 1px solid var(--t-line);
+          border-radius: var(--t-radius);
+          background: var(--t-surface-1);
+        }
+        .d-empty span { font-size: 2rem; }
+        .d-empty p { margin: 0.75rem 0 0; color: var(--t-fg-subtle); }
+        .d-reqline { display: flex; gap: 0.5rem; font-size: 0.875rem; }
+        .d-reqline dt { color: var(--t-fg-subtle); min-width: 4.5rem; flex-shrink: 0; }
+        .d-reqline dd { margin: 0; color: var(--t-fg-muted); }
+        .btn-p-view {
+          padding: 0.4375rem 0.75rem; border-radius: 8px;
+          border: 1px solid var(--t-line-strong); background: transparent;
+          color: var(--t-fg); font: inherit; font-size: 0.8125rem; font-weight: 600;
+          cursor: pointer; white-space: nowrap;
+        }
+        .btn-p-view:hover { border-color: var(--t-accent-line); background: var(--t-accent-weak); }
+        .btn-p-view.primary {
+          width: 100%; background: var(--t-accent);
+          border-color: var(--t-accent); color: var(--t-accent-ink); font-weight: 650;
+        }
+        .btn-p-view.primary:hover { background: #5ee0ff; border-color: #5ee0ff; }
         .elite-profile-grid-layout { display: grid; grid-template-columns: 1fr 1.2fr; gap: 2rem; margin-top: 2rem; }
         .elite-profile-experience { padding: 2.5rem; }
         .timeline-builder { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 1rem; }
@@ -640,7 +647,7 @@ const DesignerDashboard = ({
         
         .profile-action-bar { margin-top: 3rem; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 2rem; }
         .update-status { font-size: 0.8rem; opacity: 0.3; }
-        .section-icon { margin-right: 10px; filter: drop-shadow(0 0 5px var(--accent-glow)); }
+        .section-icon { margin-right: 10px; }
         .elite-tag-input-wrap label { font-size: 0.8rem; opacity: 0.5; font-weight: 700; margin-bottom: 8px; display: block; }
         .elite-tag-input-wrap input { width: 100%; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 14px; color: #fff; font-size: 1rem; }
 
@@ -648,52 +655,13 @@ const DesignerDashboard = ({
           .elite-profile-grid-layout { grid-template-columns: 1fr; }
         }
 
-        @media (max-width: 900px) {
-          .dashboard-elite-layout { flex-direction: column; }
-          .elite-sidebar { width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--glass-border, rgba(255, 255, 255, 0.08)); }
-          .sidebar-nav-elite { flex-direction: row; overflow-x: auto; padding: 0.5rem; gap: 0.3rem; }
-          .nav-item-elite { padding: 6px 12px; font-size: 0.75rem; white-space: nowrap; border-radius: 8px; }
-          .nav-item-elite .icon { margin-right: 6px; font-size: 0.9rem; }
-          .sidebar-footer-elite { display: none; }
-          .dashboard-main-elite { padding: 1.5rem; }
-          
-          /* Mobile Card Enhancement */
-          .elite-dashboard-table thead { display: none; }
-          .elite-dashboard-table tr { 
-            display: block; 
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.08));
-            border-radius: 16px;
-            margin-bottom: 1rem;
-            padding: 1rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-          }
-          .elite-dashboard-table td { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center;
-            padding: 8px 0 !important;
-            border: none !important;
-            font-size: 0.85rem !important;
-          }
-          .elite-dashboard-table td::before { 
-            content: attr(data-label); 
-            font-weight: 700; 
-            color: var(--accent-color, #00d2ff); 
-            opacity: 0.6;
-            font-size: 0.75rem;
-          }
-        }
-
         @media (max-width: 600px) {
-          .elite-stat-grid { grid-template-columns: 1fr; }
-          .elite-card-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
           .elite-form-row { flex-direction: column; gap: 1rem; }
           .milestone-grid { grid-template-columns: 1fr; }
           .profile-action-bar { flex-direction: column; gap: 1.5rem; align-items: stretch; }
         }
       `}</style>
-    </div>
+    </DashboardShell>
   );
 };
 

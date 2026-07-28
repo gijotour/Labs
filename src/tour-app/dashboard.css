@@ -1,0 +1,641 @@
+/* ==========================================================================
+   대시보드 공용 스타일 — 관리자(AdminPanel)와 파트너(DesignerDashboard)가
+   동일한 셸·메뉴·표·카드를 공유한다. 이전에는 두 파일이 각자 복제한
+   <style> 블록을 갖고 있어 조금씩 어긋났다.
+
+   색·타이포·여백은 tour-theme.css 토큰을 따른다. 여기에는 배치만 둔다.
+   ========================================================================== */
+
+.dash {
+  display: flex;
+  min-height: 100vh;
+  align-items: stretch;
+}
+
+/* ── 사이드바 ─────────────────────────────────────────────────────── */
+
+.dash__side {
+  width: 248px;
+  flex-shrink: 0;
+  background: var(--t-surface-1);
+  border-right: 1px solid var(--t-line);
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.dash__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0 0.5rem;
+}
+
+.dash__mark {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--t-accent);
+  color: var(--t-accent-ink);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.dash__brandname {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--t-fg);
+}
+
+.dash__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  flex-grow: 1;
+}
+
+.dash__navitem {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.6875rem 0.75rem;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--t-fg-muted);
+  font: inherit;
+  font-size: 0.9375rem;
+  font-weight: 550;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.dash__navitem:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--t-fg);
+}
+
+.dash__navitem.is-active {
+  background: var(--t-accent-weak);
+  color: var(--t-accent);
+  font-weight: 650;
+}
+
+.dash__navicon {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.dash__sidefoot {
+  border-top: 1px solid var(--t-line);
+  padding-top: 1rem;
+}
+
+.dash__logout {
+  width: 100%;
+  padding: 0.6875rem;
+  border: 1px solid var(--t-line-strong);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--t-fg-muted);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.dash__logout:hover {
+  border-color: var(--t-danger);
+  color: var(--t-danger);
+}
+
+/* ── 본문 ─────────────────────────────────────────────────────────── */
+
+.dash__main {
+  flex-grow: 1;
+  min-width: 0;
+  padding: 2.5rem;
+}
+
+.dash__content {
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+.dash__intro {
+  margin-bottom: 2rem;
+}
+
+.dash__intro h1 {
+  font-size: 1.75rem;
+  margin-bottom: 0.375rem;
+}
+
+.dash__intro p {
+  font-size: 0.9375rem;
+  margin: 0;
+}
+
+/* ── 통계 ─────────────────────────────────────────────────────────── */
+
+.dash__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.dash__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.25rem;
+  border: 1px solid var(--t-line);
+  border-radius: var(--t-radius);
+  background: var(--t-surface-1);
+}
+
+.dash__stat-label {
+  font-size: 0.8125rem;
+  color: var(--t-fg-subtle);
+  font-weight: 600;
+}
+
+.dash__stat-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--t-fg);
+  letter-spacing: -0.02em;
+}
+
+/* ── 패널 / 표 ────────────────────────────────────────────────────── */
+
+.dash__panel {
+  margin-bottom: 2rem;
+}
+
+.dash__panel-title {
+  font-size: 0.875rem;
+  font-weight: 650;
+  color: var(--t-fg-subtle);
+  margin-bottom: 0.75rem;
+}
+
+.dash__panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+/* 컬럼이 많은 표가 화면 밖으로 나가지 않고 가로 스크롤된다 */
+.dash__tablewrap {
+  border: 1px solid var(--t-line);
+  border-radius: var(--t-radius);
+  background: var(--t-surface-1);
+  overflow-x: auto;
+}
+
+.dash__table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.9375rem;
+}
+
+.dash__table th {
+  position: sticky;
+  top: 0;
+  padding: 0.75rem 1rem;
+  background: var(--t-surface-2);
+  border-bottom: 1px solid var(--t-line);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--t-fg-subtle);
+  white-space: nowrap;
+}
+
+.dash__table td {
+  padding: 0.875rem 1rem;
+  border-bottom: 1px solid var(--t-line);
+  color: var(--t-fg-muted);
+  vertical-align: middle;
+}
+
+.dash__table tbody tr:last-child td { border-bottom: 0; }
+.dash__table tbody tr:hover td { background: rgba(255, 255, 255, 0.02); }
+
+.dash__num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.dash__mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.875rem;
+  color: var(--t-accent);
+  white-space: nowrap;
+}
+.dash__longtext {
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.875rem;
+}
+.dash__strong { color: var(--t-fg); font-weight: 650; }
+
+.dash__empty {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--t-fg-subtle);
+}
+
+.dash__person {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  color: var(--t-fg);
+  font-weight: 600;
+}
+
+.dash__avatar {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--t-surface-3);
+  color: var(--t-fg-muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* ── 상태 배지 ────────────────────────────────────────────────────── */
+
+.dash__pill {
+  display: inline-block;
+  padding: 0.1875rem 0.625rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border: 1px solid;
+  white-space: nowrap;
+}
+
+.dash__pill--ok {
+  color: var(--t-accent);
+  border-color: var(--t-accent-line);
+  background: var(--t-accent-weak);
+}
+.dash__pill--wait {
+  color: #e0b877;
+  border-color: rgba(224, 184, 119, 0.3);
+  background: rgba(224, 184, 119, 0.1);
+}
+.dash__pill--off {
+  color: var(--t-danger);
+  border-color: rgba(255, 128, 149, 0.3);
+  background: rgba(255, 128, 149, 0.1);
+}
+
+/* ── 버튼 ─────────────────────────────────────────────────────────── */
+
+.dash__btn {
+  padding: 0.4375rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--t-line-strong);
+  background: transparent;
+  color: var(--t-fg);
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.dash__btn:hover {
+  border-color: var(--t-accent-line);
+  background: var(--t-accent-weak);
+}
+
+.dash__btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.dash__btn--primary {
+  background: var(--t-accent);
+  border-color: var(--t-accent);
+  color: var(--t-accent-ink);
+  font-weight: 650;
+}
+.dash__btn--primary:hover:not(:disabled) { background: #5ee0ff; border-color: #5ee0ff; }
+
+.dash__btn--danger:hover {
+  border-color: var(--t-danger);
+  background: rgba(255, 128, 149, 0.1);
+  color: var(--t-danger);
+}
+
+/* ── 알림 ─────────────────────────────────────────────────────────── */
+
+.dash__error {
+  margin: 0 0 0.75rem;
+  padding: 0.75rem 0.875rem;
+  border-radius: var(--t-radius-sm);
+  border: 1px solid rgba(255, 128, 149, 0.35);
+  background: rgba(255, 128, 149, 0.1);
+  color: var(--t-danger) !important;
+  font-size: 0.875rem !important;
+}
+
+.dash__toast {
+  position: fixed;
+  left: 50%;
+  bottom: 1.5rem;
+  transform: translateX(-50%);
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.875rem 1.25rem;
+  border-radius: 10px;
+  background: var(--t-surface-3);
+  border: 1px solid var(--t-accent-line);
+  color: var(--t-fg);
+  font-size: 0.9375rem;
+  max-width: calc(100% - 2rem);
+}
+
+.dash__toast button {
+  background: transparent;
+  border: 0;
+  color: var(--t-fg-subtle);
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+/* ==========================================================================
+   레거시 elite-* 호환
+   AdminCSCenter / AdminPerformance / AdminFinance / AdminSettings 와
+   DesignerDashboard 내부가 아직 쓰는 클래스를 새 토큰으로 맞춘다.
+   ========================================================================== */
+
+.dash .elite-stats-grid,
+.dash .elite-stat-grid,
+.dash .elite-stats-mini-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.dash .elite-stat-card,
+.dash .mini-stat-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.25rem !important;
+  border: 1px solid var(--t-line) !important;
+  border-radius: var(--t-radius) !important;
+  background: var(--t-surface-1) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  overflow: hidden;
+}
+
+.dash .stat-label {
+  font-size: 0.8125rem !important;
+  font-weight: 600 !important;
+  color: var(--t-fg-subtle) !important;
+}
+
+.dash .stat-value {
+  font-size: 1.75rem !important;
+  font-weight: 700 !important;
+  color: var(--t-fg) !important;
+  letter-spacing: -0.02em;
+}
+
+/* 장식용 글로우는 새 방향에서 쓰지 않는다 */
+.dash .stat-glow { display: none !important; }
+
+.dash .elite-data-table,
+.dash .elite-table-box {
+  border: 1px solid var(--t-line) !important;
+  border-radius: var(--t-radius) !important;
+  background: var(--t-surface-1) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  overflow-x: auto;
+  margin-top: 1rem;
+}
+
+.dash .elite-dashboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.9375rem;
+}
+
+.dash .elite-dashboard-table th {
+  padding: 0.75rem 1rem !important;
+  background: var(--t-surface-2) !important;
+  border-bottom: 1px solid var(--t-line) !important;
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--t-fg-subtle) !important;
+  white-space: nowrap;
+}
+
+.dash .elite-dashboard-table td {
+  padding: 0.875rem 1rem !important;
+  border-bottom: 1px solid var(--t-line) !important;
+  color: var(--t-fg-muted) !important;
+  vertical-align: middle;
+}
+
+.dash .elite-dashboard-table tbody tr:last-child td { border-bottom: 0 !important; }
+.dash .elite-dashboard-table tbody tr:hover td { background: rgba(255, 255, 255, 0.02); }
+.dash .elite-dashboard-table .bold { color: var(--t-fg) !important; font-weight: 650; }
+
+.dash .elite-card-header,
+.dash .elite-card-header-flex { margin-bottom: 1.5rem; }
+.dash .elite-card-header h2,
+.dash .elite-card-header-flex h2 { font-size: 1.75rem; margin-bottom: 0.375rem; }
+.dash .elite-card-header p,
+.dash .elite-card-header-flex p { font-size: 0.9375rem; margin: 0; }
+.dash .elite-card-header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.dash .btn-elite-add {
+  padding: 0.5625rem 1rem;
+  border-radius: 8px;
+  border: 0;
+  background: var(--t-accent);
+  color: var(--t-accent-ink);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 650;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.dash .btn-elite-add:hover { background: #5ee0ff; }
+
+.dash .btn-p-view {
+  padding: 0.4375rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--t-line-strong);
+  background: transparent;
+  color: var(--t-fg);
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.dash .btn-p-view:hover { border-color: var(--t-accent-line); background: var(--t-accent-weak); }
+.dash .btn-p-view.primary {
+  width: 100%;
+  background: var(--t-accent);
+  border-color: var(--t-accent);
+  color: var(--t-accent-ink);
+  font-weight: 650;
+}
+.dash .btn-p-view.primary:hover { background: #5ee0ff; border-color: #5ee0ff; }
+
+.dash .elite-proposal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.dash .elite-proposal-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem !important;
+  border: 1px solid var(--t-line) !important;
+  border-radius: var(--t-radius) !important;
+  background: var(--t-surface-1) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+}
+
+.dash .elite-proposal-card .p-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.dash .elite-proposal-card .p-tag { font-size: 0.8125rem; color: var(--t-fg-subtle) !important; }
+.dash .elite-proposal-card .p-badge {
+  padding: 0.1875rem 0.625rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--t-accent);
+  border: 1px solid var(--t-accent-line);
+  background: var(--t-accent-weak);
+}
+
+/* ── 반응형 ───────────────────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+  .dash { flex-direction: column; }
+  .dash__side {
+    width: 100%;
+    height: auto;
+    position: static;
+    border-right: 0;
+    border-bottom: 1px solid var(--t-line);
+    padding: 0.75rem 1rem;
+    gap: 0.75rem;
+  }
+  .dash__nav {
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 0.25rem;
+    padding-bottom: 0.25rem;
+  }
+  .dash__navitem {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8125rem;
+    white-space: nowrap;
+  }
+  .dash__sidefoot { border-top: 0; padding-top: 0; }
+  .dash__logout { width: auto; padding: 0.5rem 1rem; }
+  .dash__main { padding: 1.5rem 1rem; }
+}
+
+@media (max-width: 640px) {
+  .dash__tablewrap { border: 0; background: transparent; overflow-x: visible; }
+  .dash__table thead { display: none; }
+  .dash__table tbody tr {
+    display: block;
+    border: 1px solid var(--t-line);
+    border-radius: var(--t-radius);
+    background: var(--t-surface-1);
+    padding: 0.5rem 1rem;
+    margin-bottom: 0.75rem;
+  }
+  .dash__table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--t-line);
+  }
+  .dash__table tbody tr td:last-child { border-bottom: 0; }
+  .dash__table td::before {
+    content: attr(data-label);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--t-fg-subtle);
+    flex-shrink: 0;
+  }
+  .dash__longtext { max-width: 60%; text-align: right; }
+
+  .dash .elite-dashboard-table thead { display: none; }
+  .dash .elite-dashboard-table tbody tr {
+    display: block;
+    border: 1px solid var(--t-line);
+    border-radius: var(--t-radius);
+    background: var(--t-surface-1);
+    padding: 0.5rem 1rem;
+    margin-bottom: 0.75rem;
+  }
+  .dash .elite-dashboard-table td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 0 !important;
+    border-bottom: 1px solid var(--t-line) !important;
+  }
+  .dash .elite-dashboard-table td::before {
+    content: attr(data-label);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--t-fg-subtle);
+    flex-shrink: 0;
+  }
+}
