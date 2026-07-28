@@ -4,7 +4,7 @@ import { mockDb } from '../data/mockDb';
 const Hero = () => {
   const { hero } = mockDb;
   // 새로 생성된 이미지 경로 사용
-  const heroImage = '/assets/hero_bg.png';
+  const heroImage = '/assets/hero_bg.jpg';
 
   return (
     <section id="hero" className="hero-section">
