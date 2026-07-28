@@ -23,8 +23,13 @@ dist-ssr
 *.sln
 *.sw?
 .env
+.env.local
+.env.*.local
 .env.production
 venv/
+
+# 이미지 최적화 전 원본 로컬 백업 (원본은 git 히스토리에도 남아 있음)
+.asset-originals/
 __pycache__/
 *.pyc
 *.pyo
