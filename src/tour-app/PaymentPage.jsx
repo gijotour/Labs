@@ -37,7 +37,7 @@ const PaymentPage = ({ pkg, onBack }) => {
             <div className="success-details mb-8">
               <div className="flex justify-between py-2 border-b border-white/10">
                 <span>결제 금액</span>
-                <span className="text-accent">{pkg.detailedPlan.pricing.split(' (')[0]}</span>
+                <span className="text-accent">{(pkg.detailedPlan?.pricing ?? "상담 후 제안").split(' (')[0]}</span>
               </div>
               <div className="flex justify-between py-2">
                 <span>결제 수단</span>
@@ -124,7 +124,7 @@ const PaymentPage = ({ pkg, onBack }) => {
               <div className="price-breakdown mb-8">
                 <div className="flex justify-between mb-4">
                   <span className="text-gray-400">상품 금액</span>
-                  <span>{pkg.detailedPlan.pricing.split(' (')[0]}</span>
+                  <span>{(pkg.detailedPlan?.pricing ?? "상담 후 제안").split(' (')[0]}</span>
                 </div>
                 <div className="flex justify-between mb-4">
                   <span className="text-gray-400">예약 대행 수수료</span>
@@ -133,7 +133,7 @@ const PaymentPage = ({ pkg, onBack }) => {
                 <div className="total-row mt-6 pt-6 border-t border-white/20 flex justify-between items-baseline">
                   <span className="text-xl font-bold">합계</span>
                   <div className="text-right">
-                    <span className="text-3xl font-black text-accent">{pkg.detailedPlan.pricing.split(' (')[0]}</span>
+                    <span className="text-3xl font-black text-accent">{(pkg.detailedPlan?.pricing ?? "상담 후 제안").split(' (')[0]}</span>
                   </div>
                 </div>
               </div>

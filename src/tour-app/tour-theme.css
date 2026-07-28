@@ -1,0 +1,385 @@
+/* ==========================================================================
+   GIJO TOUR — 고객 화면 디자인 토큰 (정제된 다크)
+   --------------------------------------------------------------------------
+   방향: 다크 톤과 시안 브랜드색은 유지하되
+     · 글로우 / 20px 블러 / 그라데이션 면 → 제거
+     · 면 구분 기준을 "빛"에서 "1px 경계선 + 여백"으로 이동
+     · 색 8개 경쟁 → 시안 1개 + 중성 8단계
+     · 타이포를 clamp 남발 대신 3단계 계층으로 고정
+
+   .tour-surface 를 붙인 요소 안에서만 적용된다.
+   기존 :root 토큰(index.css)은 관리자·설계사 화면이 쓰므로 건드리지 않는다.
+   ========================================================================== */
+
+.tour-surface {
+  /* ── 중성 단계 (배경에서 전경 순) ── */
+  --t-bg: #070b12;
+  --t-surface-1: #0c111a;
+  --t-surface-2: #111827;
+  --t-surface-3: #1a2333;
+  --t-line: rgba(255, 255, 255, 0.09);
+  --t-line-strong: rgba(255, 255, 255, 0.16);
+
+  /* ── 전경 (전부 AA 이상) ── */
+  --t-fg: #f2f5f9;          /* 17.4:1 */
+  --t-fg-muted: #b6c2d2;    /* 10.2:1 */
+  --t-fg-subtle: #8b9bb4;   /*  6.4:1 */
+
+  /* ── 액센트: 시안 하나만 ── */
+  --t-accent: #35d6ff;
+  --t-accent-ink: #04121a;  /* 액센트 위에 얹는 글자색 */
+  --t-accent-weak: rgba(53, 214, 255, 0.12);
+  --t-accent-line: rgba(53, 214, 255, 0.32);
+
+  /* ── 상태색 (최소한만) ── */
+  --t-danger: #ff8095;
+
+  /* ── 타이포 3단계 ── */
+  --t-display: 3.25rem;     /* 페이지당 1회 */
+  --t-title: 1.875rem;      /* 섹션 제목 */
+  --t-body: 1rem;
+  --t-small: 0.875rem;
+
+  /* ── 여백 스케일 (4의 배수) ── */
+  --t-gap-xs: 0.5rem;
+  --t-gap-sm: 0.75rem;
+  --t-gap: 1.25rem;
+  --t-gap-lg: 2rem;
+  --t-gap-xl: 3rem;
+  --t-section: 6rem;
+
+  --t-radius: 14px;
+  --t-radius-sm: 10px;
+
+  --t-shell: min(1180px, calc(100% - 3rem));
+
+  background: var(--t-bg);
+  color: var(--t-fg);
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+}
+
+/* ── 공통 레이아웃 ─────────────────────────────────────────────────── */
+
+.tour-surface .t-shell {
+  width: var(--t-shell);
+  margin: 0 auto;
+}
+
+.tour-surface .t-section {
+  padding: var(--t-section) 0;
+  border-top: 1px solid var(--t-line);
+}
+
+.tour-surface .t-section:first-of-type {
+  border-top: 0;
+}
+
+/* ── 타이포 ────────────────────────────────────────────────────────── */
+
+.tour-surface h1 {
+  font-size: var(--t-display);
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  font-weight: 700;
+  margin: 0 0 var(--t-gap);
+  color: var(--t-fg);
+}
+
+.tour-surface h2 {
+  font-size: var(--t-title);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  font-weight: 700;
+  margin: 0 0 var(--t-gap);
+  color: var(--t-fg);
+}
+
+.tour-surface h3 {
+  font-size: 1.125rem;
+  line-height: 1.4;
+  font-weight: 650;
+  margin: 0 0 var(--t-gap-xs);
+  color: var(--t-fg);
+}
+
+.tour-surface p {
+  font-size: var(--t-body);
+  line-height: 1.75;
+  color: var(--t-fg-muted);
+  margin: 0 0 var(--t-gap);
+}
+
+.tour-surface .t-eyebrow {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--t-accent);
+  margin: 0 0 var(--t-gap-sm);
+}
+
+.tour-surface .t-lead {
+  font-size: 1.125rem;
+  color: var(--t-fg-muted);
+  max-width: 46ch;
+}
+
+.tour-surface .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── 면(카드) ──────────────────────────────────────────────────────── */
+
+.tour-surface .t-card {
+  background: var(--t-surface-1);
+  border: 1px solid var(--t-line);
+  border-radius: var(--t-radius);
+  padding: var(--t-gap-lg);
+  transition: border-color 0.18s ease, background 0.18s ease;
+}
+
+.tour-surface a.t-card:hover,
+.tour-surface button.t-card:hover {
+  border-color: var(--t-accent-line);
+  background: var(--t-surface-2);
+}
+
+/* ── 버튼: 역할 기준 ───────────────────────────────────────────────── */
+
+.tour-surface .t-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--t-gap-xs);
+  padding: 0.875rem 1.5rem;
+  border-radius: var(--t-radius-sm);
+  font: inherit;
+  font-size: var(--t-body);
+  font-weight: 650;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+}
+
+.tour-surface .t-btn--primary {
+  background: var(--t-accent);
+  color: var(--t-accent-ink);
+}
+
+.tour-surface .t-btn--primary:hover {
+  background: #5ee0ff;
+}
+
+.tour-surface .t-btn--secondary {
+  background: transparent;
+  border-color: var(--t-line-strong);
+  color: var(--t-fg);
+}
+
+.tour-surface .t-btn--secondary:hover {
+  border-color: var(--t-accent-line);
+  background: var(--t-accent-weak);
+}
+
+.tour-surface .t-btn--quiet {
+  padding: 0;
+  background: none;
+  border: 0;
+  color: var(--t-accent);
+  font-weight: 650;
+}
+
+.tour-surface .t-btn--quiet:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.tour-surface .t-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── 폼 ────────────────────────────────────────────────────────────── */
+
+.tour-surface .t-field {
+  display: grid;
+  gap: 0.375rem;
+}
+
+.tour-surface .t-field label {
+  font-size: var(--t-small);
+  font-weight: 650;
+  color: var(--t-fg);
+}
+
+.tour-surface .t-field .t-req {
+  color: var(--t-accent);
+}
+
+.tour-surface .t-field input,
+.tour-surface .t-field textarea {
+  width: 100%;
+  padding: 0.8125rem 0.875rem;
+  border-radius: var(--t-radius-sm);
+  border: 1px solid var(--t-line);
+  background: var(--t-surface-2);
+  color: var(--t-fg);
+  font: inherit;
+  font-size: var(--t-body);
+  transition: border-color 0.18s ease;
+}
+
+.tour-surface .t-field input::placeholder {
+  color: var(--t-fg-subtle);
+}
+
+.tour-surface .t-field input:focus-visible,
+.tour-surface .t-btn:focus-visible,
+.tour-surface a:focus-visible,
+.tour-surface button:focus-visible {
+  outline: 2px solid var(--t-accent);
+  outline-offset: 2px;
+}
+
+.tour-surface .t-field input[aria-invalid='true'] {
+  border-color: var(--t-danger);
+}
+
+.tour-surface .t-error {
+  font-size: var(--t-small);
+  color: var(--t-danger);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   레거시 정제 레이어
+   --------------------------------------------------------------------------
+   제안서 / 후기·공지 / 설계사 TV / 결제 화면은 index.css(4,700줄)로 스타일돼
+   있다. 전면 재작성하지 않고 톤만 새 방향에 맞춘다:
+     · 글로우(box-shadow 확산) · backdrop-filter · 그라데이션 면 제거
+     · 카드 면을 --t-surface-1 단색 + 1px 경계선으로 통일
+     · 브랜드색을 --t-accent 한 가지로 수렴
+   구조/레이아웃은 건드리지 않는다.
+   ========================================================================== */
+
+.tour-surface .glass-card,
+.tour-surface .modal-content,
+.tour-surface .panel-section {
+  background: var(--t-surface-1) !important;
+  border: 1px solid var(--t-line) !important;
+  border-radius: var(--t-radius) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  text-shadow: none !important;
+}
+
+.tour-surface .glass-card:hover {
+  border-color: var(--t-accent-line) !important;
+  transform: none !important;
+}
+
+.tour-surface .modal-overlay {
+  background: rgba(4, 7, 12, 0.82) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.tour-surface .btn-primary {
+  background: var(--t-accent) !important;
+  color: var(--t-accent-ink) !important;
+  border: 0 !important;
+  border-radius: var(--t-radius-sm) !important;
+  box-shadow: none !important;
+  font-weight: 650 !important;
+  transition: background 0.18s ease !important;
+}
+
+.tour-surface .btn-primary:hover {
+  background: #5ee0ff !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.tour-surface .highlight,
+.tour-surface .section-badge,
+.tour-surface .panel-title {
+  color: var(--t-accent) !important;
+  background: none !important;
+  -webkit-text-fill-color: currentColor !important;
+  text-shadow: none !important;
+}
+
+/* --text-muted(#64748b)는 이 배경에서 AA 미달이라 끌어올린다 */
+.tour-surface .text-gray-400 {
+  color: var(--t-fg-subtle) !important;
+}
+
+.tour-surface .form-group input,
+.tour-surface .elite-form-group input,
+.tour-surface .form-group textarea,
+.tour-surface .elite-form-group textarea,
+.tour-surface .form-group select {
+  background: var(--t-surface-2) !important;
+  border: 1px solid var(--t-line) !important;
+  border-radius: var(--t-radius-sm) !important;
+  color: var(--t-fg) !important;
+  box-shadow: none !important;
+}
+
+/* 페이지 진입 애니메이션은 유지하되 과하지 않게 */
+.tour-surface .animate-up {
+  animation-duration: 0.35s !important;
+}
+
+/* 고객 서브페이지 공통 상단 여백 */
+.tour-surface.t-page {
+  min-height: 70vh;
+  padding-bottom: var(--t-section);
+}
+
+/* ── 반응형 ────────────────────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+  .tour-surface {
+    --t-display: 2.5rem;
+    --t-title: 1.625rem;
+    --t-section: 4rem;
+    --t-shell: calc(100% - 2.5rem);
+  }
+}
+
+@media (max-width: 600px) {
+  .tour-surface {
+    --t-display: 2rem;
+    --t-title: 1.375rem;
+    --t-section: 3rem;
+    --t-shell: calc(100% - 2rem);
+  }
+
+  .tour-surface .t-btn {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tour-surface *,
+  .tour-surface *::before,
+  .tour-surface *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

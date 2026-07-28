@@ -11,12 +11,15 @@ const DesignerShowcase = ({ packages = [], onRate, selectedRegion = '전체', on
   const [comment, setComment] = useState('');
   const [hoverRating, setHoverRating] = useState(0);
   const [rating, setRating] = useState(5);
+  const [ratingError, setRatingError] = useState('');
+  const [toast, setToast] = useState('');
 
   const openRatingModal = (pkg) => {
     setSelectedDesigner(pkg);
     setNickname('');
     setComment('');
     setRating(5);
+    setRatingError('');
     setShowRatingModal(true);
   };
 
@@ -32,12 +35,13 @@ const DesignerShowcase = ({ packages = [], onRate, selectedRegion = '전체', on
 
   const submitRating = () => {
     if (!nickname.trim()) {
-      alert('닉네임을 입력해주세요.');
+      setRatingError('닉네임을 입력해 주세요.');
       return;
     }
-    onRate(selectedDesigner.designer, nickname, rating, comment);
+    setRatingError('');
+    onRate?.(selectedDesigner.designer, nickname, rating, comment);
     setShowRatingModal(false);
-    alert(`${selectedDesigner.designer} 여행설계사님께 리뷰를 남겼습니다!`);
+    setToast(`${selectedDesigner.designer} 여행설계사님께 후기를 남겼습니다.`);
   };
 
   // 유튜브 URL 포맷팅 유틸리티
@@ -101,9 +105,13 @@ const DesignerShowcase = ({ packages = [], onRate, selectedRegion = '전체', on
                 </div>
               </div>
 
+              {ratingError && (
+                <p role="alert" className="rating-error">{ratingError}</p>
+              )}
+
               <div className="modal-actions">
-                <button className="btn-cancel" onClick={() => setShowRatingModal(false)}>취소</button>
-                <button className="btn-submit-rating" onClick={submitRating}>평점 등록하기</button>
+                <button type="button" className="btn-cancel" onClick={() => setShowRatingModal(false)}>취소</button>
+                <button type="button" className="btn-submit-rating" onClick={submitRating}>평점 등록하기</button>
               </div>
             </div>
           </div>
@@ -119,7 +127,7 @@ const DesignerShowcase = ({ packages = [], onRate, selectedRegion = '전체', on
               </div>
               <div className="review-list custom-scrollbar">
                 {selectedDesigner?.reviews && selectedDesigner.reviews.length > 0 ? (
-                  selectedDesigner.reviews.map((rev, i) => (
+                  (selectedDesigner.reviews ?? []).map((rev, i) => (
                     <div key={i} className="review-item">
                       <div className="rev-header">
                         <span className="rev-name">{rev.nickname}</span>
@@ -192,7 +200,11 @@ const DesignerShowcase = ({ packages = [], onRate, selectedRegion = '전체', on
                     <span className="price-label">ESTIMATED QUOTE</span>
                     <div className="price-value-row">
                       <span className="currency">₩</span>
-                      <span className="amount">{selectedDesigner.detailedPlan.pricing.replace('1인당 약 ', '').replace(' (항공권 별도)', '')}</span>
+                      <span className="amount">
+                        {(selectedDesigner.detailedPlan?.pricing ?? '상담 후 제안')
+                          .replace('1인당 약 ', '')
+                          .replace(' (항공권 별도)', '')}
+                      </span>
                       <span className="per-person">/ person</span>
                     </div>
                     <p className="price-note">* 항공권 별도 실비 정산</p>
@@ -251,7 +263,7 @@ const DesignerShowcase = ({ packages = [], onRate, selectedRegion = '전체', on
                           <span className="icon">💡</span>
                           <span>여행설계사 전용 팁 (PRO TIP)</span>
                         </div>
-                        <p>{selectedDesigner.detailedPlan.proTip}</p>
+                        <p>{selectedDesigner.detailedPlan?.proTip}</p>
                       </div>
                     )}
                   </div>
@@ -288,17 +300,30 @@ const DesignerShowcase = ({ packages = [], onRate, selectedRegion = '전체', on
         {packages.length > 0 ? (
           <div className="designer-grid animate-up">
             {packages.map((pkg, index) => (
-              <div key={index} className="package-card board-style-item" onClick={() => openDetailModal(pkg)}>
-                <div className="board-item-main">
+              <article key={pkg.id ?? index} className="package-card board-style-item">
+                <button
+                  type="button"
+                  className="board-item-main"
+                  onClick={() => openDetailModal(pkg)}
+                >
                   <span className="b-region">[{pkg.region}]</span>
                   <h3 className="b-title">{pkg.title}</h3>
                   <div className="b-meta">
                     <span className="b-designer">{pkg.designer}</span>
                     <span className="b-rating">★{pkg.rating}</span>
                   </div>
+                  <span className="board-item-arrow" aria-hidden="true">〉</span>
+                </button>
+
+                <div className="board-item-actions">
+                  <button type="button" onClick={() => openReviewList(pkg)}>
+                    후기 {pkg.reviewCount ?? (pkg.reviews?.length ?? 0)}개
+                  </button>
+                  <button type="button" onClick={() => openRatingModal(pkg)}>
+                    평점 남기기
+                  </button>
                 </div>
-                <div className="board-item-arrow">〉</div>
-              </div>
+              </article>
             ))}
           </div>
         ) : (
@@ -310,6 +335,92 @@ const DesignerShowcase = ({ packages = [], onRate, selectedRegion = '전체', on
         )}
       </div>
 
+      {toast && (
+        <div className="ds-toast" role="status">
+          <span>{toast}</span>
+          <button type="button" onClick={() => setToast('')} aria-label="알림 닫기">✕</button>
+        </div>
+      )}
+
+      <style>{`
+        .package-card.board-style-item {
+          display: flex;
+          flex-direction: column;
+          padding: 0;
+          overflow: hidden;
+        }
+        .board-item-main {
+          position: relative;
+          display: block;
+          width: 100%;
+          text-align: left;
+          padding: 1.25rem 2.5rem 1.25rem 1.25rem;
+          background: transparent;
+          border: 0;
+          font: inherit;
+          color: inherit;
+          cursor: pointer;
+        }
+        .board-item-main:hover { background: rgba(255, 255, 255, 0.03); }
+        .board-item-arrow {
+          position: absolute;
+          right: 1.25rem;
+          top: 50%;
+          transform: translateY(-50%);
+          opacity: 0.5;
+        }
+        .board-item-actions {
+          display: flex;
+          gap: 0.5rem;
+          padding: 0.75rem 1.25rem;
+          border-top: 1px solid var(--t-line, rgba(255,255,255,0.09));
+        }
+        .board-item-actions button {
+          padding: 0.4375rem 0.75rem;
+          border-radius: 8px;
+          border: 1px solid var(--t-line, rgba(255,255,255,0.09));
+          background: transparent;
+          color: var(--t-fg-muted, #b6c2d2);
+          font: inherit;
+          font-size: 0.8125rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: border-color .18s ease, color .18s ease;
+        }
+        .board-item-actions button:hover {
+          border-color: var(--t-accent-line, rgba(53,214,255,.32));
+          color: var(--t-accent, #35d6ff);
+        }
+        .rating-error {
+          margin: 0 0 1rem;
+          color: var(--t-danger, #ff8095);
+          font-size: 0.875rem;
+        }
+        .ds-toast {
+          position: fixed;
+          left: 50%;
+          bottom: 1.5rem;
+          transform: translateX(-50%);
+          z-index: 1200;
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          padding: 0.875rem 1.25rem;
+          border-radius: 10px;
+          background: var(--t-surface-3, #1a2333);
+          border: 1px solid var(--t-accent-line, rgba(53,214,255,.32));
+          color: var(--t-fg, #f2f5f9);
+          font-size: 0.9375rem;
+          max-width: calc(100% - 2rem);
+        }
+        .ds-toast button {
+          background: transparent;
+          border: 0;
+          color: var(--t-fg-subtle, #8b9bb4);
+          cursor: pointer;
+          font-size: 0.875rem;
+        }
+      `}</style>
     </section>
   );
 };
