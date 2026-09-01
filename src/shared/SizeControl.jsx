@@ -3,13 +3,6 @@ import React, { useState } from 'react';
 const SizeControl = ({ uiScale, onScaleChange }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const scales = [
-    { label: 'S', value: 0.9, title: '기본보다 작게' },
-    { label: 'M', value: 1.0, title: '표준 크기' },
-    { label: 'L', value: 1.15, title: '크게 보기' },
-    { label: 'XL', value: 1.3, title: '아주 크게 보기' }
-  ];
-
   return (
     <div className={`size-control-wrapper ${isOpen ? 'active' : ''}`}>
       <button 

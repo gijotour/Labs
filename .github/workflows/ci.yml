@@ -1,0 +1,67 @@
+name: CI
+
+# main 푸시와 모든 PR 에서 돈다.
+# 이 저장소는 Netlify 자동 배포라 main 이 곧 프로덕션이다.
+# 여기서 막지 못하면 깨진 채로 배포된다.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# 같은 브랜치에서 연달아 밀면 앞의 실행은 취소한다
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  frontend:
+    name: 프론트 (lint · build · vitest)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          # Vite 8 은 Node 20.19+ 또는 22.12+ 를 요구한다
+          node-version: '22'
+          cache: npm
+
+      - run: npm ci
+
+      - name: lint
+        run: npm run lint
+
+      - name: build
+        run: npm run build
+
+      - name: vitest
+        run: npm test
+
+  backend:
+    name: 백엔드 (pytest)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: backend/requirements.txt
+
+      - name: 의존성 설치
+        # pytest 와 httpx(FastAPI TestClient 용)는 테스트에서만 쓰므로
+        # requirements.txt 가 아니라 여기서 넣는다.
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest httpx
+
+      - name: pytest
+        # test_api_contract.py 가 프론트 소스를 읽으므로 저장소 전체가 필요하다.
+        # 프론트가 호출하는 API 경로가 백엔드에 실제로 있는지 정적 대조한다.
+        # 이 검사가 이 CI 의 핵심이다. 과거에 /api/guides 부재로 관리자 화면이 죽은 적이 있다.
+        run: python -m pytest -q
