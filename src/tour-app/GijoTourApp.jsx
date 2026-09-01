@@ -1,5 +1,7 @@
-import { useState, useCallback } from 'react';
-import { Routes, Route, useNavigate, Navigate, Link } from 'react-router-dom';
+import { useState, useEffect, useCallback } from 'react';
+import { Routes, Route, useNavigate, useLocation, Navigate, Link } from 'react-router-dom';
+import Navbar from './Navbar';
+import Footer from './Footer';
 import PremiumLanding from './PremiumLanding';
 import DesignerShowcase from './DesignerShowcase';
 import PaymentPage from './PaymentPage';
@@ -51,19 +53,54 @@ function RequireRole({ isLoggedIn, userRole, allow, children }) {
   return children;
 }
 
-function GijoTourApp({
-  isLoggedIn = false,
-  setIsLoggedIn,
-  userRole,
-  setUserRole,
-  userName,
-  setUserName,
-  forceBoardWrite,
-  setForceBoardWrite,
-  boardFilterAuthor,
-  setBoardFilterAuthor
-}) {
+/**
+ * 지아이조 투어 — GIJO LABS 아래 서비스 하나.
+ *
+ * 이 서비스는 자기 것을 스스로 소유한다: 인증 상태, 내비게이션바, 푸터, 도메인 데이터.
+ * 예전에는 이 셋이 상위 App.jsx 에 있었는데, 그러면 Labs 에 서비스가 하나 더 붙는 순간
+ * 새 서비스가 투어의 세션과 내비를 그대로 물려받는다. 경계를 여기로 끌어내렸다.
+ *
+ * localStorage 키에 `gijotour_` 접두사를 붙인 것도 같은 이유다.
+ * 예전 키(`gijo_auth` 등)는 서비스가 늘면 충돌한다.
+ */
+function GijoTourApp() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // ── 세션 (목업 인증) ────────────────────────────────────────────────
+  // 주의: 서버 검증이 아니다. 화면 분기용이며 실제 보안 장치가 아니다.
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    () => localStorage.getItem('gijotour_auth') === 'true'
+  );
+  const [userRole, setUserRole] = useState(
+    () => localStorage.getItem('gijotour_role') || 'designer'
+  );
+  const [userName, setUserName] = useState(
+    () => localStorage.getItem('gijotour_user_name') || '방문객'
+  );
+  const [forceBoardWrite, setForceBoardWrite] = useState(false);
+  const [boardFilterAuthor, setBoardFilterAuthor] = useState(null);
+
+  useEffect(() => {
+    localStorage.setItem('gijotour_auth', isLoggedIn);
+    localStorage.setItem('gijotour_role', userRole);
+    localStorage.setItem('gijotour_user_name', userName);
+  }, [isLoggedIn, userRole, userName]);
+
+  const handleNavbarLogout = () => {
+    setIsLoggedIn(false);
+    setUserRole('designer');
+    setUserName('방문객');
+    setForceBoardWrite(false);
+    setBoardFilterAuthor(null);
+    localStorage.removeItem('gijotour_auth');
+    localStorage.removeItem('gijotour_user_name');
+    navigate('/gijotour');
+  };
+
+  // 대시보드(설계사·관리자) 화면에서는 푸터를 숨긴다
+  const hideFooter =
+    location.pathname.includes('/admin') || location.pathname.includes('/designer');
 
   // DesignerShowcase / PaymentPage 는 mockDb.packages 모양(designer, youtubeUrl,
   // reviews, detailedPlan.pricing …)을 기대한다. 이전에 여기 하드코딩돼 있던 배열은
@@ -238,7 +275,15 @@ function GijoTourApp({
   );
 
   return (
-    <Routes>
+    <>
+      <Navbar
+        isLoggedIn={isLoggedIn}
+        userName={userName}
+        userRole={userRole}
+        onLogout={handleNavbarLogout}
+      />
+
+      <Routes>
       {/* ── 고객 여정 ── */}
       <Route index element={<PremiumLanding onCreateMatchingRequest={handleCreateMatchingRequest} />} />
       <Route
@@ -333,7 +378,10 @@ function GijoTourApp({
       <Route path="admin/guides" element={guard(['admin'], <AdminGuideUserManager />)} />
 
       <Route path="*" element={<NotFound />} />
-    </Routes>
+      </Routes>
+
+      {!hideFooter && <Footer />}
+    </>
   );
 }
 
