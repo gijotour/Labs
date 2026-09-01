@@ -1,0 +1,681 @@
+/* 05-mobile-payment.css — 모바일 개별 보정, 결제 페이지
+ *
+ * src/index.css 를 순서 보존 분할한 조각이다. 원본 줄 2447-3120.
+ * ⚠ 파일 간 순서를 바꾸지 말 것. 이 CSS는 뒤 파일이 앞 파일을 덮어쓰는 구조라
+ *   (셀렉터 91개가 재정의, 그중 54개는 1000줄 이상 떨어져 있었다)
+ *   순서가 바뀌면 화면이 조용히 깨진다. 로드 순서는 src/index.css 가 정한다.
+ */
+
+/* Specific Mobile Fixes */
+@media (max-width: 768px) {
+  section { padding: 80px 0; }
+  
+  .container { padding: 0 1.5rem; }
+
+  .hero-main-title {
+    font-size: 3.5rem !important;
+  }
+
+  .hero-description {
+    font-size: 1.1rem;
+  }
+
+  /* Grid Adjustments */
+  .features-grid, .video-grid, .elite-proposal-grid, .region-grid, .tv-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.2rem;
+  }
+
+  /* Elite Modal Mobile Fix */
+  .elite-proposal-modal {
+    width: 100%;
+    height: 100%;
+    max-height: 100vh;
+    border-radius: 0;
+  }
+
+  .elite-detail-body {
+    padding: 1.5rem;
+  }
+
+  .elite-detail-top-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+
+  .elite-price-card {
+    width: 100%;
+    min-width: unset;
+    text-align: left;
+  }
+
+  .price-value-row {
+    justify-content: flex-start;
+  }
+
+  .elite-detail-content-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .elite-modal-header-img {
+    height: 180px;
+  }
+
+  .elite-proposal-title {
+    font-size: 1.8rem;
+  }
+
+  /* Designer Cards */
+  .package-footer {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .footer-btn-group {
+    width: 100%;
+  }
+
+  .btn-detail {
+    width: 100%;
+    padding: 1rem;
+  }
+
+  /* Size Control On Mobile */
+  .size-menu {
+    width: calc(100vw - 2.5rem);
+    bottom: 80px;
+    left: 1.25rem;
+    transform: none;
+  }
+}
+
+/* Dashboard Sidebar Mobile */
+@media (max-width: 1024px) {
+  .dashboard-elite-layout {
+    flex-direction: column;
+  }
+
+  .elite-sidebar {
+    width: 100%;
+    height: auto;
+    margin: 0;
+    flex-direction: row;
+    padding: 1rem;
+  }
+
+  .sidebar-nav-elite {
+    flex-direction: row;
+    gap: 1rem;
+  }
+
+  .nav-item-elite {
+    flex: 1;
+    justify-content: center;
+    padding: 0.8rem;
+  }
+
+  .dashboard-main-elite {
+    height: calc(100vh - 80px);
+  }
+}
+
+/* Payment Page Elite Styles */
+.payment-page {
+  position: relative;
+  z-index: 10;
+}
+
+.payment-grid {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 4rem;
+  align-items: start;
+}
+
+.order-card-elite {
+  display: flex;
+  overflow: hidden;
+}
+
+.pkg-thumb {
+  width: 250px;
+  flex-shrink: 0;
+}
+
+.pkg-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.designer-info-small .label {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 2px;
+}
+
+.designer-info-small .value {
+  font-weight: 700;
+  color: white;
+}
+
+.payment-option-card {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.payment-option-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(0, 210, 255, 0.3);
+}
+
+.payment-option-card.active {
+  background: rgba(0, 210, 255, 0.08);
+  border-color: var(--accent-color);
+  box-shadow: 0 0 20px rgba(0, 210, 255, 0.1);
+}
+
+.radio-circle {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  position: relative;
+}
+
+.payment-option-card.active .radio-circle {
+  border-color: var(--accent-color);
+}
+
+.payment-option-card.active .radio-circle::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px; height: 10px;
+  background: var(--accent-color);
+  border-radius: 50%;
+}
+
+.method-info { flex: 1; }
+
+.summary-sticky-card {
+  position: sticky;
+  top: 120px;
+}
+
+/* Success State */
+.success-card {
+  max-width: 600px;
+  padding: 4rem;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.check-icon-wrap {
+  width: 80px;
+  height: 80px;
+  background: rgba(74, 108, 247, 0.1);
+  border: 2px solid var(--primary-accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  box-shadow: 0 0 30px rgba(74, 108, 247, 0.3);
+}
+
+.check-icon {
+  font-size: 3rem;
+  color: var(--primary-accent);
+}
+
+/* Form Refinements for Payment */
+.tax-invoice-toggle {
+  user-select: none;
+}
+
+.tax-invoice-toggle input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent-color);
+}
+
+@media (max-width: 1100px) {
+  .payment-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .order-card-elite {
+    flex-direction: column;
+  }
+  .pkg-thumb {
+    width: 100%;
+    height: 150px;
+  }
+}
+
+
+/* ============================================================
+   GIJO LAB - Future Travel Innovation 랜딩 페이지
+   ============================================================ */
+
+:root {
+  --lab-accent: #00ffd2;
+  --lab-gradient: linear-gradient(135deg, #00ffd2 0%, #0066ff 100%);
+  --lab-dark: #050a14;
+}
+
+.lab-landing {
+  min-height: 100vh;
+  padding-top: 120px;
+  background: var(--bg-color);
+  position: relative;
+  overflow: hidden;
+}
+
+.lab-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 8rem 2rem;
+  position: relative;
+  z-index: 2;
+}
+
+.lab-badge {
+  background: rgba(0, 255, 210, 0.1);
+  border: 1px solid rgba(0, 255, 210, 0.3);
+  color: var(--lab-accent);
+  padding: 0.6rem 1.4rem;
+  border-radius: 50px;
+  font-weight: 800;
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 2.5rem;
+  box-shadow: 0 0 20px rgba(0, 255, 210, 0.1);
+}
+
+.lab-title {
+  font-size: 8rem;
+  font-weight: 900;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  margin-bottom: 2rem;
+  background: linear-gradient(to bottom, #fff 40%, rgba(255,255,255,0.4));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.lab-title span {
+  display: block;
+  background: var(--lab-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.lab-description {
+  font-size: 1.4rem;
+  max-width: 700px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 4rem;
+}
+
+.lab-cta-group {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.btn-lab-primary {
+  padding: 1.2rem 3.5rem;
+  background: #fff;
+  color: #000;
+  border-radius: 14px;
+  font-weight: 800;
+  font-size: 1.1rem;
+  box-shadow: 0 10px 30px rgba(255, 255, 255, 0.15);
+}
+
+.btn-lab-primary:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(255, 255, 255, 0.25);
+}
+
+.btn-lab-secondary {
+  padding: 1.2rem 3.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-radius: 14px;
+  font-weight: 700;
+  backdrop-filter: blur(10px);
+}
+
+.btn-lab-secondary:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* Lab Innovation Showcase */
+.lab-showcase {
+  padding: 10rem 2rem;
+}
+
+.showcase-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.showcase-card {
+  padding: 4rem;
+  text-align: left;
+  border-radius: 32px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 100%);
+  border: 1px solid rgba(255,255,255,0.05);
+  transition: var(--transition-smooth);
+}
+
+.showcase-card:hover {
+  border-color: var(--lab-accent);
+  transform: translateY(-10px);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.sc-icon {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  display: block;
+}
+
+.sc-title {
+  font-size: 1.8rem;
+  margin-bottom: 1.2rem;
+  font-weight: 800;
+}
+
+.sc-desc {
+  font-size: 1.1rem;
+  opacity: 0.6;
+  line-height: 1.7;
+}
+
+/* Navigation Overhaul for Lab */
+.nav-lab-mode {
+  border: 1px solid rgba(0, 255, 210, 0.3) !important;
+}
+
+.nav-lab-mode.active {
+  background: var(--lab-gradient) !important;
+  color: #000 !important;
+}
+
+@media (max-width: 1024px) {
+  .lab-title { font-size: 5rem; }
+  .showcase-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  .lab-title { font-size: 3.5rem; }
+  .lab-cta-group { flex-direction: column; width: 100%; }
+  .btn-lab-primary, .btn-lab-secondary { width: 100%; }
+}
+
+/* ============================================================
+   Elite Navigation Hub Styles
+   ============================================================ */
+.elite-nav-hub {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: rgba(10, 12, 20, 0.6);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 8px;
+  border-radius: 50px;
+  z-index: 9999;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(0, 210, 255, 0.1);
+}
+
+.nav-hub-btn {
+  background: transparent;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 24px;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 40px;
+}
+
+.nav-hub-btn .icon {
+  font-size: 1.2rem;
+  opacity: 0.8;
+}
+
+.nav-hub-btn .label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  opacity: 0.6;
+}
+
+.nav-hub-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.nav-hub-btn:hover .icon {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.nav-hub-btn:hover .label {
+  opacity: 1;
+}
+
+.nav-hub-divider {
+  width: 1px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  margin: 0 5px;
+}
+
+.nav-hub-btn.home:hover {
+  color: var(--accent-color);
+}
+
+@media (max-width: 768px) {
+  .elite-nav-hub {
+    bottom: 20px;
+  }
+  .nav-hub-btn .label {
+    display: none;
+  }
+  .nav-hub-btn {
+    padding: 12px 20px;
+  }
+}
+
+.btn-logout-nav {
+  background: rgba(255, 69, 58, 0.1);
+  border: 1px solid rgba(255, 69, 58, 0.3) !important;
+  color: #ff453a !important;
+  padding: 0.5rem 1.2rem !important;
+  border-radius: 50px !important;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.btn-logout-nav:hover {
+  background: #ff453a;
+  color: white !important;
+  box-shadow: 0 0 15px rgba(255, 69, 58, 0.4);
+}
+/* ============================================================
+   Elite User Dropdown System
+   ============================================================ */
+.nav-user-dropdown-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.nav-user-trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 6px 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.nav-user-trigger:hover, .nav-user-trigger.active {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--accent-color);
+  box-shadow: 0 0 15px var(--accent-glow);
+}
+
+.dropdown-arrow {
+  font-size: 0.6rem;
+  opacity: 0.5;
+  transition: 0.3s;
+}
+
+.nav-user-trigger.active .dropdown-arrow {
+  transform: rotate(180deg);
+  opacity: 1;
+}
+
+.nav-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 15px);
+  right: 0;
+  width: 240px;
+  padding: 1.5rem;
+  background: rgba(10, 12, 20, 0.98);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+  z-index: 20000;
+  cursor: default;
+}
+
+.dropdown-header {
+  padding-bottom: 1rem;
+}
+
+.user-role {
+  display: block;
+  font-size: 0.65rem;
+  font-weight: 900;
+  color: var(--accent-color);
+  letter-spacing: 1.5px;
+  margin-bottom: 4px;
+}
+
+.user-name {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+.dropdown-divider {
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 0.8rem 0;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+  padding: 10px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+  text-align: left;
+}
+
+.dropdown-item .icon {
+  font-size: 1.1rem;
+}
+
+.dropdown-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  padding-left: 18px;
+}
+
+.dropdown-item.logout {
+  color: #ff4d4d;
+}
+
+.dropdown-item.logout:hover {
+  background: rgba(255, 77, 77, 0.08);
+}
+
+.animate-down {
+  animation: dropdownFadeDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes dropdownFadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 1024px) {
+  .nav-user-dropdown-container {
+    width: 100%;
+    flex-direction: column;
+    margin-top: 1rem;
+  }
+  .nav-user-trigger { width: 100%; justify-content: space-between; }
+  .nav-dropdown-menu {
+    position: static;
+    width: 100%;
+    margin-top: 10px;
+    box-shadow: none;
+    background: rgba(255, 255, 255, 0.02);
+  }
+}

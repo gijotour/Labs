@@ -1,0 +1,575 @@
+/* 04-dashboard.css — 대시보드 본문·통계 카드·테이블·그리드, 페이지 전환/빈 상태
+ *
+ * src/index.css 를 순서 보존 분할한 조각이다. 원본 줄 1879-2446.
+ * ⚠ 파일 간 순서를 바꾸지 말 것. 이 CSS는 뒤 파일이 앞 파일을 덮어쓰는 구조라
+ *   (셀렉터 91개가 재정의, 그중 54개는 1000줄 이상 떨어져 있었다)
+ *   순서가 바뀌면 화면이 조용히 깨진다. 로드 순서는 src/index.css 가 정한다.
+ */
+
+/* Main Dashboard Body */
+.dashboard-main-elite {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.elite-dashboard-header {
+  padding: 2.5rem 3.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-container {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr; /* 3-column layout for centering */
+  align-items: center;
+  width: 100%;
+}
+
+.nav-links {
+  display: flex;
+  gap: 3rem;
+  list-style: none;
+  justify-content: center;
+}
+
+.nav-links li button {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  padding: 0.5rem 0;
+  position: relative;
+  transition: var(--transition-smooth);
+}
+
+.nav-links li button::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--accent-brand);
+  transition: var(--transition-smooth);
+}
+
+.nav-links li button:hover {
+  color: var(--text-primary);
+  text-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
+}
+
+.nav-links li button:hover::after {
+  width: 100%;
+}
+
+.nav-links li button.active {
+  color: var(--accent-color);
+}
+
+.nav-links li button.active::after {
+  width: 100%;
+}
+
+.header-breadcrumbs {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+}
+
+.header-breadcrumbs strong {
+  color: #fff;
+}
+
+.elite-admin-profile {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.admin-badge-premium {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--glass-border);
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--text-secondary);
+}
+
+.avatar-elite {
+  width: 44px; height: 44px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.avatar-elite.designer-avatar {
+  background: var(--accent-brand);
+}
+
+.elite-dashboard-content {
+  flex: 1;
+  padding: 0 3.5rem 3.5rem;
+  overflow-y: auto;
+}
+
+.content-intro {
+  margin-bottom: 3.5rem;
+}
+
+.content-intro h1 {
+  font-size: 2.8rem;
+  margin-bottom: 0.8rem;
+}
+
+.content-intro p {
+  font-size: 1.15rem;
+  opacity: 0.6;
+}
+
+/* Stats Cards */
+.elite-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3.5rem;
+}
+
+.elite-stat-card {
+  padding: 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1rem;
+}
+
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+.stat-glow {
+  position: absolute;
+  top: -50%; right: -50%;
+  width: 150px; height: 150px;
+  background: var(--accent-color);
+  filter: blur(80px);
+  opacity: 0.1;
+}
+
+/* Dashboard Table */
+.elite-table-section {
+  padding: 0;
+  overflow: hidden;
+}
+
+.table-header-elite {
+  padding: 2.5rem;
+  border-bottom: 1px solid var(--glass-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.table-search {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--glass-border);
+  padding: 0.8rem 1.5rem;
+  border-radius: 50px;
+  color: #fff;
+  width: 300px;
+}
+
+.elite-dashboard-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.elite-dashboard-table th {
+  text-align: left;
+  padding: 1.5rem 2.5rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--accent-color);
+  letter-spacing: 0.1em;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.elite-dashboard-table td {
+  padding: 1.8rem 2.5rem;
+  border-bottom: 1px solid var(--glass-border);
+  font-size: 1rem;
+}
+
+.elite-dashboard-table tr:last-child td {
+  border-bottom: none;
+}
+
+.elite-status-pill {
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+
+.elite-status-pill.active, .elite-status-pill.paid { background: rgba(0, 255, 136, 0.1); color: #00ff88; }
+.elite-status-pill.pending { background: rgba(255, 255, 0, 0.1); color: #ffff00; }
+.elite-status-pill.suspended { background: rgba(255, 51, 102, 0.1); color: #ff3366; }
+
+.designer-cell { display: flex; align-items: center; gap: 1rem; }
+.mini-avatar { width: 32px; height: 32px; background: #555; border-radius: 50%; }
+
+.btn-table-action {
+  padding: 0.6rem 1.2rem;
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  background: transparent;
+  color: var(--text-secondary);
+}
+
+.btn-table-action.primary {
+  background: var(--accent-brand);
+  color: #000;
+  border: none;
+}
+
+/* Designer Grid List */
+.elite-proposal-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+}
+
+.elite-proposal-card {
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.p-header { display: flex; justify-content: space-between; align-items: flex-start; }
+.p-tag { font-size: 0.75rem; font-weight: 800; color: var(--accent-color); }
+.p-badge { font-size: 0.7rem; font-weight: 800; padding: 0.3rem 0.8rem; border-radius: 5px; }
+.p-badge.확정 { background: rgba(0, 210, 255, 0.1); color: var(--accent-color); }
+.p-badge.검토중 { background: rgba(255, 255, 255, 0.05); color: #ccc; }
+
+.elite-proposal-card h3 { font-size: 1.4rem; line-height: 1.4; }
+
+.p-footer { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--glass-border); padding-top: 1.5rem; }
+.p-date { font-size: 0.85rem; opacity: 0.5; }
+.btn-p-view { background: none; color: var(--accent-color); font-weight: 700; }
+
+/* Modal Elite Expanded */
+.elite-wide-modal {
+  max-width: 800px;
+  width: 90%;
+}
+
+.modal-header-elite h2 { margin-bottom: 0.5rem; }
+.modal-header-elite p { opacity: 0.5; font-size: 0.95rem; }
+
+.elite-form-group { margin-bottom: 2rem; }
+.elite-form-group label { display: block; font-size: 0.8rem; font-weight: 800; color: var(--accent-color); margin-bottom: 0.8rem; }
+.elite-form-group input, .elite-form-group textarea {
+  width: 100%; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--glass-border); border-radius: 12px; padding: 1rem; color: #fff;
+}
+
+.elite-itinerary-builder { display: flex; flex-direction: column; gap: 1.2rem; margin-top: 1.5rem; }
+.itinerary-row-elite { display: flex; gap: 1.5rem; align-items: flex-start; }
+.day-count { font-weight: 800; color: var(--accent-color); min-width: 60px; padding-top: 1rem; }
+
+.btn-elite-save, .btn-submit-elite {
+  padding: 1rem 1.5rem;
+  background: var(--accent-brand); color: #000; border-radius: 12px; font-weight: 800;
+}
+
+/* ============================================================
+   Elite Polish & Stabilization System
+   ============================================================ */
+
+/* 1. Global Page Transition */
+.page-fade-in {
+  animation: elitePageFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes elitePageFade {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 2. Premium Scroll to Top */
+.scroll-top-btn {
+  position: fixed;
+  bottom: 3rem;
+  right: 3rem;
+  width: 54px;
+  height: 54px;
+  background: rgba(0, 210, 255, 0.1);
+  backdrop-filter: blur(15px);
+  border: 1px solid var(--accent-color);
+  border-radius: 50%;
+  color: var(--accent-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  z-index: 999;
+  transition: var(--transition-smooth);
+  box-shadow: 0 0 20px rgba(0, 210, 255, 0.2);
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.8);
+}
+
+.scroll-top-btn.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+}
+
+.scroll-top-btn:hover {
+  background: var(--accent-brand);
+  color: #000;
+  box-shadow: 0 0 30px rgba(0, 210, 255, 0.4);
+  transform: translateY(-5px) scale(1.1);
+}
+
+/* 3. Elite Empty States */
+.empty-state-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 2rem;
+  text-align: center;
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: 2rem;
+  opacity: 0.3;
+  filter: grayscale(1);
+}
+
+.empty-state-wrap h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.8rem;
+  opacity: 0.8;
+}
+
+.empty-state-wrap p {
+  opacity: 0.5;
+  max-width: 400px;
+}
+
+/* 4. Focus & Input Refinements */
+input:focus, textarea:focus {
+  border-color: var(--accent-color) !important;
+  box-shadow: 0 0 0 4px rgba(0, 210, 255, 0.1) !important;
+}
+
+/* Global Scaling System */
+:root {
+  --ui-scale: 1; /* Managed by JS */
+  --base-font-size: 16px;
+}
+
+html {
+  /* Applying global scale to the root font size */
+  font-size: calc(var(--base-font-size) * var(--ui-scale));
+}
+
+/* SizeControl Widget Styles */
+.size-control-wrapper {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.size-toggle-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--accent-brand);
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.2rem;
+  box-shadow: 0 10px 30px rgba(0, 210, 255, 0.4);
+  z-index: 2;
+  transition: var(--transition-smooth);
+}
+
+.size-toggle-btn:hover {
+  transform: scale(1.1) rotate(10deg);
+}
+
+.size-menu {
+  position: absolute;
+  bottom: 70px;
+  right: 0;
+  width: 280px;
+  padding: 1.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: var(--transition-smooth);
+  pointer-events: none;
+}
+
+.size-control-wrapper.active .size-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.2rem;
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: var(--accent-color);
+  letter-spacing: 1px;
+}
+
+.close-mini {
+  background: none;
+  font-size: 1.5rem;
+  color: #fff;
+  line-height: 1;
+}
+
+.scale-options {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.scale-btn {
+  padding: 0.8rem 0;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.scale-btn.active {
+  background: var(--accent-brand);
+  color: #000;
+  border-color: transparent;
+}
+
+.scale-hint {
+  font-size: 0.75rem;
+  opacity: 0.5;
+  text-align: center;
+}
+
+/* ============================================================
+   Mobile Responsive Overhaul (Media Queries)
+   ============================================================ */
+
+/* Mobile Navbar Elite */
+@media (max-width: 900px) {
+  .navbar {
+    padding: 0.8rem 0;
+  }
+
+  .nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .mobile-menu-toggle {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    background: none;
+    z-index: 10001;
+    padding: 10px;
+    cursor: pointer;
+  }
+
+  .mobile-menu-toggle .bar {
+    width: 25px;
+    height: 2px;
+    background: #fff;
+    transition: var(--transition-smooth);
+  }
+
+  .navbar.menu-open .mobile-menu-toggle .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+  .navbar.menu-open .mobile-menu-toggle .bar:nth-child(2) { opacity: 0; }
+  .navbar.menu-open .mobile-menu-toggle .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+  .nav-capsule {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 100%;
+    height: 100vh;
+    background: rgba(3, 5, 8, 0.98);
+    backdrop-filter: blur(25px);
+    border: none;
+    border-radius: 0;
+    padding: 7rem 2rem;
+    transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 10000;
+  }
+
+  .nav-capsule.open {
+    right: 0;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+
+  .nav-links button, .nav-links a {
+    font-size: 1.8rem;
+    font-weight: 800;
+    width: 100%;
+    text-align: left;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .nav-divider {
+    display: none;
+  }
+}

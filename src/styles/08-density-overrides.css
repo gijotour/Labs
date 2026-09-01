@@ -1,0 +1,455 @@
+/* 08-density-overrides.css — 고밀도 최적화, 사이드바/아이콘 전용 모드 (최종 덮어쓰기 계층)
+ *
+ * src/index.css 를 순서 보존 분할한 조각이다. 원본 줄 4263-4710.
+ * ⚠ 파일 간 순서를 바꾸지 말 것. 이 CSS는 뒤 파일이 앞 파일을 덮어쓰는 구조라
+ *   (셀렉터 91개가 재정의, 그중 54개는 1000줄 이상 떨어져 있었다)
+ *   순서가 바뀌면 화면이 조용히 깨진다. 로드 순서는 src/index.css 가 정한다.
+ */
+
+/* Compact Grids */
+.elite-proposal-grid {
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+  gap: 1rem !important;
+}
+
+.elite-proposal-card {
+  padding: 1rem !important;
+}
+
+.elite-proposal-card h3 {
+  font-size: 1rem !important;
+  margin: 0.5rem 0 !important;
+}
+
+.p-tag, .p-badge {
+  font-size: 0.6rem !important;
+  padding: 2px 8px !important;
+}
+
+.btn-p-view {
+  padding: 5px 12px !important;
+  font-size: 0.75rem !important;
+}
+
+/* Admin Specific */
+.admin-stats-summary {
+  gap: 1rem !important;
+}
+
+.admin-action-btn {
+  padding: 6px 14px !important;
+  font-size: 0.75rem !important;
+}
+
+/* Scrollbar refinement */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Dashboard Text Specific Density Fixes */
+.content-intro h1 {
+  font-size: 1.4rem !important;
+  margin-bottom: 0.3rem !important;
+}
+
+.content-intro p {
+  font-size: 0.85rem !important;
+  margin-bottom: 1.5rem !important;
+}
+
+.table-header-elite h3 {
+  font-size: 1rem !important;
+  margin-bottom: 0 !important;
+}
+
+.elite-dashboard-table {
+  width: 100% !important;
+}
+
+.elite-dashboard-table tr:hover {
+  background: rgba(255, 255, 255, 0.02) !important;
+}
+
+.btn-table-action {
+  padding: 4px 10px !important;
+  font-size: 0.7rem !important;
+  font-weight: 700 !important;
+}
+
+.elite-status-pill {
+  font-size: 0.65rem !important;
+  padding: 2px 8px !important;
+}
+
+/* Sidebar refinement */
+.sidebar-nav-elite {
+  gap: 2px !important;
+}
+
+.sidebar-badge {
+  font-size: 0.6rem !important;
+  padding: 1px 5px !important;
+}
+
+/* Tab containers */
+.elite-tab-container {
+  padding: 0 !important;
+}
+
+.elite-card-header-flex h2 {
+  font-size: 1.2rem !important;
+}
+
+.elite-card-header-flex p {
+  font-size: 0.8rem !important;
+}
+
+.btn-elite-add {
+  padding: 8px 16px !important;
+  font-size: 0.8rem !important;
+}
+
+/* ============================================================
+   Mobile Icon-Only Navigation Mode
+   ============================================================ */
+
+/* Default Hide Icons (Desktop) */
+.badge-icon, .m-icon {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  /* User Badge Optimization */
+  .nav-user-badge {
+    padding: 0 !important;
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 50% !important;
+  }
+  .badge-text {
+    display: none !important;
+  }
+  .badge-icon {
+    display: block !important;
+    font-size: 1.1rem !important;
+  }
+
+  /* Nav Links Optimization */
+  .m-text {
+    display: none !important;
+  }
+  .m-icon {
+    display: block !important;
+    font-size: 1.2rem !important;
+  }
+  
+  .nav-links {
+    gap: 1.5rem !important;
+  }
+  
+  .nav-links button {
+    padding: 10px !important;
+  }
+  
+  /* Centered Group Adjustment */
+  .nav-container-centered {
+    gap: 0.5rem !important;
+  }
+}
+
+/* ============================================================
+   Dashboard Sidebar Mobile Icon-Only Mode
+   (Main Navbar stays with text, Dashboard Sidebar shows icons only on mobile)
+   ============================================================ */
+
+@media (max-width: 900px) {
+  .sidebar-nav-elite {
+    display: flex !important;
+    justify-content: space-around !important;
+    padding: 0.5rem !important;
+  }
+
+  .nav-item-elite {
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 0 !important; /* Hide text by setting font-size to 0 */
+    width: 50px !important;
+    height: 50px !important;
+    padding: 0 !important;
+    border-radius: 12px !important;
+  }
+
+  .nav-item-elite .icon {
+    font-size: 1.4rem !important;
+    margin-right: 0 !important;
+    margin-bottom: 0 !important;
+  }
+  
+  .sidebar-badge {
+    position: absolute !important;
+    top: 5px !important;
+    right: 5px !important;
+    margin: 0 !important;
+  }
+}
+
+/* ============================================================
+   Ultra-Compact Dashboard Navigation
+   (Minimizing vertical space and maximizing content area)
+   ============================================================ */
+
+/* Desktop Sidebar Items Tightening */
+.nav-item-elite {
+  height: 40px !important; /* Shorter height */
+  margin-bottom: 2px !important; /* Minimal gap */
+}
+
+.sidebar-nav-elite {
+  gap: 0 !important;
+}
+
+/* Mobile Bar Slimming */
+@media (max-width: 900px) {
+  .elite-sidebar {
+    padding: 0.3rem !important; /* Very thin padding */
+  }
+  
+  .nav-item-elite {
+    height: 45px !important; /* Slimmer mobile buttons */
+    width: 20% !important; /* Spread across screen width */
+    border-radius: 0 !important; /* Squared for seamless look */
+  }
+  
+  .nav-item-elite .icon {
+    font-size: 1.2rem !important;
+  }
+  
+  .dashboard-main-elite {
+    padding: 0.5rem !important; /* Tight content padding */
+  }
+}
+
+/* ============================================================
+   Borderless User Badge Optimization
+   (Removing box borders and backgrounds for a cleaner look)
+   ============================================================ */
+
+.nav-user-badge {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 8px !important;
+}
+
+.nav-user-badge:hover {
+  background: rgba(255, 255, 255, 0.03) !important;
+  color: var(--accent-color) !important;
+}
+
+@media (max-width: 768px) {
+  .nav-user-badge {
+    width: auto !important; /* Allow icons to breathe without a fixed circle box */
+    height: auto !important;
+    background: transparent !important;
+  }
+}
+
+/* ============================================================
+   Seamless Dashboard Navigation Items
+   (Removing box borders and backgrounds for sidebar items)
+   ============================================================ */
+
+.nav-item-elite {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  transition: all 0.2s ease !important;
+}
+
+.nav-item-elite:hover {
+  background: rgba(255, 255, 255, 0.03) !important;
+  color: var(--accent-color) !important;
+}
+
+.nav-item-elite.active {
+  background: transparent !important; /* Keep it transparent even when active */
+  color: var(--accent-color) !important;
+  font-weight: 900 !important;
+}
+
+.nav-item-elite.active .icon {
+  filter: drop-shadow(0 0 8px var(--accent-glow)) !important;
+  transform: scale(1.1);
+}
+
+/* Sidebar structure refinement */
+.elite-sidebar {
+  border-right: 1px solid rgba(255, 255, 255, 0.03) !important; /* Very subtle divider */
+  background: transparent !important;
+}
+
+/* ============================================================
+   Centered Dashboard Navigation
+   (Organizing sidebar items to be perfectly centered)
+   ============================================================ */
+
+.nav-item-elite {
+  justify-content: center !important; /* Icons & Text centered in button */
+  text-align: center !important;
+}
+
+.nav-item-elite .icon {
+  margin-right: 8px !important; /* Small gap even when centered */
+}
+
+@media (min-width: 901px) {
+  .sidebar-nav-elite {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important; /* Center the list itself */
+    padding: 2rem 0 !important;
+  }
+  
+  .nav-item-elite {
+    width: 85% !important; /* Width constrained for better centered look */
+    margin: 0 auto !important;
+  }
+}
+
+/* ============================================================
+   Dashboard Brand Icon Styling
+   ============================================================ */
+
+.sidebar-header-elite {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem 0 1rem;
+}
+
+.dashboard-brand-icon {
+  font-size: 1.8rem;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 0 10px rgba(0, 210, 255, 0.1));
+}
+
+.dashboard-brand-icon:hover {
+  transform: scale(1.05) rotate(5deg);
+  border-color: var(--accent-brand);
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: 0 0 20px rgba(0, 210, 255, 0.2);
+}
+
+@media (max-width: 900px) {
+  .sidebar-header-elite {
+    display: none !important;
+  }
+}
+
+/* ============================================================
+   Top Navbar Dashboard Menu Integration
+   ============================================================ */
+
+.nav-user-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dash-trigger-wrap {
+  position: relative;
+}
+
+.nav-dash-trigger {
+  background: rgba(0, 210, 255, 0.1);
+  color: var(--accent-brand);
+  border: 1px solid rgba(0, 210, 255, 0.2);
+  padding: 6px 14px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.nav-dash-trigger:hover, .nav-dash-trigger.active {
+  background: rgba(0, 210, 255, 0.2);
+  border-color: rgba(0, 210, 255, 0.5);
+  box-shadow: 0 0 15px rgba(0, 210, 255, 0.2);
+}
+
+.dash-icon {
+  font-size: 1.1rem;
+}
+
+.dashboard-nav-mode .nav-capsule {
+  display: none !important; /* Hide main links to save space */
+}
+
+/* Make Dashboard Content Full Width */
+.dashboard-elite-layout.no-sidebar {
+  display: block;
+}
+
+.dashboard-elite-layout.no-sidebar .dashboard-main-elite {
+  width: 100%;
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* ============================================================
+   Unified Action Buttons (Modal, Form, Cancel, Submit)
+   ============================================================ */
+
+.btn-close-elite, .btn-cancel, .btn-save, .btn-submit-elite, .btn-elite-add {
+  padding: 10px 24px !important;
+  font-size: 0.9rem !important;
+  font-weight: 700 !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-width: 120px !important;
+  border: none !important;
+  outline: none !important;
+}
+
+/* Cancel / Close Buttons - Dark/Muted */
+.btn-close-elite, .btn-cancel {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #e2e8f0 !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+.btn-close-elite:hover, .btn-cancel:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: #fff !important;
+}
+
+/* Submit / Save / Add Buttons - Primary Brand */
+.btn-save, .btn-submit-elite, .btn-elite-add {
+  background: var(--accent-brand) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 15px rgba(0, 210, 255, 0.2) !important;
+}
+
+.btn-save:hover, .btn-submit-elite:hover, .btn-elite-add:hover {
+  filter: brightness(1.1) !important;
+  box-shadow: 0 6px 20px rgba(0, 210, 255, 0.4) !important;
+  transform: translateY(-1px) !important;
+}
