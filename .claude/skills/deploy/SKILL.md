@@ -1,23 +1,30 @@
 ---
 name: deploy
-description: GIJO Labs 프로젝트를 프로덕션에 배포한다. 프론트엔드(Netlify)와 백엔드(Railway)는 GitHub main 브랜치 푸시로 자동 배포되므로, 이 스킬은 빌드 검증 → main 동기화 → 푸시 → 배포 결과 확인까지를 담당한다. "배포해줘", "deploy", "프로덕션 반영", "라이브 올려줘" 요청 시 사용.
+description: GIJO Labs 프로젝트를 프로덕션에 배포한다. 프론트엔드(Netlify)가 GitHub main 브랜치 푸시로 자동 배포되므로, 이 스킬은 빌드 검증 → main 동기화 → 푸시 → 배포 결과 확인까지를 담당한다. 백엔드는 현재 배포하지 않는다. "배포해줘", "deploy", "프로덕션 반영", "라이브 올려줘" 요청 시 사용.
 ---
 
 # GIJO Labs 배포
 
 ## 배포 아키텍처
 
-이 저장소는 **Git 푸시 기반 자동 배포**다. 배포 명령어를 직접 실행하는 것이 아니라, `main` 브랜치에 푸시하면 Netlify와 Railway가 각각 감지해서 빌드·배포한다.
+이 저장소는 **Git 푸시 기반 자동 배포**다. 배포 명령어를 직접 실행하는 것이 아니라, `main` 브랜치에 푸시하면 Netlify가 감지해서 빌드·배포한다.
+
+> **백엔드는 배포하지 않는다.** Railway 배포는 2026-09-02 에 중단했다.
+> 트라이얼 만료 + 4개월간 빌드 실패 상태였고, 그동안 화면은 `src/data/mockDb.js`
+> 기반으로 정상 동작했다. 즉 현재 제품에 서버 DB가 필요 없다는 뜻이다.
 
 | 대상 | 플랫폼 | 트리거 | 설정 파일 |
 |---|---|---|---|
 | 프론트엔드 (React/Vite) | Netlify | `main` 푸시 | `netlify.toml` |
-| 백엔드 (FastAPI) | Railway | `main` 푸시 중 `backend/**` 변경 시 | `railway.json` |
+| 백엔드 (FastAPI) | **미배포** | — | — |
 
 - **저장소**: `git@github.com:gijotour/Labs.git`
 - **GitHub Actions 없음** — `.github/workflows` 디렉터리가 존재하지 않는다. CI 체크를 기다리지 말 것.
 - **Netlify**: `npm run build` → `dist` 퍼블리시, `/*` → `/index.html` 200 리다이렉트(SPA 라우팅)
-- **Railway**: RAILPACK 빌더, `cd backend && uvicorn main:app`, 헬스체크 `/health`
+- **백엔드**: `backend/` 코드는 저장소에 남아 있으나 어디에도 배포되지 않는다.
+  로컬에서 `cd backend && .venv/Scripts/python -m uvicorn main:app` 으로 띄워 쓸 수는 있다.
+  프론트는 `VITE_API_URL` 미설정 시 API 호출을 아예 하지 않으므로(`isRailwayApiEnabled()`)
+  백엔드가 없어도 화면이 깨지지 않는다.
 
 ### 배포 전 품질 게이트
 
@@ -47,7 +54,7 @@ cd backend && .venv/Scripts/python -m pytest -q   # 백엔드
 
 ### 이 환경의 제약
 
-- `netlify` CLI, `railway` CLI **미설치**. 설치 없이는 CLI로 배포 상태를 조회할 수 없다. 없다고 임의로 설치하지 말고, 사용자에게 대시보드 확인을 요청할 것.
+- `netlify` CLI **미설치**. 설치 없이는 CLI로 배포 상태를 조회할 수 없다. 없다고 임의로 설치하지 말고, 사용자에게 대시보드 확인을 요청할 것.
 - `gh` CLI는 사용 가능(v2.96.0) — GitHub 푸시 결과 확인에 사용.
 - 작업 디렉터리는 **git worktree**다 (`.git`이 파일이며 `/Users/t/orca/Labs/.git/worktrees/...`를 가리킴). 브랜치는 `main`, `클루드`, `안티그래비티`가 공존한다.
 
@@ -111,11 +118,9 @@ git rev-list --left-right --count origin/main...HEAD   # 0	0 이어야 정상
 그 다음 **실제 배포 반영은 CLI로 확인할 수 없으므로** 사용자에게 다음을 안내한다:
 
 - **Netlify 대시보드** — 빌드 로그와 배포 상태
-- **Railway 대시보드** — `backend/**`를 건드린 경우에만 재배포됨. 헬스체크 `/health`가 200이어야 배포 성공으로 처리됨
-  (DB를 조회하지 않는 전용 엔드포인트다. 이전에는 `/api/proposals`를 썼다)
 - 프로덕션 URL이 알려져 있으면 `curl -s -o /dev/null -w "%{http_code}" <URL>`로 응답 코드 확인
 
-배포 완료를 **확인 없이 단정하지 말 것.** 푸시까지 완료했다면 "푸시 완료, Netlify/Railway 자동 배포 진행 중"이라고 사실대로 보고한다.
+배포 완료를 **확인 없이 단정하지 말 것.** 푸시까지 완료했다면 "푸시 완료, Netlify 자동 배포 진행 중"이라고 사실대로 보고한다.
 
 ---
 
@@ -137,11 +142,11 @@ npm run preview          # 빌드 결과물 확인 (프로덕션과 동일)
 **빌드는 되는데 배포 후 새로고침 시 404**
 → SPA 리다이렉트 문제. `netlify.toml`의 `/*` → `/index.html` 200 규칙이 살아있는지 확인.
 
-**백엔드 배포가 안 됨**
-→ Railway는 `watchPatterns: ["backend/**"]`라서 프론트엔드만 바꾼 커밋에는 반응하지 않는다. 정상 동작이다.
-
-**Railway 배포가 실패로 표시됨**
-→ 헬스체크 `/api/proposals`가 200을 반환하지 못하면 실패 처리된다. DB 연결(`backend/database.py`) 및 환경변수를 먼저 확인.
+**백엔드 API가 응답하지 않음**
+→ 정상이다. 백엔드는 배포되지 않는다. 관리자 가이드/사용자 화면은
+  "백엔드 API가 설정되지 않았습니다" 안내를 띄우고 입력폼을 비활성화한다.
+  다시 배포가 필요해지면 `backend/` 코드와 pytest 6건이 그대로 남아 있으므로
+  호스팅만 새로 붙이면 된다.
 
 **푸시가 거부됨 (non-fast-forward)**
 → `git fetch origin && git log --oneline origin/main -5`로 원격에 무엇이 들어왔는지 확인한 뒤, 사용자에게 리베이스/머지 방침을 묻는다. `--force`는 사용하지 말 것.
