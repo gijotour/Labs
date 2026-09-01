@@ -115,6 +115,10 @@ def create_video(
     db.refresh(db_video)
     return db_video
 
+@app.get("/health")
+def health_check():
+    return {"status": "ok"}
+
 @app.post("/api/upload")
 def upload_image(file: UploadFile = File(...)):
     ext = file.filename.split('.')[-1]
