@@ -17,7 +17,22 @@ description: GIJO Labs 프로젝트를 프로덕션에 배포한다. 프론트�
 - **저장소**: `git@github.com:gijotour/Labs.git`
 - **GitHub Actions 없음** — `.github/workflows` 디렉터리가 존재하지 않는다. CI 체크를 기다리지 말 것.
 - **Netlify**: `npm run build` → `dist` 퍼블리시, `/*` → `/index.html` 200 리다이렉트(SPA 라우팅)
-- **Railway**: RAILPACK 빌더, `cd backend && uvicorn main:app`, 헬스체크 `/api/proposals`
+- **Railway**: RAILPACK 빌더, `cd backend && uvicorn main:app`, 헬스체크 `/health`
+
+### 배포 전 품질 게이트
+
+`main` 푸시 전에 네 가지를 모두 통과시킨다. 하나라도 실패하면 푸시하지 않는다.
+
+```
+npm run lint     # 현재 3 errors 잔존 (미사용 변수, P3 항목) — 신규 오류만 차단한다
+npm run build    # 반드시 통과
+npm test         # vitest — 프론트
+cd backend && .venv/Scripts/python -m pytest -q   # 백엔드
+```
+
+`pytest`의 `test_api_contract.py`는 프론트가 호출하는 API 경로가 백엔드에 실제로
+존재하는지 정적으로 대조한다. **이 테스트가 실패하면 배포하면 안 된다.**
+과거에 `/api/guides`·`/api/users`가 배포 백엔드에 없어 관리자 화면이 죽은 적이 있다.
 
 ### 필수 환경변수 (Netlify)
 
@@ -96,7 +111,8 @@ git rev-list --left-right --count origin/main...HEAD   # 0	0 이어야 정상
 그 다음 **실제 배포 반영은 CLI로 확인할 수 없으므로** 사용자에게 다음을 안내한다:
 
 - **Netlify 대시보드** — 빌드 로그와 배포 상태
-- **Railway 대시보드** — `backend/**`를 건드린 경우에만 재배포됨. 헬스체크 `/api/proposals`가 200이어야 배포 성공으로 처리됨
+- **Railway 대시보드** — `backend/**`를 건드린 경우에만 재배포됨. 헬스체크 `/health`가 200이어야 배포 성공으로 처리됨
+  (DB를 조회하지 않는 전용 엔드포인트다. 이전에는 `/api/proposals`를 썼다)
 - 프로덕션 URL이 알려져 있으면 `curl -s -o /dev/null -w "%{http_code}" <URL>`로 응답 코드 확인
 
 배포 완료를 **확인 없이 단정하지 말 것.** 푸시까지 완료했다면 "푸시 완료, Netlify/Railway 자동 배포 진행 중"이라고 사실대로 보고한다.
@@ -137,4 +153,5 @@ npm run preview          # 빌드 결과물 확인 (프로덕션과 동일)
 - `src/assets/logo.png`가 **1.6MB**로 번들에 그대로 들어간다. 전체 JS(324KB)의 5배 — 첫 로딩 성능에 직접 영향.
 - `src/App.jsx:34`에 디버그용 `console.log`가 프로덕션까지 나간다.
 - `README.md`가 Vite 기본 템플릿 그대로다.
-- Node 백엔드(`server/`)와 Python 백엔드(`backend/`)가 공존하나 Railway는 Python만 배포한다.
+- 백엔드는 `backend/`(FastAPI) 하나뿐이다. 공존하던 Node 백엔드 `server/`는 제거됐다.
+  두 백엔드가 같은 `DATABASE_URL`에 서로 다른 `proposals` 스키마를 만들던 충돌이 있었다.
