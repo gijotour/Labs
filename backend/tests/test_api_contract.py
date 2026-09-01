@@ -10,23 +10,25 @@ from conftest import app
 # 프론트엔드에서 사용하는 API 경로를 추출하는 정규식
 PATH_RE = re.compile(r'/api/[A-Za-z0-9_\-/]*(?:\$\{[^}]*\}[A-Za-z0-9_\-/]*)*')
 
+def _iter_source_files(root):
+    """src 아래의 .js 와 .jsx 파일을 모두 돌려준다."""
+    for pattern in ('src/**/*.js', 'src/**/*.jsx'):
+        for file_path in root.glob(pattern):
+            yield file_path
+
 def extract_paths_from_js_files(root: Path) -> set:
     """src 디렉토리 아래의 모든 JS/X 파일에서 API 경로를 추출한다."""
     paths = set()
-    for file_path in root.glob('src/**/*.[j]sx'):
-        try:
-            content = file_path.read_text(encoding='utf-8')
-            found_paths = PATH_RE.findall(content)
-            for path in found_paths:
-                # 템플릿 표현식을 {param}으로 치환
-                normalized = re.sub(r'\$\{[^}]*\}', '{param}', path)
-                # 끝의 '/' 제거 (단 '/api'인 경우는 그대로 둔다)
-                if normalized != '/api':
-                    normalized = normalized.rstrip('/')
-                paths.add(normalized)
-        except Exception:
-            # 파일 읽기 실패 시 무시
-            pass
+    for file_path in _iter_source_files(root):
+        content = file_path.read_text(encoding='utf-8', errors='replace')
+        found_paths = PATH_RE.findall(content)
+        for path in found_paths:
+            # 템플릿 표현식을 {param}으로 치환
+            normalized = re.sub(r'\$\{[^}]*\}', '{param}', path)
+            # 끝의 '/' 제거 (단 '/api'인 경우는 그대로 둔다)
+            if normalized != '/api':
+                normalized = normalized.rstrip('/')
+            paths.add(normalized)
     return paths
 
 def normalize_backend_path(path: str) -> str:
@@ -67,12 +69,9 @@ def test_frontend_api_paths_exist_in_backend(frontend_paths, backend_paths):
         for path in missing_paths:
             # 해당 경로가 나온 파일들을 찾기
             files = []
-            for file_path in root.glob('src/**/*.[j]sx'):
-                try:
-                    content = file_path.read_text(encoding='utf-8')
-                    if path in content:
-                        files.append(str(file_path.relative_to(root)))
-                except Exception:
-                    pass
+            for file_path in _iter_source_files(root):
+                content = file_path.read_text(encoding='utf-8', errors='replace')
+                if path in content:
+                    files.append(str(file_path.relative_to(root)))
             missing_details.append(f"{path} ({', '.join(files)})")
         pytest.fail(f"백엔드에 존재하지 않는 프론트엔드 API 경로:\n" + '\n'.join(missing_details))
