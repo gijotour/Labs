@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logoImg from '../assets/logo.png';
 import { PRODUCTS } from './products';
+import { VENDORS, CONTACT_URL } from './vendors';
 
 /**
  * GIJO LABS 허브 (/).
@@ -89,13 +90,22 @@ const GijoLab = () => {
             </h1>
 
             <p className="lab-intro__lead">
-              지아이조 투어에서 시작해 보안 관제와 온디바이스 AI로 넓혔습니다.
-              지금 만들고 있는 것들입니다.
+              보안 제품 공급과 기술지원이 본업입니다. 그 위에서 자체 제품도 만듭니다.
             </p>
 
-            <a className="lab-intro__cta" href="#products">
-              제품 보기 <span className="lab-arrow" aria-hidden="true">→</span>
-            </a>
+            <div className="lab-intro__actions">
+              <a
+                className="lab-intro__cta"
+                href={CONTACT_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                보안 상담 <span className="lab-arrow" aria-hidden="true">→</span>
+              </a>
+              <a className="lab-intro__cta lab-intro__cta--quiet" href="#products">
+                자체 제품 보기
+              </a>
+            </div>
           </div>
 
           <aside className="lab-intro__status" aria-label="현재 상태">
@@ -107,6 +117,37 @@ const GijoLab = () => {
             ))}
           </aside>
         </header>
+
+        {/* ── 핵심 사업 ──
+             보안 제품 공급과 기술지원이 본업이다. 자체 제품보다 먼저 온다.
+             벤더 목록 출처와 로고를 쓰지 않는 이유는 vendors.js 주석 참조. */}
+        <section className="lab-core" aria-labelledby="lab-core-title">
+          <div className="lab-core__head">
+            <h2 id="lab-core-title" className="lab-core__title">보안 제품 공급과 기술지원</h2>
+            <p className="lab-core__lead">
+              IT 인프라의 취약점을 외부자와 내부자 양쪽 관점에서 점검하고,
+              서버에 쌓이는 개인정보를 검출·암호화·접근제어까지 이어서 관리합니다.
+            </p>
+            <a
+              className="lab-core__cta"
+              href={CONTACT_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              지아이조 테크놀로지 <span className="lab-arrow" aria-hidden="true">→</span>
+            </a>
+          </div>
+
+          <ul className="lab-core__grid">
+            {VENDORS.map((v) => (
+              <li key={v.id} className="lab-vendor">
+                <span className="lab-vendor__name">{v.name}</span>
+                <span className="lab-vendor__ko">{v.ko}</span>
+                <span className="lab-vendor__covers">{v.covers}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
 
         {/* ── 제품 (베인토 그리드) ──
              모든 제품을 한 목록으로 둔다. 지아이조 투어도 여기 포함된다.
@@ -185,22 +226,6 @@ const GijoLab = () => {
           </ul>
         </section>
 
-        {/* ── 외부 제품 (전폭 단일 행) ── */}
-        <a
-          className="lab-external"
-          href="https://gijo.ai"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <span className="lab-external__body">
-            <strong className="lab-external__title">GIJO.AI</strong>
-            <span className="lab-external__desc">글로벌 인텔리전스 보안 시스템 유통</span>
-          </span>
-          <span className="lab-external__cta">
-            바로가기 <span className="lab-arrow" aria-hidden="true">→</span>
-          </span>
-        </a>
-
         {/* ── 푸터 (2단) ── */}
         <footer className="lab-foot">
           <span className="lab-foot__brand">GIJO LABS</span>
@@ -224,6 +249,10 @@ const GijoLab = () => {
         .lab-shell {
           width: min(1120px, 100%);
           margin: 0 auto;
+          /* 한국어는 어절 단위로 끊어야 한다. 기본값이면 '만듭/니다' 처럼
+             단어 중간에서 잘린다. */
+          word-break: keep-all;
+          overflow-wrap: anywhere;
         }
 
         /* 전역 section { padding: 140px 0 }(01-base-tokens.css:178) 무력화.
@@ -294,6 +323,21 @@ const GijoLab = () => {
         }
         .lab-intro__cta:hover { filter: brightness(1.08); }
         .lab-intro__cta:active { transform: translateY(1px); }
+        .lab-intro__actions {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          flex-wrap: wrap;
+        }
+        /* 보조 CTA. 본업 상담이 1차, 자체 제품 열람이 2차다. */
+        .lab-intro__cta--quiet {
+          background: none;
+          color: inherit;
+          border: 1px solid var(--t-line-strong);
+          font-weight: 600;
+          opacity: 0.78;
+        }
+        .lab-intro__cta--quiet:hover { filter: none; opacity: 1; }
 
         .lab-intro__status {
           display: grid;
@@ -317,6 +361,77 @@ const GijoLab = () => {
           font-size: 0.8125rem;
           line-height: 1.5;
           opacity: 0.55;
+        }
+
+        /* ── 핵심 사업 ──
+           전역 section { padding: 140px 0 } 무력화는 아래 .lab-products 와 동일 이유. */
+        .lab-core {
+          padding: 0;
+          margin-bottom: 2.5rem;
+        }
+        .lab-core__head {
+          display: grid;
+          gap: 0.75rem;
+          justify-items: start;
+          margin-bottom: 1.25rem;
+        }
+        .lab-core__title {
+          margin: 0;
+          font-size: clamp(1.375rem, 2.6vw, 1.75rem);
+          letter-spacing: -0.02em;
+        }
+        .lab-core__lead {
+          margin: 0;
+          max-width: 62ch;
+          font-size: 0.9375rem;
+          line-height: 1.7;
+          opacity: 0.62;
+        }
+        .lab-core__cta {
+          font-size: 0.8125rem;
+          font-weight: 700;
+          letter-spacing: 0.04em;
+          color: var(--t-accent);
+          text-decoration: none;
+        }
+        .lab-core__cta:hover { text-decoration: underline; }
+        .lab-core__cta:hover .lab-arrow { transform: translateX(3px); }
+
+        .lab-core__grid {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 1px;
+          background: var(--t-line);
+          border: 1px solid var(--t-line);
+          border-radius: 14px;
+          overflow: hidden;
+        }
+        .lab-vendor {
+          display: grid;
+          gap: 0.2rem;
+          align-content: start;
+          padding: 1.125rem 1.25rem;
+          background: var(--t-bg);
+          transition: background 0.3s;
+        }
+        .lab-vendor:hover { background: rgba(255, 255, 255, 0.03); }
+        .lab-vendor__name {
+          font-size: 0.9375rem;
+          font-weight: 700;
+          letter-spacing: 0.01em;
+        }
+        .lab-vendor__ko {
+          font-size: 0.6875rem;
+          opacity: 0.4;
+        }
+        .lab-vendor__covers {
+          margin-top: 0.3rem;
+          font-size: 0.8125rem;
+          line-height: 1.5;
+          opacity: 0.6;
         }
 
         /* ── 제품 베인토 ── */
@@ -480,36 +595,6 @@ const GijoLab = () => {
           color: #ff8a8a;
         }
 
-        /* ── 외부 제품 행 ── */
-        .lab-external {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 1rem;
-          flex-wrap: wrap;
-          margin-top: 0.875rem;
-          padding: 1.25rem 1.5rem;
-          border: 1px solid var(--t-line);
-          border-radius: 14px;
-          text-decoration: none;
-          color: inherit;
-          transition: border-color 0.3s, background 0.3s;
-        }
-        .lab-external:hover {
-          border-color: var(--t-line-strong);
-          background: rgba(255, 255, 255, 0.03);
-        }
-        .lab-external__body { display: grid; gap: 0.2rem; }
-        .lab-external__title { font-size: 0.9375rem; letter-spacing: 0.02em; }
-        .lab-external__desc { font-size: 0.8125rem; opacity: 0.55; }
-        .lab-external__cta {
-          font-size: 0.75rem;
-          font-weight: 700;
-          letter-spacing: 0.06em;
-          color: var(--t-accent);
-        }
-        .lab-external:hover .lab-arrow { transform: translateX(3px); }
-
         /* ── 푸터 ── */
         .lab-foot {
           display: flex;
@@ -559,6 +644,7 @@ const GijoLab = () => {
           }
           .lab-intro__status { align-content: start; padding-bottom: 0; }
           .lab-products__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+          .lab-core__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
           /* 2열에서는 강조 타일만 전 폭을 쓴다.
              MD Studio 같은 일반 wide 타일이 2칸을 계속 요구하면 줄바꿈이 일어나
              앞 타일 옆에 빈 칸이 남는다. */
@@ -567,8 +653,8 @@ const GijoLab = () => {
         @media (max-width: 600px) {
           .lab-hub { padding: 1.5rem 1.125rem 2.5rem; }
           .lab-products__grid { grid-template-columns: 1fr; }
+          .lab-core__grid { grid-template-columns: 1fr; }
           .lab-tile--wide { grid-column: span 1; }
-          .lab-external { flex-direction: column; align-items: flex-start; }
         }
 
         @media (prefers-reduced-motion: reduce) {
