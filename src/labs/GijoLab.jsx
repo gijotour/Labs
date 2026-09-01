@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import logoImg from '../assets/logo.png';
+import { GITHUB_PROJECTS } from './githubProjects';
 import '../tour-app/tour-theme.css';
 
 const NEWS = [
@@ -77,30 +78,8 @@ const GijoLab = () => {
             </span>
           </button>
 
-          <button type="button" className="lab-card" onClick={() => navigate('/security')}>
-            <span className="lab-eyebrow">Active Research</span>
-            <h2 className="lab-card__title">GIJO Security</h2>
-            <p className="lab-card__desc">
-              Kali Linux 및 로컬 LLM 기반 지속적 내부 자산 취약점 관리 시스템
-            </p>
-            <span className="lab-card__cta">
-              OPEN PLANNING <span className="lab-arrow" aria-hidden="true">→</span>
-            </span>
-          </button>
-
-          <button type="button" className="lab-card" onClick={() => navigate('/llm')}>
-            <span className="lab-eyebrow">Active Research</span>
-            <h2 className="lab-card__title">GIJO Local LLM</h2>
-            <p className="lab-card__desc">
-              Gemma 3/4 및 Ollama 기반 오프라인 보안 AI Copilot 구축 계획
-            </p>
-            <span className="lab-card__cta">
-              OPEN PLANNING <span className="lab-arrow" aria-hidden="true">→</span>
-            </span>
-          </button>
-
           <a
-            className="lab-card"
+            className="lab-card lab-card--wide"
             href="https://app.notion.com/p/394c101e9b2081488281dad0ab1e308d"
             target="_blank"
             rel="noopener noreferrer"
@@ -114,6 +93,54 @@ const GijoLab = () => {
               OPEN NOTION <span className="lab-arrow" aria-hidden="true">→</span>
             </span>
           </a>
+        </section>
+
+        {/* ── 제품군 (GitHub) ──
+             앞으로 완성해 나갈 제품 목록. 데이터는 githubProjects.js 에 있고
+             공개 저장소만 넣는다(이 페이지는 gijo.co.kr 로 공개된다). */}
+        <section className="lab-repos" aria-labelledby="lab-repos-title">
+          <div className="lab-repos__head">
+            <span className="lab-eyebrow">Building</span>
+            <h2 id="lab-repos-title" className="lab-repos__title">만들고 있는 것들</h2>
+            <a
+              className="lab-repos__all"
+              href="https://github.com/gijotour"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              GitHub <span className="lab-arrow" aria-hidden="true">→</span>
+            </a>
+          </div>
+
+          <ul className="lab-repos__grid">
+            {GITHUB_PROJECTS.map((proj) => (
+              <li key={proj.id} className="lab-repo">
+                <div className="lab-repo__top">
+                  <h3 className="lab-repo__name">{proj.name}</h3>
+                  {proj.live && <span className="lab-repo__live">LIVE</span>}
+                </div>
+
+                <p className="lab-repo__desc">{proj.summary}</p>
+
+                <div className="lab-repo__meta">
+                  <span>{proj.lang}</span>
+                  <span aria-hidden="true">·</span>
+                  <span>업데이트 {proj.updated}</span>
+                </div>
+
+                <div className="lab-repo__links">
+                  {proj.live && (
+                    <a href={proj.live} target="_blank" rel="noopener noreferrer">
+                      실행 <span className="lab-arrow" aria-hidden="true">→</span>
+                    </a>
+                  )}
+                  <a href={proj.repo} target="_blank" rel="noopener noreferrer">
+                    코드 <span className="lab-arrow" aria-hidden="true">→</span>
+                  </a>
+                </div>
+              </li>
+            ))}
+          </ul>
         </section>
 
         {/* ── 게임 (하단 전용 섹션) ── */}
@@ -292,10 +319,98 @@ const GijoLab = () => {
         }
         .lab-news__text strong { color: var(--t-fg); font-weight: 650; }
 
+        /* ── 제품군(GitHub) ── */
+        .lab-repos { margin-top: 1.75rem; }
+        .lab-repos__head {
+          display: flex;
+          align-items: baseline;
+          gap: 0.75rem;
+          margin-bottom: 0.875rem;
+          flex-wrap: wrap;
+        }
+        .lab-repos__title {
+          font-size: 1.25rem;
+          margin: 0;
+          letter-spacing: -0.01em;
+        }
+        .lab-repos__all {
+          margin-left: auto;
+          font-size: 0.75rem;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          color: var(--t-accent, #38bdf8);
+          text-decoration: none;
+        }
+        .lab-repos__all:hover { text-decoration: underline; }
+        .lab-repos__grid {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+          gap: 0.875rem;
+        }
+        .lab-repo {
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+          padding: 1.25rem;
+          border: 1px solid var(--t-line);
+          border-radius: 14px;
+          background: rgba(255, 255, 255, 0.02);
+        }
+        .lab-repo__top {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+        }
+        .lab-repo__name {
+          font-size: 1rem;
+          margin: 0;
+        }
+        .lab-repo__live {
+          font-size: 0.625rem;
+          letter-spacing: 0.1em;
+          padding: 0.125rem 0.4rem;
+          border-radius: 999px;
+          border: 1px solid rgba(74, 222, 128, 0.35);
+          color: #4ade80;
+        }
+        .lab-repo__desc {
+          margin: 0;
+          font-size: 0.8125rem;
+          line-height: 1.6;
+          opacity: 0.72;
+        }
+        .lab-repo__meta {
+          display: flex;
+          gap: 0.4rem;
+          font-size: 0.6875rem;
+          opacity: 0.45;
+          margin-top: auto;
+          padding-top: 0.5rem;
+        }
+        .lab-repo__links {
+          display: flex;
+          gap: 1rem;
+          font-size: 0.75rem;
+          letter-spacing: 0.06em;
+          text-transform: uppercase;
+        }
+        .lab-repo__links a {
+          color: var(--t-accent, #38bdf8);
+          text-decoration: none;
+        }
+        .lab-repo__links a:hover { text-decoration: underline; }
+
         /* ── 프로젝트 그리드 ── */
         .lab-grid {
           display: grid;
-          grid-template-columns: repeat(3, 1fr);
+          /* 연구 포털 제거로 이 그리드에는 포털 카드 2장만 남았다.
+             둘 다 전 폭을 쓰게 해서 한쪽만 좁게 남는 모양을 피한다.
+             (auto-fit 으로는 안 된다 — lead 카드가 grid-column: 1/-1 로
+              모든 트랙을 점유하므로 빈 트랙 축소가 발동하지 않는다) */
+          grid-template-columns: repeat(2, 1fr);
           gap: 1rem;
         }
         .lab-card {
@@ -321,8 +436,11 @@ const GijoLab = () => {
         .lab-card:hover .lab-arrow { transform: translateX(4px); }
 
         /* 플래그십은 전체 폭을 차지해 위계를 만든다 */
-        .lab-card--lead {
+        .lab-card--lead,
+        .lab-card--wide {
           grid-column: 1 / -1;
+        }
+        .lab-card--lead {
           padding: 2.25rem;
         }
         .lab-card--lead .lab-card__title { font-size: 1.75rem; }
