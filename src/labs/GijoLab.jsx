@@ -114,9 +114,13 @@ const GijoLab = () => {
 
           <ul className="lab-repos__grid">
             {GITHUB_PROJECTS.map((proj) => (
-              <li key={proj.id} className="lab-repo">
+              <li
+                key={proj.id}
+                className={`lab-repo${proj.featured ? ' lab-repo--featured' : ''}`}
+              >
                 <div className="lab-repo__top">
                   <h3 className="lab-repo__name">{proj.name}</h3>
+                  {proj.status && <span className="lab-repo__tag">{proj.status}</span>}
                   {proj.live && <span className="lab-repo__live">LIVE</span>}
                 </div>
 
@@ -128,16 +132,22 @@ const GijoLab = () => {
                   <span>업데이트 {proj.updated}</span>
                 </div>
 
-                <div className="lab-repo__links">
-                  {proj.live && (
-                    <a href={proj.live} target="_blank" rel="noopener noreferrer">
-                      실행 <span className="lab-arrow" aria-hidden="true">→</span>
-                    </a>
-                  )}
-                  <a href={proj.repo} target="_blank" rel="noopener noreferrer">
-                    코드 <span className="lab-arrow" aria-hidden="true">→</span>
-                  </a>
-                </div>
+                {/* 비공개 저장소는 repo·live 가 모두 null 이라 링크 줄을 아예 그리지 않는다.
+                    링크를 걸면 방문자가 404 를 받고 저장소 경로만 노출된다. */}
+                {(proj.live || proj.repo) && (
+                  <div className="lab-repo__links">
+                    {proj.live && (
+                      <a href={proj.live} target="_blank" rel="noopener noreferrer">
+                        실행 <span className="lab-arrow" aria-hidden="true">→</span>
+                      </a>
+                    )}
+                    {proj.repo && (
+                      <a href={proj.repo} target="_blank" rel="noopener noreferrer">
+                        코드 <span className="lab-arrow" aria-hidden="true">→</span>
+                      </a>
+                    )}
+                  </div>
+                )}
               </li>
             ))}
           </ul>
@@ -358,6 +368,26 @@ const GijoLab = () => {
           border: 1px solid var(--t-line);
           border-radius: 14px;
           background: rgba(255, 255, 255, 0.02);
+        }
+        .lab-repo--featured {
+          grid-column: 1 / -1;
+          padding: 1.75rem;
+          border-color: rgba(56, 189, 248, 0.28);
+          background: linear-gradient(
+            135deg,
+            rgba(56, 189, 248, 0.07),
+            rgba(255, 255, 255, 0.02)
+          );
+        }
+        .lab-repo--featured .lab-repo__name { font-size: 1.375rem; }
+        .lab-repo--featured .lab-repo__desc { font-size: 0.9375rem; max-width: 62ch; }
+        .lab-repo__tag {
+          font-size: 0.625rem;
+          letter-spacing: 0.1em;
+          padding: 0.125rem 0.45rem;
+          border-radius: 999px;
+          border: 1px solid rgba(56, 189, 248, 0.4);
+          color: var(--t-accent, #38bdf8);
         }
         .lab-repo__top {
           display: flex;
