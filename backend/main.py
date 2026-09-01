@@ -199,6 +199,18 @@ def delete_user(user_id: int, db: Session = Depends(get_db)):
     db.commit()
     return {"ok": True}
 
+@app.post("/api/upload")
+def upload_image(file: UploadFile = File(...)):
+    ext = file.filename.split('.')[-1]
+    filename = f"{uuid.uuid4()}.{ext}"
+    filepath = os.path.join(UPLOAD_DIR, filename)
+
+    with open(filepath, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+
+    backend_url = os.getenv("BACKEND_URL", "http://localhost:8000")
+    return {"url": f"{backend_url}/uploads/{filename}"}
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
