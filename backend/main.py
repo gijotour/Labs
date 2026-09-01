@@ -119,17 +119,85 @@ def create_video(
 def health_check():
     return {"status": "ok"}
 
-@app.post("/api/upload")
-def upload_image(file: UploadFile = File(...)):
-    ext = file.filename.split('.')[-1]
-    filename = f"{uuid.uuid4()}.{ext}"
-    filepath = os.path.join(UPLOAD_DIR, filename)
+@app.get("/api/guides", response_model=list[schemas.GuideResponse])
+def get_guides(db: Session = Depends(get_db)):
+    return db.query(models.Guide).order_by(models.Guide.id.desc()).all()
+
+@app.post("/api/guides", response_model=schemas.GuideResponse)
+def create_guide(guide: schemas.GuideCreate, db: Session = Depends(get_db)):
+    db_guide = models.Guide(**guide.model_dump())
+    db.add(db_guide)
+    db.commit()
+    db.refresh(db_guide)
+    return db_guide
+
+@app.patch("/api/guides/{guide_id}", response_model=schemas.GuideResponse)
+def update_guide(
+    guide_id: int,
+    guide: schemas.GuideUpdate,
+    db: Session = Depends(get_db),
+):
+    db_guide = db.query(models.Guide).filter(models.Guide.id == guide_id).first()
+    if db_guide is None:
+        raise HTTPException(status_code=404, detail="Guide not found")
     
-    with open(filepath, "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
-        
-    backend_url = os.getenv("BACKEND_URL", "http://localhost:8000")
-    return {"url": f"{backend_url}/uploads/{filename}"}
+    # Update only provided fields
+    update_data = guide.model_dump(exclude_unset=True)
+    for key, value in update_data.items():
+        setattr(db_guide, key, value)
+    
+    db.commit()
+    db.refresh(db_guide)
+    return db_guide
+
+@app.delete("/api/guides/{guide_id}")
+def delete_guide(guide_id: int, db: Session = Depends(get_db)):
+    db_guide = db.query(models.Guide).filter(models.Guide.id == guide_id).first()
+    if db_guide is None:
+        raise HTTPException(status_code=404, detail="Guide not found")
+    db.delete(db_guide)
+    db.commit()
+    return {"ok": True}
+
+@app.get("/api/users", response_model=list[schemas.UserCrmResponse])
+def get_users(db: Session = Depends(get_db)):
+    return db.query(models.UserCrm).order_by(models.UserCrm.id.desc()).all()
+
+@app.post("/api/users", response_model=schemas.UserCrmResponse)
+def create_user(user: schemas.UserCrmCreate, db: Session = Depends(get_db)):
+    db_user = models.UserCrm(**user.model_dump())
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
+
+@app.patch("/api/users/{user_id}", response_model=schemas.UserCrmResponse)
+def update_user(
+    user_id: int,
+    user: schemas.UserCrmUpdate,
+    db: Session = Depends(get_db),
+):
+    db_user = db.query(models.UserCrm).filter(models.UserCrm.id == user_id).first()
+    if db_user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Update only provided fields
+    update_data = user.model_dump(exclude_unset=True)
+    for key, value in update_data.items():
+        setattr(db_user, key, value)
+    
+    db.commit()
+    db.refresh(db_user)
+    return db_user
+
+@app.delete("/api/users/{user_id}")
+def delete_user(user_id: int, db: Session = Depends(get_db)):
+    db_user = db.query(models.UserCrm).filter(models.UserCrm.id == user_id).first()
+    if db_user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    db.delete(db_user)
+    db.commit()
+    return {"ok": True}
 
 if __name__ == "__main__":
     import uvicorn

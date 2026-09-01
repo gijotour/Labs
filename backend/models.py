@@ -31,6 +31,26 @@ class MatchingRequest(Base):
     status = Column(String, default="접수")  # 접수 / 상담중 / 매칭완료 / 취소
     created_at = Column(String)      # ISO 날짜 문자열
 
+class Guide(Base):
+    __tablename__ = 'guides'
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String)
+    region = Column(String)
+    role = Column(String)
+    phone = Column(String)
+    status = Column(String, default='Pending')
+    rating = Column(Integer, default=5)
+    memo = Column(String)
+
+class UserCrm(Base):
+    __tablename__ = 'users_crm'
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String)
+    type = Column(String, default='Customer')
+    contact = Column(String)
+    request = Column(String)
+    status = Column(String, default='Lead')
+
 class Video(Base):
     __tablename__ = "videos"
     id = Column(Integer, primary_key=True, index=True)
