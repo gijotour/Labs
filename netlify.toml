@@ -2,6 +2,15 @@
   command = "npm run build"
   publish = "dist"
 
+# 예전에 이 도메인에서 직접 서빙하던 술게임 파일(559KB)을 제거했다.
+# 공유된 링크가 깨지지 않도록 라이브 버전으로 보낸다.
+# 이 규칙은 아래 SPA 폴백보다 먼저 와야 한다. Netlify 는 위에서부터 처리한다.
+[[redirects]]
+  from = "/GIJO_Drink_v3_0_1.html"
+  to = "https://gijotour.github.io/gijodrink/"
+  status = 301
+  force = true
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
