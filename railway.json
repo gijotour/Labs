@@ -8,6 +8,6 @@
     "startCommand": "cd backend && uvicorn main:app --host 0.0.0.0 --port ${PORT:-8000}",
     "numReplicas": 1,
     "restartPolicyType": "ON_FAILURE",
-    "healthcheckPath": "/api/proposals"
+    "healthcheckPath": "/health"
   }
 }
