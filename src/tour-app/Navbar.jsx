@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
-import logoImg from '../assets/logo.png';
+// GIJO 공식 심볼. Labs 허브와 같은 자산을 쓴다(3KB, 이전 logo.png 는 229KB).
+import logoImg from '../assets/gijo-mark.png';
 
 const MENU = [
   { to: '/gijotour/proposals', label: '제안서' },

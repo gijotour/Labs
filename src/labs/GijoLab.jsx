@@ -74,9 +74,10 @@ const GijoLab = () => {
         {/* ── 히어로 (비대칭 스플릿) ── */}
         <header className="lab-intro">
           <div className="lab-intro__copy">
+            {/* 마크만 둔다. 바로 아래 헤드라인이 이미 브랜드명을 크게 말하고 있어
+                텍스트 워드마크까지 넣으면 40px 안에서 같은 문구가 두 번 나온다. */}
             <div className="lab-intro__brand">
-              <img src={markImg} alt="" className="lab-intro__logo" />
-              <span className="lab-intro__wordmark">GIJO Tour LaB</span>
+              <img src={markImg} alt="GIJO Tour LaB" className="lab-intro__logo" />
             </div>
 
             <h1 className="lab-intro__title">
@@ -215,20 +216,15 @@ const GijoLab = () => {
         .lab-intro__brand {
           display: flex;
           align-items: center;
-          gap: 0.625rem;
-          margin-bottom: 1.5rem;
+          margin-bottom: 1.25rem;
         }
         .lab-intro__logo {
-          /* 심볼 원본이 100x96 이라 정사각으로 강제하면 찌그러진다 */
-          height: 30px;
+          /* 심볼 원본이 100x96 이라 정사각으로 강제하면 찌그러진다.
+             30px 에서는 육각형 외곽선과 사선이 뭉개져 파란 덩어리로 보인다.
+             워드마크 텍스트를 뺀 뒤로 이 마크가 이 줄의 유일한 브랜드 요소다. */
+          height: 44px;
           width: auto;
           object-fit: contain;
-        }
-        .lab-intro__wordmark {
-          font-size: 0.8125rem;
-          font-weight: 700;
-          letter-spacing: 0.12em;
-          opacity: 0.62;
         }
         .lab-intro__title {
           font-size: clamp(2.25rem, 5vw, 3.5rem);
