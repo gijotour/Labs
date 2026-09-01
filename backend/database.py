@@ -1,3 +1,4 @@
+"""DB 엔진과 세션 설정. DATABASE_URL 미설정 시 로컬 SQLite 를 쓴다."""
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base
