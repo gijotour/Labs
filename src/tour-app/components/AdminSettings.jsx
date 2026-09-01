@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const initialSettings = {
-  siteName: 'GIJO LABS',
+  siteName: 'GIJO Tour LaB',
   currency: 'KRW',
   feeRate: '25',
   sessionTimeout: '30',

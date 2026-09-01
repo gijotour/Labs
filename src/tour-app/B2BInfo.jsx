@@ -30,7 +30,7 @@ const B2BInfo = () => {
           <span className="t-eyebrow">B2B Partnership</span>
           <h1>여행설계사를 위한 차별화된 플랫폼 서비스</h1>
           <p className="t-lead">
-            GIJO Labs의 여행 서비스는 전문 여행설계사들이 자신의 역량을 마음껏 펼칠 수 있는
+            GIJO Tour LaB의 여행 서비스는 전문 여행설계사들이 자신의 역량을 마음껏 펼칠 수 있는
             안전하고 투명한 엔터프라이즈 환경을 제공합니다.
           </p>
 
@@ -51,7 +51,7 @@ const B2BInfo = () => {
             <div>
               <span className="t-eyebrow">Join as a partner</span>
               <h2>글로벌 여행 시장의 새로운 기준이 되세요</h2>
-              <p>지금 바로 GIJO Labs와 함께 프리미엄 여행 설계의 미래를 시작하세요.</p>
+              <p>지금 바로 GIJO Tour LaB와 함께 프리미엄 여행 설계의 미래를 시작하세요.</p>
             </div>
             <button
               type="button"

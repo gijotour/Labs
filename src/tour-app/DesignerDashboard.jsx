@@ -291,7 +291,7 @@ const DesignerDashboard = ({
                   <div className="timeline-builder">
                     <div className="timeline-input-row">
                       <span className="year">2020 - 현재</span>
-                      <textarea defaultValue="GIJO LABS 시니어 여행설계사 (동남아 프리미엄 부문 총괄)" />
+                      <textarea defaultValue="GIJO Tour LaB 시니어 여행설계사 (동남아 프리미엄 부문 총괄)" />
                     </div>
                     <div className="timeline-input-row">
                       <span className="year">2015 - 2019</span>
