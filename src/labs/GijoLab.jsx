@@ -1,6 +1,7 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logoImg from '../assets/logo.png';
-import { GITHUB_PROJECTS } from './githubProjects';
+import { PRODUCTS } from './products';
 import '../tour-app/tour-theme.css';
 
 const NEWS = [
@@ -18,17 +19,52 @@ const NEWS = [
   }
 ];
 
-const GAME_MODES = [
-  '미션 룰렛',
-  '크로커다일 룰렛',
-  '시간 폭탄',
-  '터치 룰렛',
-  '찰랑찰랑 타이타닉',
-  '손가락 사다리'
-];
+/**
+ * 실행 잠금 코드.
+ *
+ * ⚠ 이건 보안 장치가 아니다. 이 값은 프론트 번들에 그대로 실려 나가므로
+ *   개발자 도구를 열거나 소스를 보면 누구나 읽을 수 있다.
+ *   지나가는 방문자가 바로 못 열게 하는 문턱일 뿐이다.
+ *   진짜로 막아야 한다면 서버 인증이 필요하다.
+ */
+const ACCESS_CODE = '0070';
 
 const GijoLab = () => {
   const navigate = useNavigate();
+
+  // 실행 잠금 — 어느 카드에서 열렸는지, 어디로 보낼지
+  const [gate, setGate] = useState(null); // { id, kind, target }
+  const [pw, setPw] = useState('');
+  const [gateError, setGateError] = useState('');
+
+  const openGate = (proj) => {
+    setGate(
+      proj.internal
+        ? { id: proj.id, kind: 'internal', target: proj.internal }
+        : { id: proj.id, kind: 'external', target: proj.live }
+    );
+    setPw('');
+    setGateError('');
+  };
+
+  const closeGate = () => {
+    setGate(null);
+    setPw('');
+    setGateError('');
+  };
+
+  const submitGate = (e) => {
+    e.preventDefault();
+    if (pw !== ACCESS_CODE) {
+      setGateError('비밀번호가 올바르지 않습니다.');
+      return;
+    }
+    const { kind, target } = gate;
+    closeGate();
+    // window.open 은 이 제출 핸들러(사용자 제스처) 안에서 호출해야 팝업 차단을 피한다
+    if (kind === 'internal') navigate(target);
+    else window.open(target, '_blank', 'noopener,noreferrer');
+  };
 
   return (
     <div className="lab-surface lab-hub page-fade-in">
@@ -65,55 +101,13 @@ const GijoLab = () => {
           ))}
         </section>
 
-        {/* ── 프로젝트 ── */}
-        <section className="lab-grid" aria-label="프로젝트">
-          <button type="button" className="lab-card lab-card--lead" onClick={() => navigate('/gijotour')}>
-            <span className="lab-eyebrow">Flagship Project</span>
-            <h2 className="lab-card__title">지아이조 투어</h2>
-            <p className="lab-card__desc">
-              전문 여행설계사와 비즈니스를 연결하는 하이엔드 B2B 투어 플랫폼
-            </p>
-            <span className="lab-card__cta">
-              ENTER PORTAL <span className="lab-arrow" aria-hidden="true">→</span>
-            </span>
-          </button>
-
-          <a
-            className="lab-card lab-card--wide"
-            href="https://app.notion.com/p/394c101e9b2081488281dad0ab1e308d"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span className="lab-eyebrow">Research Notes</span>
-            <h2 className="lab-card__title">GIJO 연구노트</h2>
-            <p className="lab-card__desc">
-              프로젝트 리서치와 아이디어를 기록하는 노션 워크스페이스
-            </p>
-            <span className="lab-card__cta">
-              OPEN NOTION <span className="lab-arrow" aria-hidden="true">→</span>
-            </span>
-          </a>
-        </section>
-
-        {/* ── 제품군 (GitHub) ──
-             앞으로 완성해 나갈 제품 목록. 데이터는 githubProjects.js 에 있고
-             공개 저장소만 넣는다(이 페이지는 gijo.co.kr 로 공개된다). */}
-        <section className="lab-repos" aria-labelledby="lab-repos-title">
-          <div className="lab-repos__head">
-            <span className="lab-eyebrow">Building</span>
-            <h2 id="lab-repos-title" className="lab-repos__title">만들고 있는 것들</h2>
-            <a
-              className="lab-repos__all"
-              href="https://github.com/gijotour"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              GitHub <span className="lab-arrow" aria-hidden="true">→</span>
-            </a>
-          </div>
-
+        {/* ── 제품군 ──
+             GIJO LABS 의 모든 제품을 한 목록으로 둔다. 지아이조 투어도 여기 포함된다
+             — 투어는 Labs 아래 서비스 하나이지 상위 개념이 아니다.
+             데이터는 products.js. 공개 노출 원칙은 그 파일 주석에 있다. */}
+        <section className="lab-repos" aria-label="제품">
           <ul className="lab-repos__grid">
-            {GITHUB_PROJECTS.map((proj) => (
+            {PRODUCTS.map((proj) => (
               <li
                 key={proj.id}
                 className={`lab-repo${proj.featured ? ' lab-repo--featured' : ''}`}
@@ -134,54 +128,38 @@ const GijoLab = () => {
 
                 {/* 비공개 저장소는 repo·live 가 모두 null 이라 링크 줄을 아예 그리지 않는다.
                     링크를 걸면 방문자가 404 를 받고 저장소 경로만 노출된다. */}
-                {(proj.live || proj.repo) && (
-                  <div className="lab-repo__links">
-                    {proj.live && (
-                      <a href={proj.live} target="_blank" rel="noopener noreferrer">
-                        실행 <span className="lab-arrow" aria-hidden="true">→</span>
-                      </a>
-                    )}
-                    {proj.repo && (
-                      <a href={proj.repo} target="_blank" rel="noopener noreferrer">
-                        코드 <span className="lab-arrow" aria-hidden="true">→</span>
-                      </a>
-                    )}
-                  </div>
-                )}
+                {/* 코드(저장소) 링크는 노출하지 않는다. 실행 가능한 것만 잠금 뒤에 둔다. */}
+                {(proj.internal || proj.live) &&
+                  (gate?.id === proj.id ? (
+                    <form className="lab-gate" onSubmit={submitGate}>
+                      <input
+                        type="password"
+                        inputMode="numeric"
+                        autoFocus
+                        value={pw}
+                        onChange={(e) => setPw(e.target.value)}
+                        placeholder="비밀번호"
+                        aria-label={`${proj.name} 비밀번호`}
+                      />
+                      <button type="submit">확인</button>
+                      <button type="button" className="lab-gate__cancel" onClick={closeGate}>
+                        취소
+                      </button>
+                      {gateError && (
+                        <span className="lab-gate__error" role="alert">{gateError}</span>
+                      )}
+                    </form>
+                  ) : (
+                    <div className="lab-repo__links">
+                      <button type="button" onClick={() => openGate(proj)}>
+                        {proj.internal ? '열기' : '실행'}{' '}
+                        <span className="lab-arrow" aria-hidden="true">→</span>
+                      </button>
+                    </div>
+                  ))}
               </li>
             ))}
           </ul>
-        </section>
-
-        {/* ── 게임 (하단 전용 섹션) ── */}
-        <section className="lab-game" aria-labelledby="lab-game-title">
-          <div className="lab-game__body">
-            <span className="lab-eyebrow">Side Project</span>
-            <h2 id="lab-game-title" className="lab-game__title">GIJO Drink · 파티 게임</h2>
-            <p className="lab-game__desc">
-              모임 자리에서 바로 켜서 즐기는 웹 파티 게임입니다. 설치 없이 브라우저에서 실행됩니다.
-            </p>
-
-            <ul className="lab-game__modes">
-              {GAME_MODES.map((mode) => (
-                <li key={mode}>{mode}</li>
-              ))}
-            </ul>
-
-            <a
-              className="lab-game__cta"
-              href="/GIJO_Drink_v3_0_1.html"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              게임 실행 <span className="lab-arrow" aria-hidden="true">→</span>
-            </a>
-          </div>
-
-          <div className="lab-game__art" aria-hidden="true">
-            <img src="/soju_cup_neon.png" alt="" loading="lazy" />
-            <img src="/beer_glass_neon.png" alt="" loading="lazy" />
-          </div>
         </section>
 
         {/* ── 푸터 ── */}
@@ -257,7 +235,7 @@ const GijoLab = () => {
         /* ── 헤더 ── */
         .lab-head {
           text-align: center;
-          padding: 3rem 0 2rem;
+          padding: 2.5rem 0 1.75rem;
         }
         .lab-logo {
           width: 84px;
@@ -283,11 +261,20 @@ const GijoLab = () => {
         }
 
         /* ── 개발 소식 ── */
+        /* 전역 section 규칙(01-base-tokens.css:178 — padding 140px 0) 무력화.
+           투어 랜딩용으로 만든 요소 셀렉터인데 Labs 허브의 섹션까지 잡아
+           위아래로 280px 씩 빈 공간을 만들고 있었다.
+           전역 규칙 자체는 손대지 않는다 — 투어 전 화면에 영향이 간다. */
+        .lab-news,
+        .lab-repos {
+          padding: 0;
+        }
+
         .lab-news {
           display: grid;
           gap: 0.5rem;
           max-width: 780px;
-          margin: 0 auto 2.5rem;
+          margin: 0 auto 2rem;
         }
         .lab-news__item {
           display: flex;
@@ -330,21 +317,13 @@ const GijoLab = () => {
         .lab-news__text strong { color: var(--t-fg); font-weight: 650; }
 
         /* ── 제품군(GitHub) ── */
-        .lab-repos { margin-top: 1.75rem; }
+        .lab-repos { margin-top: 0; }
         .lab-repos__head {
           display: flex;
-          align-items: baseline;
-          gap: 0.75rem;
+          justify-content: flex-end;
           margin-bottom: 0.875rem;
-          flex-wrap: wrap;
-        }
-        .lab-repos__title {
-          font-size: 1.25rem;
-          margin: 0;
-          letter-spacing: -0.01em;
         }
         .lab-repos__all {
-          margin-left: auto;
           font-size: 0.75rem;
           letter-spacing: 0.08em;
           text-transform: uppercase;
@@ -420,6 +399,46 @@ const GijoLab = () => {
           margin-top: auto;
           padding-top: 0.5rem;
         }
+        .lab-gate {
+          display: flex;
+          align-items: center;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+        }
+        .lab-gate input {
+          width: 6.5rem;
+          padding: 0.35rem 0.55rem;
+          font: inherit;
+          font-size: 0.8125rem;
+          color: inherit;
+          background: rgba(255, 255, 255, 0.04);
+          border: 1px solid var(--t-line);
+          border-radius: 8px;
+        }
+        .lab-gate input:focus {
+          outline: none;
+          border-color: rgba(56, 189, 248, 0.5);
+        }
+        .lab-gate button {
+          font-size: 0.75rem;
+          letter-spacing: 0.06em;
+          padding: 0.35rem 0.7rem;
+          border-radius: 8px;
+          border: 1px solid rgba(56, 189, 248, 0.35);
+          background: none;
+          color: var(--t-accent, #38bdf8);
+          cursor: pointer;
+        }
+        .lab-gate__cancel {
+          border-color: var(--t-line) !important;
+          color: inherit !important;
+          opacity: 0.55;
+        }
+        .lab-gate__error {
+          flex-basis: 100%;
+          font-size: 0.75rem;
+          color: #f87171;
+        }
         .lab-repo__links {
           display: flex;
           gap: 1rem;
@@ -427,11 +446,20 @@ const GijoLab = () => {
           letter-spacing: 0.06em;
           text-transform: uppercase;
         }
-        .lab-repo__links a {
+        .lab-repo__links a,
+        .lab-repo__links button {
           color: var(--t-accent, #38bdf8);
           text-decoration: none;
+          background: none;
+          border: 0;
+          padding: 0;
+          font: inherit;
+          letter-spacing: inherit;
+          text-transform: inherit;
+          cursor: pointer;
         }
-        .lab-repo__links a:hover { text-decoration: underline; }
+        .lab-repo__links a:hover,
+        .lab-repo__links button:hover { text-decoration: underline; }
 
         /* ── 프로젝트 그리드 ── */
         .lab-grid {
@@ -514,77 +542,7 @@ const GijoLab = () => {
           font-size: 0.8125rem;
           color: var(--t-fg-subtle);
         }
-        /* ── 게임 섹션 ── */
-        .lab-game {
-          display: grid;
-          grid-template-columns: 1fr 260px;
-          gap: 1.5rem;
-          align-items: center;
-          margin-top: 2.5rem;
-          padding: 2rem;
-          border: 1px solid var(--t-line);
-          border-radius: var(--t-radius);
-          background: var(--t-surface-1);
-          overflow: hidden;
-        }
-        .lab-game__title {
-          margin: 0.375rem 0 0.5rem;
-          font-size: 1.375rem;
-          font-weight: 700;
-          letter-spacing: -0.01em;
-          color: var(--t-fg);
-        }
-        .lab-game__desc {
-          margin: 0 0 1rem;
-          font-size: 0.9375rem;
-          line-height: 1.6;
-          color: var(--t-fg-muted);
-          max-width: 46ch;
-        }
-        .lab-game__modes {
-          list-style: none;
-          margin: 0 0 1.25rem;
-          padding: 0;
-          display: flex;
-          flex-wrap: wrap;
-          gap: 0.375rem;
-        }
-        .lab-game__modes li {
-          padding: 0.3125rem 0.625rem;
-          border: 1px solid var(--t-line);
-          border-radius: 999px;
-          font-size: 0.75rem;
-          color: var(--t-fg-subtle);
-        }
-        .lab-game__cta {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.4375rem;
-          padding: 0.6875rem 1.125rem;
-          border-radius: var(--t-radius-sm);
-          background: var(--t-accent);
-          color: var(--t-accent-ink);
-          font-size: 0.9375rem;
-          font-weight: 650;
-          text-decoration: none;
-          transition: background 0.18s ease;
-        }
-        .lab-game__cta:hover { background: #5ee0ff; }
-        .lab-game__cta:hover .lab-arrow { transform: translateX(3px); }
 
-        .lab-game__art {
-          display: flex;
-          align-items: flex-end;
-          justify-content: center;
-          gap: 0.5rem;
-        }
-        .lab-game__art img {
-          width: 50%;
-          max-width: 118px;
-          height: auto;
-          object-fit: contain;
-          filter: saturate(0.85);
-        }
 
         /* ── 포커스 ── */
         .lab-hub a:focus-visible,
@@ -600,9 +558,6 @@ const GijoLab = () => {
           .lab-head { padding: 2rem 0 1.5rem; }
           .lab-title { font-size: 2.25rem; }
           .lab-banner { flex-direction: column; align-items: flex-start; gap: 1rem; }
-          .lab-game { grid-template-columns: 1fr; }
-          .lab-game__art { order: -1; justify-content: flex-start; }
-          .lab-game__art img { max-width: 92px; }
         }
         @media (max-width: 600px) {
           .lab-grid { grid-template-columns: 1fr; }
@@ -610,13 +565,11 @@ const GijoLab = () => {
           .lab-logo { width: 64px; height: 64px; }
           .lab-news__item { flex-wrap: wrap; }
           .lab-foot { flex-direction: column; align-items: flex-start; }
-          .lab-game { padding: 1.5rem; }
-          .lab-game__cta { width: 100%; justify-content: center; }
         }
 
         @media (prefers-reduced-motion: reduce) {
           .lab-dot { animation: none; opacity: 1; }
-          .lab-arrow, .lab-card, .lab-banner, .lab-game { transition: none; }
+          .lab-arrow, .lab-card, .lab-banner { transition: none; }
           .lab-card:hover .lab-arrow,
           .lab-banner:hover .lab-arrow { transform: none; }
         }

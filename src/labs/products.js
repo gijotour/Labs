@@ -1,7 +1,9 @@
 /**
- * GIJO LABS 제품군 — GitHub 저장소 기반.
+ * GIJO LABS 제품군.
  *
  * 이 목록은 "앞으로 완성해 나갈 제품들"이다. 단순 링크 모음이 아니라 로드맵이다.
+ * 대부분 GitHub 저장소지만 그렇지 않은 것도 있다(지아이조 투어는 이 앱 안의 서비스,
+ * GIJO AS 는 비공개 저장소). 그래서 파일명이 products.js 다.
  *
  * ── 원칙 ──────────────────────────────────────────────────────────────
  * · **원칙적으로 공개 저장소만 넣는다.** 이 페이지는 gijo.co.kr 로 공개되므로
@@ -32,11 +34,26 @@
  *   id: string, name: string, summary: string, lang: string, updated: string,
  *   repo: string|null,      // null 이면 코드 링크를 렌더하지 않는다 (비공개 저장소)
  *   live: string|null,      // null 이면 실행 링크를 렌더하지 않는다
+ *   internal?: string,      // 앱 내부 경로. 있으면 react-router 로 이동한다
  *   featured?: boolean,     // 메인 제품. 전 폭으로 강조한다
  *   status?: string,        // 배지 문구. 없으면 live 여부로 LIVE 배지만 붙는다
  * }[]}
  */
-export const GITHUB_PROJECTS = [
+export const PRODUCTS = [
+  {
+    id: 'gijotour',
+    name: '지아이조 투어',
+    summary:
+      '전문 여행설계사와 비즈니스를 연결하는 하이엔드 B2B 투어 플랫폼. ' +
+      '고객이 조건을 남기면 검증된 현지 전문가를 1:1로 매칭한다.',
+    lang: 'React · Vite',
+    updated: '2026-09-02',
+    repo: null,
+    live: null,
+    internal: '/gijotour',
+    featured: true,
+    status: '서비스 중',
+  },
   {
     id: 'gijo-as',
     name: 'GIJO AS',
