@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import logoImg from '../assets/logo.png';
+// GIJO 공식 심볼. gijo.ai 의 logo_gijo_white.svg 에서 마크 부분만 잘라낸 것이다.
+// 기존 logo.png 는 229KB 였는데 이건 3KB 다.
+import markImg from '../assets/gijo-mark.png';
 import { PRODUCTS } from './products';
 
 
@@ -73,8 +75,8 @@ const GijoLab = () => {
         <header className="lab-intro">
           <div className="lab-intro__copy">
             <div className="lab-intro__brand">
-              <img src={logoImg} alt="" className="lab-intro__logo" />
-              <span className="lab-intro__wordmark">GIJO LABS</span>
+              <img src={markImg} alt="" className="lab-intro__logo" />
+              <span className="lab-intro__wordmark">GIJO Tour LaB</span>
             </div>
 
             <h1 className="lab-intro__title">
@@ -164,9 +166,9 @@ const GijoLab = () => {
 
         {/* ── 푸터 (2단) ── */}
         <footer className="lab-foot">
-          <span className="lab-foot__brand">GIJO LABS</span>
+          <span className="lab-foot__brand">GIJO Tour LaB</span>
           <span className="lab-foot__copy">
-            © {new Date().getFullYear()} GIJO Labs. All rights reserved.
+            © {new Date().getFullYear()} GIJO Tour LaB. All rights reserved.
           </span>
         </footer>
       </div>
@@ -217,14 +219,15 @@ const GijoLab = () => {
           margin-bottom: 1.5rem;
         }
         .lab-intro__logo {
-          width: 32px;
-          height: 32px;
+          /* 심볼 원본이 100x96 이라 정사각으로 강제하면 찌그러진다 */
+          height: 30px;
+          width: auto;
           object-fit: contain;
         }
         .lab-intro__wordmark {
           font-size: 0.8125rem;
           font-weight: 700;
-          letter-spacing: 0.22em;
+          letter-spacing: 0.12em;
           opacity: 0.62;
         }
         .lab-intro__title {
@@ -400,7 +403,7 @@ const GijoLab = () => {
         .lab-foot__brand {
           font-size: 0.75rem;
           font-weight: 700;
-          letter-spacing: 0.22em;
+          letter-spacing: 0.12em;
           opacity: 0.5;
         }
         .lab-foot__copy { font-size: 0.75rem; opacity: 0.32; }
