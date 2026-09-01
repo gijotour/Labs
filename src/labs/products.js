@@ -20,16 +20,15 @@
  *
  * ── 그리드 규칙 ───────────────────────────────────────────────────────
  * 데스크톱은 3열이고 각 타일의 span 합이 행을 정확히 채워야 한다.
- *   투어(2) + AS(1) = 3
- *   Talk(1) + Arcade(1) + Drink(1) = 3
- *   BridgeAI(1) + MD Studio(2) = 3
+ *   테크놀로지(2) + 투어(1) = 3
+ *   AS(1) + Talk(1) + Arcade(1) = 3
+ *   Drink(1) + BridgeAI(1) + MD Studio(1) = 3
  * 제품을 넣거나 뺄 때 순서와 span 합을 다시 맞출 것. 빈 칸이 남으면 깨져 보인다.
  *
  * ── 갱신 방법 ─────────────────────────────────────────────────────────
  *   gh repo list gijotour --limit 100 \
  *     --json name,description,url,isPrivate,isFork,primaryLanguage,updatedAt,homepageUrl
  *   라이브 여부는 https://gijotour.github.io/<repo>/ 응답 코드로 확인한다.
- *   shot 은 해당 라이브 화면을 실제로 캡처해 public/shots/ 에 둔 것이다(640x400).
  *
  * 제외한 것:
  *   · Labs        - 이 사이트 자신
@@ -42,13 +41,31 @@
  *   repo: string|null,      // null 이면 코드 링크를 렌더하지 않는다 (비공개 저장소)
  *   live: string|null,      // 외부 라이브 주소
  *   internal?: string,      // 앱 내부 경로. 있으면 react-router 로 이동한다
- *   shot?: string,          // 실제 제품 화면 캡처 (public/shots/)
+ *   site?: string,          // 잠금 없이 바로 여는 외부 주소 (사업 사이트 등)
  *   span?: 1|2,             // 데스크톱 3열 그리드에서 차지할 열 수 (기본 1)
  *   featured?: boolean,     // 강조 타일
  *   status?: string,        // 상태 배지 문구
  * }[]}
  */
 export const PRODUCTS = [
+  {
+    // 본업. 보안 제품 공급과 기술지원.
+    // 설명은 gijo.ai/gijohome 의 카피에서 가져왔다. 지어내지 않았다.
+    id: 'gijo-technology',
+    name: '지아이조 테크놀로지',
+    summary:
+      'IT 인프라의 취약점을 외부자와 내부자 양쪽 관점에서 점검하고, ' +
+      '서버에 쌓이는 개인정보를 검출·암호화·접근제어까지 이어서 관리합니다. ' +
+      '보안 제품 공급과 기술지원이 본업입니다.',
+    lang: '보안 솔루션 공급 · 기술지원',
+    updated: '',
+    repo: null,
+    live: null,
+    site: 'https://gijo.ai/gijohome/user/main/user_main',
+    span: 2,
+    featured: true,
+    status: '핵심 사업',
+  },
   {
     id: 'gijotour',
     name: '지아이조 투어',
@@ -60,7 +77,7 @@ export const PRODUCTS = [
     repo: null,
     live: null,
     internal: '/gijotour',
-    span: 2,
+    span: 1,
     featured: true,
     status: '서비스 중',
   },
@@ -86,7 +103,6 @@ export const PRODUCTS = [
     updated: '2026-08-30',
     repo: 'https://github.com/gijotour/gijotalk',
     live: 'https://gijotour.github.io/gijotalk/',
-    shot: '/shots/gijotalk.jpg',
     span: 1,
   },
   {
@@ -97,7 +113,6 @@ export const PRODUCTS = [
     updated: '2026-08-24',
     repo: 'https://github.com/gijotour/gijoarcade',
     live: 'https://gijotour.github.io/gijoarcade/',
-    shot: '/shots/gijoarcade.jpg',
     span: 1,
   },
   {
@@ -108,7 +123,6 @@ export const PRODUCTS = [
     updated: '2026-08-24',
     repo: 'https://github.com/gijotour/gijodrink',
     live: 'https://gijotour.github.io/gijodrink/',
-    shot: '/shots/gijodrink.jpg',
     span: 1,
   },
   {
@@ -130,6 +144,6 @@ export const PRODUCTS = [
     updated: '2026-08-20',
     repo: 'https://github.com/gijotour/gijo-smart-md-studio',
     live: null,
-    span: 2,
+    span: 1,
   },
 ];

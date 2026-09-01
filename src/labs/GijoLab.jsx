@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logoImg from '../assets/logo.png';
 import { PRODUCTS } from './products';
-import { VENDORS, CONTACT_URL } from './vendors';
+
 
 /**
  * GIJO LABS 허브 (/).
@@ -16,15 +16,9 @@ import { VENDORS, CONTACT_URL } from './vendors';
  *   · 액센트는 브랜드 시안(--t-accent) 하나만 쓴다. 페이지 어디서도 바꾸지 않는다.
  *   · 모션은 CSS 만 쓴다(이 저장소에 모션 라이브러리가 없다).
  *     transform/opacity 만 건드리고 prefers-reduced-motion 에서 전부 끈다.
- *   · 제품 화면 캡처는 실제 라이브 사이트를 찍은 것이다(public/shots/).
- *     가짜 div 목업을 만들지 않는다.
+ *   · 타일은 타이포만 쓴다. 제품 화면 캡처를 넣었다가 걷어냈다(2026-09-02, 사용자 요청).
+ *     이미지를 다시 넣는다면 실제 라이브 화면을 찍어 쓸 것. 가짜 div 목업은 만들지 않는다.
  */
-
-/** 현재 상태. 사실만 적는다. */
-const STATUS = [
-  { id: 'as', name: 'GIJO AS', text: '보안 관제 제품 개발 진행 중' },
-  { id: 'tour', name: '지아이조 투어', text: '1:1 전문가 매칭 서비스 운영 중' },
-];
 
 /**
  * 실행 잠금 코드.
@@ -86,68 +80,11 @@ const GijoLab = () => {
             <h1 className="lab-intro__title">
               보안·AI 기술을 만드는
               <br />
-              투어랩
+              <span className="lab-intro__name">GIJO Tour LaB</span>
             </h1>
 
-            <p className="lab-intro__lead">
-              보안 제품 공급과 기술지원이 본업입니다. 그 위에서 자체 제품도 만듭니다.
-            </p>
-
-            <div className="lab-intro__actions">
-              <a
-                className="lab-intro__cta"
-                href={CONTACT_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                보안 상담 <span className="lab-arrow" aria-hidden="true">→</span>
-              </a>
-              <a className="lab-intro__cta lab-intro__cta--quiet" href="#products">
-                자체 제품 보기
-              </a>
-            </div>
           </div>
-
-          <aside className="lab-intro__status" aria-label="현재 상태">
-            {STATUS.map((s) => (
-              <p key={s.id} className="lab-status">
-                <strong className="lab-status__name">{s.name}</strong>
-                <span className="lab-status__text">{s.text}</span>
-              </p>
-            ))}
-          </aside>
         </header>
-
-        {/* ── 핵심 사업 ──
-             보안 제품 공급과 기술지원이 본업이다. 자체 제품보다 먼저 온다.
-             벤더 목록 출처와 로고를 쓰지 않는 이유는 vendors.js 주석 참조. */}
-        <section className="lab-core" aria-labelledby="lab-core-title">
-          <div className="lab-core__head">
-            <h2 id="lab-core-title" className="lab-core__title">보안 제품 공급과 기술지원</h2>
-            <p className="lab-core__lead">
-              IT 인프라의 취약점을 외부자와 내부자 양쪽 관점에서 점검하고,
-              서버에 쌓이는 개인정보를 검출·암호화·접근제어까지 이어서 관리합니다.
-            </p>
-            <a
-              className="lab-core__cta"
-              href={CONTACT_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              지아이조 테크놀로지 <span className="lab-arrow" aria-hidden="true">→</span>
-            </a>
-          </div>
-
-          <ul className="lab-core__grid">
-            {VENDORS.map((v) => (
-              <li key={v.id} className="lab-vendor">
-                <span className="lab-vendor__name">{v.name}</span>
-                <span className="lab-vendor__ko">{v.ko}</span>
-                <span className="lab-vendor__covers">{v.covers}</span>
-              </li>
-            ))}
-          </ul>
-        </section>
 
         {/* ── 제품 (베인토 그리드) ──
              모든 제품을 한 목록으로 둔다. 지아이조 투어도 여기 포함된다.
@@ -162,25 +99,11 @@ const GijoLab = () => {
                   'lab-tile',
                   proj.span === 2 ? 'lab-tile--wide' : '',
                   proj.featured ? 'lab-tile--featured' : '',
-                  proj.shot ? 'lab-tile--shot' : '',
                 ]
                   .filter(Boolean)
                   .join(' ')}
                 style={{ '--i': i }}
               >
-                {proj.shot && (
-                  <div className="lab-tile__shot">
-                    <img
-                      src={proj.shot}
-                      alt={`${proj.name} 실제 화면`}
-                      width="640"
-                      height="400"
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  </div>
-                )}
-
                 <div className="lab-tile__body">
                   <div className="lab-tile__top">
                     <h2 className="lab-tile__name">{proj.name}</h2>
@@ -190,8 +113,21 @@ const GijoLab = () => {
                   <p className="lab-tile__desc">{proj.summary}</p>
 
                   <p className="lab-tile__meta">
-                    {proj.lang} · 업데이트 {proj.updated}
+                    {proj.lang}
+                    {proj.updated && ` · 업데이트 ${proj.updated}`}
                   </p>
+
+                  {/* 사업 사이트는 잠금 없이 바로 연다. 상담 동선을 막을 이유가 없다. */}
+                  {proj.site && (
+                    <a
+                      className="lab-tile__cta"
+                      href={proj.site}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      바로가기 <span className="lab-arrow" aria-hidden="true">→</span>
+                    </a>
+                  )}
 
                   {/* 코드(저장소) 링크는 노출하지 않는다. 실행 가능한 것만 잠금 뒤에 둔다. */}
                   {(proj.internal || proj.live) &&
@@ -269,11 +205,8 @@ const GijoLab = () => {
            내 규칙에 text-align 선언이 없으면 그게 그대로 상속돼 스플릿이 깨진다.
            전역 규칙을 고치면 투어 화면에 영향이 가므로 이름을 피했다. */
         .lab-intro {
-          display: grid;
-          grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
-          gap: 2.5rem;
-          align-items: end;
-          padding: 3.5rem 0 3rem;
+          /* 리드·CTA·상태 패널을 걷어내 우측 열이 비었다. 단일 열로 되돌린다. */
+          padding: 3.5rem 0 2.5rem;
           border-bottom: 1px solid var(--t-line);
           margin-bottom: 2.5rem;
         }
@@ -298,141 +231,13 @@ const GijoLab = () => {
           font-size: clamp(2.25rem, 5vw, 3.5rem);
           line-height: 1.14;
           letter-spacing: -0.03em;
-          margin: 0 0 1.125rem;
+          margin: 0;
           font-weight: 800;
         }
-        .lab-intro__lead {
-          margin: 0 0 1.75rem;
-          max-width: 46ch;
-          font-size: 1rem;
-          line-height: 1.7;
-          opacity: 0.66;
-        }
-        .lab-intro__cta {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.4rem;
-          padding: 0.7rem 1.4rem;
-          border-radius: 10px;
-          background: var(--t-accent);
-          color: var(--t-accent-ink);
-          font-size: 0.875rem;
-          font-weight: 700;
-          text-decoration: none;
-          transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), filter 0.25s;
-        }
-        .lab-intro__cta:hover { filter: brightness(1.08); }
-        .lab-intro__cta:active { transform: translateY(1px); }
-        .lab-intro__actions {
-          display: flex;
-          align-items: center;
-          gap: 0.75rem;
-          flex-wrap: wrap;
-        }
-        /* 보조 CTA. 본업 상담이 1차, 자체 제품 열람이 2차다. */
-        .lab-intro__cta--quiet {
-          background: none;
-          color: inherit;
-          border: 1px solid var(--t-line-strong);
-          font-weight: 600;
-          opacity: 0.78;
-        }
-        .lab-intro__cta--quiet:hover { filter: none; opacity: 1; }
-
-        .lab-intro__status {
-          display: grid;
-          gap: 0.75rem;
-          align-content: end;
-          padding-bottom: 0.375rem;
-        }
-        .lab-status {
-          margin: 0;
-          padding-left: 0.875rem;
-          border-left: 2px solid var(--t-accent-line);
-        }
-        .lab-status__name {
-          display: block;
-          font-size: 0.8125rem;
-          font-weight: 700;
-        }
-        .lab-status__text {
-          display: block;
-          margin-top: 0.15rem;
-          font-size: 0.8125rem;
-          line-height: 1.5;
-          opacity: 0.55;
-        }
-
-        /* ── 핵심 사업 ──
-           전역 section { padding: 140px 0 } 무력화는 아래 .lab-products 와 동일 이유. */
-        .lab-core {
-          padding: 0;
-          margin-bottom: 2.5rem;
-        }
-        .lab-core__head {
-          display: grid;
-          gap: 0.75rem;
-          justify-items: start;
-          margin-bottom: 1.25rem;
-        }
-        .lab-core__title {
-          margin: 0;
-          font-size: clamp(1.375rem, 2.6vw, 1.75rem);
+        .lab-intro__name {
           letter-spacing: -0.02em;
         }
-        .lab-core__lead {
-          margin: 0;
-          max-width: 62ch;
-          font-size: 0.9375rem;
-          line-height: 1.7;
-          opacity: 0.62;
-        }
-        .lab-core__cta {
-          font-size: 0.8125rem;
-          font-weight: 700;
-          letter-spacing: 0.04em;
-          color: var(--t-accent);
-          text-decoration: none;
-        }
-        .lab-core__cta:hover { text-decoration: underline; }
-        .lab-core__cta:hover .lab-arrow { transform: translateX(3px); }
 
-        .lab-core__grid {
-          list-style: none;
-          margin: 0;
-          padding: 0;
-          display: grid;
-          grid-template-columns: repeat(3, minmax(0, 1fr));
-          gap: 1px;
-          background: var(--t-line);
-          border: 1px solid var(--t-line);
-          border-radius: 14px;
-          overflow: hidden;
-        }
-        .lab-vendor {
-          display: grid;
-          gap: 0.2rem;
-          align-content: start;
-          padding: 1.125rem 1.25rem;
-          background: var(--t-bg);
-          transition: background 0.3s;
-        }
-        .lab-vendor:hover { background: rgba(255, 255, 255, 0.03); }
-        .lab-vendor__name {
-          font-size: 0.9375rem;
-          font-weight: 700;
-          letter-spacing: 0.01em;
-        }
-        .lab-vendor__ko {
-          font-size: 0.6875rem;
-          opacity: 0.4;
-        }
-        .lab-vendor__covers {
-          margin-top: 0.3rem;
-          font-size: 0.8125rem;
-          line-height: 1.5;
-          opacity: 0.6;
-        }
 
         /* ── 제품 베인토 ── */
         .lab-products__grid {
@@ -467,21 +272,6 @@ const GijoLab = () => {
             linear-gradient(140deg, var(--t-accent-weak), rgba(255, 255, 255, 0.02));
         }
 
-        .lab-tile__shot {
-          aspect-ratio: 16 / 10;
-          overflow: hidden;
-          border-bottom: 1px solid var(--t-line);
-          background: rgba(255, 255, 255, 0.03);
-        }
-        .lab-tile__shot img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          object-position: top center;
-          display: block;
-          transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .lab-tile:hover .lab-tile__shot img { transform: scale(1.035); }
 
         .lab-tile__body {
           display: flex;
@@ -530,6 +320,7 @@ const GijoLab = () => {
         }
         .lab-tile__cta {
           align-self: flex-start;
+          text-decoration: none;
           padding: 0;
           border: 0;
           background: none;
@@ -636,15 +427,8 @@ const GijoLab = () => {
 
         /* ── 반응형 ── */
         @media (max-width: 900px) {
-          .lab-intro {
-            grid-template-columns: 1fr;
-            gap: 1.75rem;
-            align-items: start;
-            padding: 2.5rem 0 2.25rem;
-          }
-          .lab-intro__status { align-content: start; padding-bottom: 0; }
+          .lab-intro { padding: 2.5rem 0 2rem; }
           .lab-products__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-          .lab-core__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
           /* 2열에서는 강조 타일만 전 폭을 쓴다.
              MD Studio 같은 일반 wide 타일이 2칸을 계속 요구하면 줄바꿈이 일어나
              앞 타일 옆에 빈 칸이 남는다. */
@@ -653,15 +437,12 @@ const GijoLab = () => {
         @media (max-width: 600px) {
           .lab-hub { padding: 1.5rem 1.125rem 2.5rem; }
           .lab-products__grid { grid-template-columns: 1fr; }
-          .lab-core__grid { grid-template-columns: 1fr; }
           .lab-tile--wide { grid-column: span 1; }
         }
 
         @media (prefers-reduced-motion: reduce) {
           .lab-tile,
-          .lab-tile__shot img,
-          .lab-arrow,
-          .lab-intro__cta {
+          .lab-arrow {
             transition: none !important;
             animation: none !important;
           }
