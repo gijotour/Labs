@@ -11,9 +11,14 @@ from conftest import app
 PATH_RE = re.compile(r'/api/[A-Za-z0-9_\-/]*(?:\$\{[^}]*\}[A-Za-z0-9_\-/]*)*')
 
 def _iter_source_files(root):
-    """src 아래의 .js 와 .jsx 파일을 모두 돌려준다."""
+    """src 아래의 .js 와 .jsx 파일을 돌려준다. 테스트 파일은 제외한다.
+
+    테스트 파일에는 예시 URL 리터럴이 들어 있어 실제 호출로 오인된다.
+    """
     for pattern in ('src/**/*.js', 'src/**/*.jsx'):
         for file_path in root.glob(pattern):
+            if '.test.' in file_path.name or '.spec.' in file_path.name:
+                continue
             yield file_path
 
 def extract_paths_from_js_files(root: Path) -> set:
