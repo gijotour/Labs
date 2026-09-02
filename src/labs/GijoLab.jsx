@@ -4,6 +4,12 @@ import { useNavigate } from 'react-router-dom';
 // 기존 logo.png 는 229KB 였는데 이건 3KB 다.
 import markImg from '../assets/gijo-mark.png';
 import { PRODUCTS } from './products';
+// 이 화면은 .lab-surface 위에서 --t-* 토큰을 15곳 쓴다. 토큰 정의는 tour-theme.css 에 있다.
+// 예전에는 App.jsx 가 GijoTourApp 을 정적 import 하는 바람에 이 CSS 가 우연히 딸려 왔다.
+// 투어를 React.lazy 로 분할하면서 그 우연이 끊겨 Labs 허브의 카드 배경·테두리가 전부 사라졌다.
+// 부모(Labs)가 자식(투어)의 CSS 에 의존하는 구조 자체는 여전히 잘못됐다 -> 05-next.md [N-8].
+// 여기서는 의존을 명시만 한다. 분리는 CSS 캐스케이드 정리([N-5]) 뒤에 한다.
+import '../tour-app/tour-theme.css';
 
 
 /**

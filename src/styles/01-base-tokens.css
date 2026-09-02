@@ -598,3 +598,10 @@ button, .btn {
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
+
+/* 라우트 코드 분할(React.lazy)의 로딩 자리.
+   비워 두면 청크를 받는 동안 높이가 0이라 화면이 위로 튄다.
+   스피너는 넣지 않는다 — 로컬 청크는 대개 한 프레임 안에 끝나 깜빡임만 남는다. */
+.route-fallback {
+  min-height: 60vh;
+}

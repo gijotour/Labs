@@ -1,5 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
-import { lazy, Suspense } from 'react';
+import { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import { Routes, Route, useNavigate, useLocation, Navigate, Link } from 'react-router-dom';
 import Navbar from './Navbar';
 import Footer from './Footer';
