@@ -225,7 +225,7 @@ const DesignerDashboard = ({
                 <tbody>
                   {tvVideos.filter(v => v.designer === userName || v.designer === "Alex Kim").map(v => (
                     <tr key={v.id}>
-                      <td><img src={v.thumbnail} alt="" style={{ width: '80px', borderRadius: '4px' }} /></td>
+                      <td><img src={v.thumbnail} alt="" style={{ width: '80px', borderRadius: '4px' }} loading="lazy" decoding="async" /></td>
                       <td className="bold">{v.title}</td>
                       <td>{v.category}</td>
                       <td>{v.views}</td>

@@ -223,7 +223,7 @@ const DesignerShowcase = ({ packages = [], onRate, selectedRegion = '전체', on
             <button type="button" className="ds__close" onClick={() => setModal(null)} aria-label="닫기">✕</button>
 
             <div className="ds__hero">
-              <img src={selected.image} alt="" />
+              <img src={selected.image} alt="" loading="lazy" decoding="async" />
               <div className="ds__heroinfo">
                 <span className="t-eyebrow">{selected.region} 전문 제안</span>
                 <h2 className="ds__herotitle">{selected.title}</h2>

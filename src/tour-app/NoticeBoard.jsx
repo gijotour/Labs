@@ -290,7 +290,7 @@ const NoticeBoard = ({
 
             <div className="nb__modalbody">
               {selectedNotice.image && (
-                <img src={selectedNotice.image} alt="" className="nb__modalimg" />
+                <img src={selectedNotice.image} alt="" className="nb__modalimg" loading="lazy" decoding="async" />
               )}
               {(selectedNotice.content ?? '').split('\n').map((line, i) => (
                 <p key={i}>{line}</p>

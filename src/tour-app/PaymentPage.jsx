@@ -75,7 +75,7 @@ const PaymentPage = ({ pkg, onBack }) => {
           {/* ── 좌: 주문 상품 + 주문자 정보 ── */}
           <div className="pay__col">
             <article className="t-card pay__item">
-              <img src={pkg.image} alt="" className="pay__thumb" />
+              <img src={pkg.image} alt="" className="pay__thumb" loading="lazy" decoding="async" />
               <div className="pay__iteminfo">
                 <span className="t-eyebrow">{pkg.region}</span>
                 <h2 className="pay__itemtitle">{pkg.title}</h2>
