@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { lazy, Suspense } from 'react';
 import { Routes, Route, useNavigate, useLocation, Navigate, Link } from 'react-router-dom';
 import Navbar from './Navbar';
 import Footer from './Footer';
@@ -6,12 +7,12 @@ import PremiumLanding from './PremiumLanding';
 import DesignerShowcase from './DesignerShowcase';
 import PaymentPage from './PaymentPage';
 import NoticeBoard from './NoticeBoard';
-import DesignerTV from './DesignerTV';
 import B2BInfo from './B2BInfo';
 import Login from './Login';
-import DesignerDashboard from './DesignerDashboard';
-import AdminPanel from './AdminPanel';
-import AdminGuideUserManager from './AdminGuideUserManager';
+const DesignerDashboard = lazy(() => import('./DesignerDashboard'));
+const AdminPanel = lazy(() => import('./AdminPanel'));
+const AdminGuideUserManager = lazy(() => import('./AdminGuideUserManager'));
+const DesignerTV = lazy(() => import('./DesignerTV'));
 import { mockDb } from '../data/mockDb';
 import { railwayApi, isRailwayApiEnabled } from '../services/railwayApi';
 import './tour-theme.css';
@@ -283,102 +284,104 @@ function GijoTourApp() {
         onLogout={handleNavbarLogout}
       />
 
-      <Routes>
-      {/* ── 고객 여정 ── */}
-      <Route index element={<PremiumLanding onCreateMatchingRequest={handleCreateMatchingRequest} />} />
-      <Route
-        path="proposals"
-        element={
-          <TourPage>
-            <DesignerShowcase
-              packages={packages}
-              onRate={handleRate}
-              onStartPayment={handleStartPayment}
-            />
-          </TourPage>
-        }
-      />
-      <Route
-        path="payment"
-        element={
-          selectedPackageForPayment
-            ? <TourPage><PaymentPage pkg={selectedPackageForPayment} onBack={() => navigate('/gijotour/proposals')} /></TourPage>
-            : <Navigate to="/gijotour" replace />
-        }
-      />
-      <Route
-        path="reviews"
-        element={
-          <TourPage>
-          <NoticeBoard
-            notices={notices}
-            isLoggedIn={isLoggedIn}
-            userName={userName}
-            onAddNotice={handleAddNotice}
-            onDeleteNotice={handleDeleteNotice}
-            forceWrite={forceBoardWrite}
-            filterUserName={boardFilterAuthor}
-            onClearFilter={() => setBoardFilterAuthor?.(null)}
-          />
-          </TourPage>
-        }
-      />
-      <Route path="tv" element={<TourPage><DesignerTV videos={tvVideos} /></TourPage>} />
-      <Route path="about" element={<B2BInfo />} />
-
-      {/* ── 인증 ── */}
-      <Route
-        path="login"
-        element={
-          isLoggedIn
-            ? <Navigate to={userRole === 'admin' ? '/gijotour/admin' : '/gijotour/designer'} replace />
-            : (
-              <Login
-                onBack={() => navigate('/gijotour')}
-                onLoginSuccess={handleLoginSuccess}
-                onDesignerSignup={handleDesignerSignup}
-                pendingRequests={pendingDesigners}
-                activeDesigners={designers}
+      <Suspense fallback={<div className="route-fallback" />}>
+        <Routes>
+        {/* ── 고객 여정 ── */}
+        <Route index element={<PremiumLanding onCreateMatchingRequest={handleCreateMatchingRequest} />} />
+        <Route
+          path="proposals"
+          element={
+            <TourPage>
+              <DesignerShowcase
+                packages={packages}
+                onRate={handleRate}
+                onStartPayment={handleStartPayment}
               />
-            )
-        }
-      />
+            </TourPage>
+          }
+        />
+        <Route
+          path="payment"
+          element={
+            selectedPackageForPayment
+              ? <TourPage><PaymentPage pkg={selectedPackageForPayment} onBack={() => navigate('/gijotour/proposals')} /></TourPage>
+              : <Navigate to="/gijotour" replace />
+          }
+        />
+        <Route
+          path="reviews"
+          element={
+            <TourPage>
+            <NoticeBoard
+              notices={notices}
+              isLoggedIn={isLoggedIn}
+              userName={userName}
+              onAddNotice={handleAddNotice}
+              onDeleteNotice={handleDeleteNotice}
+              forceWrite={forceBoardWrite}
+              filterUserName={boardFilterAuthor}
+              onClearFilter={() => setBoardFilterAuthor?.(null)}
+            />
+            </TourPage>
+          }
+        />
+        <Route path="tv" element={<TourPage><DesignerTV videos={tvVideos} /></TourPage>} />
+        <Route path="about" element={<B2BInfo />} />
 
-      {/* ── 설계사 여정 ── */}
-      <Route
-        path="designer"
-        element={guard(['designer', 'admin'], (
-          <DesignerDashboard
-            userName={userName}
-            onLogout={handleLogout}
-            proposals={designerProposals}
-            onAddProposal={handleAddProposal}
-            tvVideos={tvVideos}
-            onAddTvVideo={handleAddTvVideo}
-            matchingRequests={matchingRequests}
-          />
-        ))}
-      />
+        {/* ── 인증 ── */}
+        <Route
+          path="login"
+          element={
+            isLoggedIn
+              ? <Navigate to={userRole === 'admin' ? '/gijotour/admin' : '/gijotour/designer'} replace />
+              : (
+                <Login
+                  onBack={() => navigate('/gijotour')}
+                  onLoginSuccess={handleLoginSuccess}
+                  onDesignerSignup={handleDesignerSignup}
+                  pendingRequests={pendingDesigners}
+                  activeDesigners={designers}
+                />
+              )
+          }
+        />
 
-      {/* ── 관리자 여정 ── */}
-      <Route
-        path="admin"
-        element={guard(['admin'], (
-          <AdminPanel
-            onLogout={handleLogout}
-            designers={designers}
-            setDesigners={setDesigners}
-            stats={mockDb.admin.stats}
-            pendingRequests={pendingDesigners}
-            onApprove={handleApproveDesigner}
-            matchingRequests={matchingRequests}
-          />
-        ))}
-      />
-      <Route path="admin/guides" element={guard(['admin'], <AdminGuideUserManager />)} />
+        {/* ── 설계사 여정 ── */}
+        <Route
+          path="designer"
+          element={guard(['designer', 'admin'], (
+            <DesignerDashboard
+              userName={userName}
+              onLogout={handleLogout}
+              proposals={designerProposals}
+              onAddProposal={handleAddProposal}
+              tvVideos={tvVideos}
+              onAddTvVideo={handleAddTvVideo}
+              matchingRequests={matchingRequests}
+            />
+          ))}
+        />
 
-      <Route path="*" element={<NotFound />} />
-      </Routes>
+        {/* ── 관리자 여정 ── */}
+        <Route
+          path="admin"
+          element={guard(['admin'], (
+            <AdminPanel
+              onLogout={handleLogout}
+              designers={designers}
+              setDesigners={setDesigners}
+              stats={mockDb.admin.stats}
+              pendingRequests={pendingDesigners}
+              onApprove={handleApproveDesigner}
+              matchingRequests={matchingRequests}
+            />
+          ))}
+        />
+        <Route path="admin/guides" element={guard(['admin'], <AdminGuideUserManager />)} />
+
+        <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
 
       {!hideFooter && <Footer />}
     </>

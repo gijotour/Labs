@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, lazy, Suspense } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import GijoLab from './labs/GijoLab';
-import GijoTourApp from './tour-app/GijoTourApp';
+const GijoTourApp = lazy(() => import('./tour-app/GijoTourApp'));
 
 /**
  * GIJO LABS 셸.
@@ -47,20 +47,22 @@ function App() {
   return (
     <div className="app-main">
       <main>
-        <Routes location={location} key={location.pathname}>
-          {/* ── GIJO LABS 자체 화면 ── */}
-          <Route path="/" element={<GijoLab />} />
+        <Suspense fallback={<div className="route-fallback" />}>
+          <Routes location={location} key={location.pathname}>
+            {/* ── GIJO LABS 자체 화면 ── */}
+            <Route path="/" element={<GijoLab />} />
 
-          {/* ── 서비스 ── 각 서비스가 자기 내비·푸터·인증을 소유한다 */}
-          {SERVICES.map((service) => (
-            <Route key={service.id} path={`${service.basePath}/*`} element={service.element} />
-          ))}
+            {/* ── 서비스 ── 각 서비스가 자기 내비·푸터·인증을 소유한다 */}
+            {SERVICES.map((service) => (
+              <Route key={service.id} path={`${service.basePath}/*`} element={service.element} />
+            ))}
 
-          {/* 없는 주소는 Labs 허브로 되돌린다.
-              /security 와 /llm 은 예전에 연구 포털이 쓰던 주소로 실제 서비스 중이었다.
-              북마크나 외부 링크가 빈 화면을 받지 않게 한다. */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+            {/* 없는 주소는 Labs 허브로 되돌린다.
+                /security 와 /llm 은 예전에 연구 포털이 쓰던 주소로 실제 서비스 중이었다.
+                북마크나 외부 링크가 빈 화면을 받지 않게 한다. */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </Suspense>
       </main>
     </div>
   );
