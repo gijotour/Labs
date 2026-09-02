@@ -10,7 +10,6 @@ const Solutions = () => {
     <section className="t-section">
       <div className="t-shell t-split">
         <div>
-          <span className="t-eyebrow">Verification</span>
           <h2>GIJO 전문가 안심 검증 시스템</h2>
           <p>
             플랫폼에 등록된 모든 현지 전문가(여행설계사)는 엄격한 신원 및 전문성 검증 단계를 거쳐

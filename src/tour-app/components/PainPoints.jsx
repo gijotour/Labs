@@ -9,7 +9,6 @@ const PainPoints = () => {
   return (
     <section className="t-section">
       <div className="t-shell">
-        <span className="t-eyebrow">Problem</span>
         <h2>여행이 아니라 노동이 되는 순간</h2>
 
         <ul className="t-pain-grid">

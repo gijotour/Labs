@@ -31,12 +31,16 @@ const FeatureLinks = () => {
   return (
     <section className="t-section">
       <div className="t-shell">
-        <span className="t-eyebrow">Explore</span>
         <h2>더 둘러보기</h2>
 
         <div className="t-link-grid">
-          {LINKS.map((link) => (
-            <Link key={link.to} to={link.to} className="t-card t-link-card">
+          {/* 첫 항목만 폭 전체. 제안서가 주 전환 동선이라 시각 비중을 준다. */}
+          {LINKS.map((link, i) => (
+            <Link
+              key={link.to}
+              to={link.to}
+              className={`t-card t-link-card${i === 0 ? ' t-link-card--wide' : ''}`}
+            >
               <span className="t-link-card__label">{link.label}</span>
               <strong className="t-link-card__title">{link.title}</strong>
               <span className="t-link-card__hint">{link.hint}</span>

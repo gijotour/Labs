@@ -244,7 +244,8 @@
   transition: border-color 0.18s ease;
 }
 
-.tour-surface .t-field input::placeholder {
+.tour-surface .t-field input::placeholder,
+.tour-surface .t-field textarea::placeholder {
   color: var(--t-fg-subtle);
 }
 

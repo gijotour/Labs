@@ -180,11 +180,21 @@
 
 /* ── Explore ───────────────────────────────────────────────────────── */
 
+/* 3열. 첫 타일이 3칸을 다 먹고 나머지 셋이 한 줄을 정확히 채운다.
+   4등분이었을 때는 바로 위 .t-pain-grid 와 레이아웃이 같아 두 섹션이 구분되지 않았다. */
 .t-link-grid {
   margin-top: var(--t-gap-lg);
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: var(--t-gap);
+}
+
+.t-link-card--wide {
+  grid-column: span 3;
+}
+
+.t-link-card--wide .t-link-card__title {
+  font-size: 1.25rem;
 }
 
 .t-link-card {
@@ -236,12 +246,24 @@
   .t-link-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .t-link-card--wide {
+    grid-column: span 2;
+  }
 }
 
 @media (max-width: 600px) {
   .t-pain-grid,
   .t-link-grid {
     grid-template-columns: 1fr;
+  }
+
+  .t-link-card--wide {
+    grid-column: span 1;
+  }
+
+  .t-link-card--wide .t-link-card__title {
+    font-size: var(--t-body);
   }
 
   .t-form,
