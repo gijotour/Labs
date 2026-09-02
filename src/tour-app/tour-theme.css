@@ -257,6 +257,19 @@
   outline-offset: 2px;
 }
 
+/* Chrome 자동완성은 입력칸 배경을 흰색으로 덮어쓴다. background 로는 못 이긴다
+   (사용자 에이전트가 !important 로 칠한다). inset box-shadow 로 가리는 게 표준 우회다.
+   안 하면 다크 폼 한가운데 흰 칸 두 개가 생긴다. */
+.tour-surface .t-field input:-webkit-autofill,
+.tour-surface .t-field input:-webkit-autofill:hover,
+.tour-surface .t-field input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px var(--t-surface-2) inset;
+  box-shadow: 0 0 0 1000px var(--t-surface-2) inset;
+  -webkit-text-fill-color: var(--t-fg);
+  caret-color: var(--t-fg);
+  transition: background-color 100000s ease-in-out 0s;
+}
+
 .tour-surface .t-field input[aria-invalid='true'] {
   border-color: var(--t-danger);
 }
