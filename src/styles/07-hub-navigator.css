@@ -520,19 +520,8 @@
   font-size: 0.85rem !important; /* Global Dashboard Font Scale Down */
 }
 
-.elite-sidebar {
-  width: 220px !important; /* Slimmer Sidebar */
-  padding: 1.5rem 1rem !important;
-}
-
 .sidebar-brand h2 {
   font-size: 1.2rem !important;
-}
-
-.nav-item-elite {
-  padding: 10px 14px !important;
-  font-size: 0.75rem !important;
-  margin-bottom: 4px !important;
 }
 
 .dashboard-main-elite {

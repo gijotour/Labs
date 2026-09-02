@@ -274,12 +274,6 @@
    GIJO LAB - Future Travel Innovation 랜딩 페이지
    ============================================================ */
 
-:root {
-  --lab-accent: #00ffd2;
-  --lab-gradient: linear-gradient(135deg, #00ffd2 0%, #0066ff 100%);
-  --lab-dark: #050a14;
-}
-
 .lab-landing {
   min-height: 100vh;
   padding-top: 120px;

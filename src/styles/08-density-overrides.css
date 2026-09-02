@@ -82,10 +82,6 @@
 }
 
 /* Sidebar refinement */
-.sidebar-nav-elite {
-  gap: 2px !important;
-}
-
 .sidebar-badge {
   font-size: 0.6rem !important;
   padding: 1px 5px !important;
@@ -200,15 +196,6 @@
    ============================================================ */
 
 /* Desktop Sidebar Items Tightening */
-.nav-item-elite {
-  height: 40px !important; /* Shorter height */
-  margin-bottom: 2px !important; /* Minimal gap */
-}
-
-.sidebar-nav-elite {
-  gap: 0 !important;
-}
-
 /* Mobile Bar Slimming */
 @media (max-width: 900px) {
   .elite-sidebar {
@@ -260,13 +247,6 @@
    (Removing box borders and backgrounds for sidebar items)
    ============================================================ */
 
-.nav-item-elite {
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  transition: all 0.2s ease !important;
-}
-
 .nav-item-elite:hover {
   background: rgba(255, 255, 255, 0.03) !important;
   color: var(--accent-color) !important;
@@ -284,18 +264,45 @@
 }
 
 /* Sidebar structure refinement */
-.elite-sidebar {
-  border-right: 1px solid rgba(255, 255, 255, 0.03) !important; /* Very subtle divider */
-  background: transparent !important;
-}
-
 /* ============================================================
    Centered Dashboard Navigation
    (Organizing sidebar items to be perfectly centered)
    ============================================================ */
 
+/* 관리자 사이드바 최종 오버라이드 — 한곳에 모았다.
+ *
+ * 원래 이 세 셀렉터는 조각 7개로 03/07/08 에 흩어져 있었고
+ * (.nav-item-elite 5곳, .elite-sidebar 3곳, .sidebar-nav-elite 3곳)
+ * 뒤 조각이 앞 조각을 !important 로 덮는 구조라 어느 값이 살아남는지
+ * 파일을 세 개 열어야 알 수 있었다.
+ *
+ * 기본값은 03-modals-login.css 에 그대로 두고(구조·색), 밀도 오버라이드만
+ * 여기로 합쳤다. 병합 과정에서 죽은 선언 두 개가 드러났다.
+ *   .sidebar-nav-elite  gap: 2px  -> 뒤의 gap: 0 에 항상 졌다
+ *   .nav-item-elite     margin-bottom: 4px -> 뒤의 2px 에 항상 졌다
+ * 최종 계산값이 같음은 scripts/css_cascade_snapshot.py 로 확인했다.
+ */
+.elite-sidebar {
+  width: 220px !important;                                       /* 좁은 사이드바 */
+  padding: 1.5rem 1rem !important;
+  border-right: 1px solid rgba(255, 255, 255, 0.03) !important;  /* 아주 옅은 구분선 */
+  background: transparent !important;
+}
+
+.sidebar-nav-elite {
+  gap: 0 !important;
+}
+
 .nav-item-elite {
-  justify-content: center !important; /* Icons & Text centered in button */
+  height: 40px !important;
+  padding: 10px 14px !important;
+  margin-bottom: 2px !important;
+  font-size: 0.75rem !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  transition: all 0.2s ease !important;
+  justify-content: center !important;  /* 아이콘·글자를 버튼 안에서 가운데로 */
   text-align: center !important;
 }
 

@@ -389,12 +389,6 @@ input:focus, textarea:focus {
   box-shadow: 0 0 0 4px rgba(0, 210, 255, 0.1) !important;
 }
 
-/* Global Scaling System */
-:root {
-  --ui-scale: 1; /* Managed by JS */
-  --base-font-size: 16px;
-}
-
 html {
   /* Applying global scale to the root font size */
   font-size: calc(var(--base-font-size) * var(--ui-scale));
