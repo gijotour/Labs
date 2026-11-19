@@ -49,6 +49,7 @@ export const GAMES = [
   { id: 'crocodile', group: 'party', play: 'crocodile', icon: '🐊', name: '크로커다일 룰렛', desc: '함정 이빨을 피해 번갈아 누르기' },
   { id: 'titanic', group: 'party', play: 'titanic', icon: '🚢', name: '찰랑찰랑 타이타닉', desc: '잔이 가라앉지 않게 조금씩 채우기' },
   { id: 'touch', group: 'party', play: 'finger', icon: '👆', name: '터치 룰렛', desc: '손가락을 올리고 기다리면 당첨자 결정' },
+  { id: 'liar', group: 'party', play: 'liar', icon: '🕵️', name: '여행자 라이어 게임', desc: '여행 단어를 보고 대화로 라이어 찾기' },
   { id: 'bridge', group: 'party', play: 'bridge', icon: '🤝', name: '러브 드링크', desc: '손가락을 올린 사람 중 둘을 연결' },
 ];
 

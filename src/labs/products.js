@@ -191,7 +191,7 @@ export const PRODUCTS = [
   {
     id: 'gijodrink',
     name: 'GIJO Drink',
-    summary: '모임 자리에서 폰 한 대로 여는 웹 게임 7종',
+    summary: '모임 자리에서 폰 한 대로 여는 웹 게임 8종',
     lang: 'HTML',
     updated: '2026-08-24',
     repo: 'https://github.com/gijotour/gijodrink',

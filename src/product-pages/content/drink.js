@@ -12,9 +12,9 @@ export const DRINK = {
   id: 'drink',
   path: '/drink',
   navName: 'GIJO Drink',
-  docTitle: 'GIJO Drink — 모임 자리에서 폰 한 대로 여는 웹 게임 7종',
+  docTitle: 'GIJO Drink — 모임 자리에서 폰 한 대로 여는 웹 게임 8종',
   description:
-    '앱 설치나 로그인 없이 브라우저에서 열어 모임 자리에서 여럿이 함께 즐기는 웹 게임 7종 모음. 룰렛, 카드, 폭탄 넘기기, 터치 게임을 한곳에 담았습니다.',
+    '앱 설치나 로그인 없이 브라우저에서 열어 모임 자리에서 여럿이 함께 즐기는 웹 게임 8종 모음. 룰렛, 카드, 폭탄 넘기기, 터치 게임을 한곳에 담았습니다.',
   noindex: false,
   maker: 'GIJO Tour',
   back: { to: '/travel', label: '투어 서비스' },
@@ -22,9 +22,9 @@ export const DRINK = {
   hero: {
     pills: [{ text: '모임 게임', accent: true }, { text: '웹에서 바로 실행' }],
     title: 'GIJO Drink',
-    subtitle: '모임 자리에서 폰 한 대로 여는 웹 게임 7종',
+    subtitle: '모임 자리에서 폰 한 대로 여는 웹 게임 8종',
     lead:
-      '앱 설치나 로그인 없이 브라우저에서 열어 여럿이 함께 즐기는 모임 게임 7종을 담았습니다. ' +
+      '앱 설치나 로그인 없이 브라우저에서 열어 여럿이 함께 즐기는 모임 게임 8종을 담았습니다. ' +
       '룰렛, 카드, 폭탄 넘기기부터 여러 손가락으로 함께하는 터치 게임까지 한 화면에서 고릅니다.',
     actions: [
       { label: '바로 열기', href: LIVE_URL, external: true, primary: true },
@@ -37,7 +37,7 @@ export const DRINK = {
       type: 'cards',
       id: 'features',
       kicker: '포함된 게임',
-      title: ['모임 자리에 맞춘 일곱 가지 게임'],
+      title: ['모임 자리에 맞춘 여덟 가지 게임'],
       columns: 3,
       items: [
         {
@@ -60,6 +60,10 @@ export const DRINK = {
         {
           title: '찰랑찰랑 타이타닉',
           text: '화면 속 잔에 한 번씩 눌러 조금 채우거나 길게 눌러 무게를 늘려 갑니다. 무작위로 정해진 한계 무게에 닿아 잔이 가라앉는 차례가 걸립니다.',
+        },
+        {
+          title: '여행자 라이어 게임',
+          text: '폰을 돌려 가며 같은 여행 단어를 확인하되 한 명만 주제만 받습니다. 한 사람씩 단어를 설명한 뒤 번호를 지목해 라이어를 찾습니다. 주제는 여덟 가지이고 3~12명이 함께합니다.',
         },
         {
           title: '터치 룰렛과 러브 드링크',
