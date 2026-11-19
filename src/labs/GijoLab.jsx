@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 // GIJO 공식 심볼. gijo.ai 의 logo_gijo_white.svg 에서 마크 부분만 잘라낸 것이다.
 // 기존 logo.png 는 229KB 였는데 이건 3KB 다.
 import markImg from '../assets/gijo-mark.png';
@@ -136,6 +136,17 @@ const GijoLab = () => {
                     >
                       바로가기 <span className="lab-arrow" aria-hidden="true">→</span>
                     </a>
+                  )}
+
+                  {/* 소개 페이지는 잠금 없이 연다. 공개가 목적인 글이라 막을 이유가 없다. */}
+                  {proj.page && (
+                    <Link
+                      className="lab-tile__cta"
+                      to={proj.page}
+                      aria-label={`${proj.name} 소개 보기`}
+                    >
+                      소개 보기 <span className="lab-arrow" aria-hidden="true">→</span>
+                    </Link>
                   )}
 
                   {/* 코드(저장소) 링크는 노출하지 않는다. 실행 가능한 것만 잠금 뒤에 둔다. */}

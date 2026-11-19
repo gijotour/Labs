@@ -2,6 +2,7 @@ import { useEffect, lazy, Suspense } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import GijoLab from './labs/GijoLab';
 const GijoTourApp = lazy(() => import('./tour-app/GijoTourApp'));
+const ProductPagesApp = lazy(() => import('./product-pages/ProductPagesApp'));
 
 /**
  * GIJO LABS 셸.
@@ -33,6 +34,9 @@ const SERVICES = [
     basePath: '/gijotour',
     element: <GijoTourApp />,
   },
+  // 제품 소개 페이지. 두 주소가 같은 폴더(src/product-pages)를 쓰고 글만 다르다.
+  { id: 'aster', name: 'GIJO ASTER 소개', basePath: '/aster', element: <ProductPagesApp page="aster" /> },
+  { id: 'gster', name: 'Gster 소개', basePath: '/gster', element: <ProductPagesApp page="gster" /> },
   // 새 서비스는 여기에 추가한다. 예:
   // { id: 'gijopay', name: '지아이조 페이', basePath: '/gijopay', element: <GijoPayApp /> },
 ];

@@ -11,6 +11,18 @@
   status = 301
   force = true
 
+# Gster 는 사내 도구 소개라 검색에 잡히지 않게 한다.
+# 화면에서도 meta robots 를 달지만 그건 스크립트가 돈 뒤에야 생긴다. 응답 머리가 먼저 막는다.
+[[headers]]
+  for = "/gster"
+  [headers.values]
+    X-Robots-Tag = "noindex"
+
+[[headers]]
+  for = "/gster/*"
+  [headers.values]
+    X-Robots-Tag = "noindex"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"

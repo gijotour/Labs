@@ -1,0 +1,432 @@
+/* ==========================================================================
+   제품 소개 페이지 (/aster · /gster) 전용 스타일
+   --------------------------------------------------------------------------
+   · 모든 규칙은 `.pp-surface` 안에서만 적용된다. 이 파일은 src/index.css 의
+     @import 사슬에 들어가지 않고 ProductPage.jsx 가 직접 가져온다(지연 로드 조각).
+   · 토큰 값은 Labs 허브·투어의 다크 톤과 같다. 다만 투어의 tour-theme.css 를
+     import 하지 않고 여기서 따로 정의한다(서비스가 남의 CSS 에 기대지 않게).
+   · 전역 CSS(src/styles/01-base-tokens.css)에 `* { margin:0; padding:0 }` ·
+     `section { padding:140px 0 }` · `h1/h2/h3/p` 크기·색 · `button, .btn` 규칙이 있다.
+     그래서 여기서는 여백·글자 크기·색을 클래스마다 직접 적는다. 전역 규칙은 고치지 않는다.
+   · 모서리 반경은 셋만 쓴다: 카드 14px · 단추 10px · 알약 999px.
+   ========================================================================== */
+
+.pp-surface {
+  --pp-bg: #070b12;
+  --pp-surface-1: #0c111a;
+  --pp-line: rgba(255, 255, 255, 0.09);
+  --pp-line-strong: rgba(255, 255, 255, 0.16);
+  --pp-fg: #f2f5f9;
+  --pp-fg-muted: #b6c2d2;
+  --pp-fg-subtle: #8b9bb4;
+  --pp-accent: #35d6ff;
+  --pp-accent-ink: #04121a;
+  --pp-accent-weak: rgba(53, 214, 255, 0.12);
+  --pp-accent-line: rgba(53, 214, 255, 0.32);
+  --pp-radius: 14px;
+  --pp-radius-sm: 10px;
+
+  min-height: 100dvh;
+  background: var(--pp-bg);
+  color: var(--pp-fg);
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  line-height: 1.65;
+  /* 한국어는 어절 단위로 끊는다 */
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.pp-surface .pp-shell {
+  width: min(1120px, calc(100% - 2.25rem));
+  margin: 0 auto;
+}
+
+.pp-surface ul,
+.pp-surface ol,
+.pp-surface dl {
+  list-style: none;
+}
+
+/* ── 내비 ─────────────────────────────────────────────────────────── */
+.pp-surface .pp-nav {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: rgba(7, 11, 18, 0.94);
+  border-bottom: 1px solid var(--pp-line);
+}
+.pp-surface .pp-nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  min-height: 56px;
+  padding: 0.5rem 0;
+}
+.pp-surface .pp-nav__back {
+  font-size: 0.8125rem;
+  color: var(--pp-fg-subtle);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.pp-surface .pp-nav__back:hover { color: var(--pp-fg); }
+.pp-surface .pp-nav__links {
+  display: flex;
+  gap: 1.25rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+.pp-surface .pp-nav__links a {
+  color: var(--pp-fg-muted);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.pp-surface .pp-nav__links a:hover { color: var(--pp-fg); }
+.pp-surface .pp-nav__links a[aria-current='page'] { color: var(--pp-accent); }
+
+/* ── 머리 ─────────────────────────────────────────────────────────── */
+.pp-surface .pp-hero {
+  padding: 4.5rem 0 3.5rem;
+  border-bottom: 1px solid var(--pp-line);
+  background: radial-gradient(900px 520px at 12% -8%, rgba(53, 214, 255, 0.09), transparent 68%);
+}
+.pp-surface .pp-eyebrow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+.pp-surface .pp-pill {
+  display: inline-block;
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  padding: 0.2rem 0.625rem;
+  border-radius: 999px;
+  border: 1px solid var(--pp-line-strong);
+  color: var(--pp-fg-muted);
+}
+.pp-surface .pp-pill--accent {
+  border-color: var(--pp-accent-line);
+  color: var(--pp-accent);
+}
+.pp-surface .pp-h1 {
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  line-height: 1.16;
+  letter-spacing: -0.03em;
+  font-weight: 800;
+  color: var(--pp-fg);
+}
+.pp-surface .pp-h1__sub {
+  display: block;
+  margin-top: 0.375rem;
+  font-size: 0.62em;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--pp-fg-muted);
+}
+.pp-surface .pp-lead {
+  max-width: 62ch;
+  margin-top: 1.5rem;
+  font-size: 1.0625rem;
+  color: var(--pp-fg-muted);
+}
+.pp-surface .pp-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+  margin-top: 2rem;
+}
+.pp-surface .pp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.7rem 1.125rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  border-radius: var(--pp-radius-sm);
+  border: 1px solid var(--pp-line-strong);
+  background: none;
+  color: var(--pp-fg);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s;
+}
+.pp-surface .pp-btn:hover {
+  transform: translateY(-1px);
+  border-color: var(--pp-fg-subtle);
+}
+.pp-surface .pp-btn--primary {
+  border-color: transparent;
+  background: var(--pp-accent);
+  color: var(--pp-accent-ink);
+}
+.pp-surface .pp-btn--primary:hover { border-color: transparent; }
+.pp-surface .pp-btn:focus-visible,
+.pp-surface .pp-nav a:focus-visible {
+  outline: 2px solid var(--pp-accent);
+  outline-offset: 2px;
+}
+.pp-surface .pp-notice {
+  max-width: 62ch;
+  margin-top: 1.75rem;
+  padding: 0.875rem 1rem;
+  font-size: 0.875rem;
+  color: var(--pp-fg-muted);
+  border: 1px solid var(--pp-line-strong);
+  border-radius: var(--pp-radius-sm);
+  background: var(--pp-surface-1);
+}
+.pp-surface .pp-notice strong { color: var(--pp-fg); }
+
+/* ── 구획 공통 ─────────────────────────────────────────────────────── */
+.pp-surface .pp-section {
+  /* 전역 section { padding: 140px 0 } 를 이 화면 안에서만 덮는다 */
+  padding: 4rem 0;
+  border-bottom: 1px solid var(--pp-line);
+  scroll-margin-top: 56px;
+}
+.pp-surface .pp-section--closing { border-bottom: 0; }
+.pp-surface .pp-kicker {
+  margin-bottom: 0.625rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  color: var(--pp-fg-subtle);
+}
+.pp-surface .pp-h2 {
+  font-size: clamp(1.375rem, 3vw, 1.875rem);
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  font-weight: 800;
+  color: var(--pp-fg);
+}
+.pp-surface .pp-line { display: block; }
+.pp-surface .pp-sec-lead {
+  max-width: 62ch;
+  margin-top: 0.875rem;
+  font-size: 1rem;
+  color: var(--pp-fg-muted);
+}
+
+/* ── split: 왼쪽 제목 · 오른쪽 줄 목록 ─────────────────────────────── */
+.pp-surface .pp-split {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: 3rem;
+  align-items: start;
+}
+.pp-surface .pp-rows { border-top: 1px solid var(--pp-line); }
+.pp-surface .pp-row {
+  display: grid;
+  grid-template-columns: 11rem minmax(0, 1fr);
+  gap: 1rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--pp-line);
+  font-size: 0.9375rem;
+}
+.pp-surface .pp-row dt { font-weight: 700; color: var(--pp-fg); }
+.pp-surface .pp-row dd { color: var(--pp-fg-muted); }
+
+/* ── cards ─────────────────────────────────────────────────────────── */
+.pp-surface .pp-cards {
+  display: grid;
+  gap: 0.875rem;
+  margin-top: 2rem;
+}
+.pp-surface .pp-cards--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.pp-surface .pp-cards--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.pp-surface .pp-card {
+  padding: 1.375rem;
+  border: 1px solid var(--pp-line);
+  border-radius: var(--pp-radius);
+  background: rgba(255, 255, 255, 0.022);
+}
+.pp-surface .pp-card--wide { grid-column: span 2; }
+.pp-surface .pp-card--accent {
+  border-color: var(--pp-accent-line);
+  background: linear-gradient(140deg, var(--pp-accent-weak), rgba(255, 255, 255, 0.02));
+}
+.pp-surface .pp-num {
+  display: block;
+  margin-bottom: 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--pp-accent);
+}
+.pp-surface .pp-h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.0625rem;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  font-weight: 700;
+  color: var(--pp-fg);
+}
+.pp-surface .pp-card__text {
+  font-size: 0.9rem;
+  color: var(--pp-fg-muted);
+}
+.pp-surface .pp-flow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem;
+  margin-top: 1rem;
+  font-size: 0.75rem;
+  color: var(--pp-fg-muted);
+}
+/* 화살표는 알약 뒤에 붙인다. 앞에 붙이면 줄이 꺾일 때 다음 줄 머리에 화살표가 매달린다. */
+.pp-surface .pp-flow li {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+.pp-surface .pp-flow li span {
+  padding: 0.2rem 0.55rem;
+  border: 1px solid var(--pp-line-strong);
+  border-radius: 999px;
+}
+.pp-surface .pp-flow li:not(:last-child)::after {
+  content: '→';
+  color: var(--pp-fg-subtle);
+}
+
+/* ── list: 하지 않는 것 ────────────────────────────────────────────── */
+.pp-surface .pp-nots {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.625rem 2rem;
+  margin-top: 1.75rem;
+}
+.pp-surface .pp-nots li {
+  position: relative;
+  padding-left: 1.5rem;
+  font-size: 0.9375rem;
+  color: var(--pp-fg-muted);
+}
+.pp-surface .pp-nots li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--pp-fg-subtle);
+}
+
+/* ── editions ──────────────────────────────────────────────────────── */
+.pp-surface .pp-editions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.875rem;
+  margin-top: 2rem;
+}
+.pp-surface .pp-edition {
+  padding: 1.625rem;
+  border: 1px solid var(--pp-line);
+  border-radius: var(--pp-radius);
+  background: rgba(255, 255, 255, 0.022);
+}
+.pp-surface .pp-edition--accent {
+  border-color: var(--pp-accent-line);
+  background: linear-gradient(140deg, var(--pp-accent-weak), rgba(255, 255, 255, 0.02));
+}
+.pp-surface .pp-edition__name {
+  margin-top: 0.75rem;
+  font-size: 1.25rem;
+  line-height: 1.4;
+  font-weight: 800;
+  color: var(--pp-fg);
+}
+.pp-surface .pp-edition__who {
+  margin-bottom: 0.875rem;
+  font-size: 0.8125rem;
+  color: var(--pp-fg-subtle);
+}
+.pp-surface .pp-edition__summary {
+  margin-bottom: 1rem;
+  font-size: 0.9375rem;
+  color: var(--pp-fg-muted);
+}
+.pp-surface .pp-edition__points { border-top: 1px solid var(--pp-line); }
+.pp-surface .pp-edition__points li {
+  padding: 0.625rem 0;
+  border-bottom: 1px solid var(--pp-line);
+  font-size: 0.875rem;
+  color: var(--pp-fg-muted);
+}
+.pp-surface .pp-packs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  margin-top: 0.75rem;
+}
+.pp-surface .pp-packs li {
+  padding: 0.15rem 0.55rem;
+  font-size: 0.75rem;
+  color: var(--pp-fg);
+  border: 1px solid var(--pp-line-strong);
+  border-radius: 999px;
+}
+.pp-surface .pp-note {
+  margin-top: 1.25rem;
+  font-size: 0.8125rem;
+  color: var(--pp-fg-subtle);
+}
+
+/* ── closing ───────────────────────────────────────────────────────── */
+.pp-surface .pp-closing {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 2.25rem;
+  border: 1px solid var(--pp-line-strong);
+  border-radius: var(--pp-radius);
+  background: var(--pp-surface-1);
+}
+.pp-surface .pp-closing__text {
+  max-width: 52ch;
+  margin-top: 0.5rem;
+  font-size: 0.9375rem;
+  color: var(--pp-fg-muted);
+}
+
+/* ── 푸터 ─────────────────────────────────────────────────────────── */
+.pp-surface .pp-foot {
+  padding: 1.5rem 0 2.5rem;
+  border-top: 1px solid var(--pp-line);
+  font-size: 0.75rem;
+  color: var(--pp-fg-subtle);
+}
+.pp-surface .pp-foot__inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.pp-surface .pp-foot__brand {
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+/* ── 반응형 ───────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .pp-surface .pp-split { grid-template-columns: 1fr; gap: 1.75rem; }
+  .pp-surface .pp-cards--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 600px) {
+  .pp-surface .pp-hero { padding: 3rem 0 2.5rem; }
+  .pp-surface .pp-section { padding: 3rem 0; }
+  .pp-surface .pp-cards--2,
+  .pp-surface .pp-cards--3,
+  .pp-surface .pp-editions,
+  .pp-surface .pp-nots { grid-template-columns: 1fr; }
+  .pp-surface .pp-card--wide { grid-column: span 1; }
+  .pp-surface .pp-row { grid-template-columns: 1fr; gap: 0.125rem; }
+  .pp-surface .pp-closing { padding: 1.5rem; }
+  .pp-surface .pp-nav__links { gap: 0.875rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pp-surface .pp-btn { transition: none; }
+  .pp-surface .pp-btn:hover { transform: none; }
+}
