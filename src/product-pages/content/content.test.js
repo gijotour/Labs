@@ -67,8 +67,13 @@ describe('제품 소개 문안 — 공개 규칙', () => {
   it('ASTER 는 검색에 노출하고 문의는 본업 사이트로만 보낸다', () => {
     expect(ASTER.noindex).toBe(false);
     const externals = collect(ASTER).filter((s) => /^https?:\/\//.test(s));
-    expect(externals).toEqual(['https://gijo.ai/gijohome/user/main/user_main']);
+    expect(externals).toEqual(['https://gijo.ai/gijohome/user/productInquiries/product_inquiries']);
     expect(joined).not.toMatch(/@[a-z0-9-]+\.[a-z]{2,}|\d{2,3}-\d{3,4}-\d{4}/i); // 메일·전화
+  });
+
+  it('만든 곳 표기 — ASTER 는 회사 이름, Gster 는 허브 이름(기본값)', () => {
+    expect(ASTER.maker).toBe('지아이조 테크놀로지');
+    expect(GSTER.maker).toBeUndefined();
   });
 
   it('주소와 글이 짝을 이룬다', () => {

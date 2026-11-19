@@ -183,6 +183,8 @@ const renderSection = (section) => {
 
 const ProductPage = ({ page }) => {
   const { hero } = page;
+  // 만든 곳 표기. 글이 따로 정하지 않으면 허브 이름을 쓴다.
+  const maker = page.maker ?? 'GIJO Tour LaB';
   const { hash } = useLocation();
 
   // /aster#editions 처럼 닻이 붙은 주소로 들어온 경우. 이 화면은 지연 로드라 브라우저가 닻을 찾을 때
@@ -270,8 +272,10 @@ const ProductPage = ({ page }) => {
 
       <footer className="pp-foot">
         <div className="pp-shell pp-foot__inner">
-          <span className="pp-foot__brand">GIJO Tour LaB</span>
-          <span>© {new Date().getFullYear()} GIJO Tour LaB. All rights reserved.</span>
+          <span className="pp-foot__brand">{maker}</span>
+          <span>
+            © {new Date().getFullYear()} {maker}. All rights reserved.
+          </span>
         </div>
       </footer>
     </div>

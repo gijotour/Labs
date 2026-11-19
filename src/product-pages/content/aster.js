@@ -11,8 +11,11 @@
  * content.test.js 가 이 규칙 일부를 감시한다.
  */
 
-/** 도입 문의 창구. 공개된 연락처는 본업 사이트 하나뿐이다(메일·전화는 싣지 않기로 함). */
-const CONTACT_URL = 'https://gijo.ai/gijohome/user/main/user_main';
+/**
+ * 도입 문의 창구. 본업 사이트(gijo.ai)의 제품문의 화면으로 바로 보낸다.
+ * 첫 화면으로 보내면 방문자가 문의 자리를 다시 찾아야 한다. 메일·전화는 싣지 않기로 했다.
+ */
+const CONTACT_URL = 'https://gijo.ai/gijohome/user/productInquiries/product_inquiries';
 
 export const ASTER = {
   id: 'aster',
@@ -22,6 +25,8 @@ export const ASTER = {
   description:
     '한국형 온프레미스 AI 보안관리 플랫폼 GIJO ASTER. 취약점 스캐너 결과·보안로그·보안제품 리포트를 보안 AI 에이전트 팀이 엮어 분석합니다.',
   noindex: false,
+  // 보안 제품이라 만든 곳을 회사 이름으로 적는다. 허브 이름(GIJO Tour LaB)은 돌아가는 링크에만 남는다.
+  maker: '지아이조 테크놀로지',
 
   hero: {
     pills: [
