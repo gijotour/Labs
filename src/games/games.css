@@ -1,0 +1,224 @@
+/* 게임 목록 (/games). 모든 규칙은 .gm-surface 아래에 둔다 — 다른 화면에 새지 않게. */
+.gm-surface {
+  --gm-bg: #070b12;
+  --gm-panel: #0c111a;
+  --gm-line: rgba(255, 255, 255, 0.09);
+  --gm-text: #e8eef6;
+  --gm-mute: #93a0b4;
+  --gm-accent: #35d6ff;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--gm-bg);
+  color: var(--gm-text);
+  font-family: 'Pretendard', 'Noto Sans KR', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  line-height: 1.6;
+  word-break: keep-all;
+}
+
+.gm-surface *,
+.gm-surface *::before,
+.gm-surface *::after {
+  box-sizing: border-box;
+}
+
+.gm-surface .gm-shell {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 20px 20px 48px;
+  padding-left: max(20px, env(safe-area-inset-left));
+  padding-right: max(20px, env(safe-area-inset-right));
+}
+
+.gm-surface .gm-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--gm-line);
+  font-size: 0.9rem;
+}
+
+.gm-surface .gm-nav__back {
+  color: var(--gm-mute);
+  text-decoration: none;
+  padding: 8px 0;
+}
+
+.gm-surface .gm-nav__back:hover,
+.gm-surface .gm-nav__back:focus-visible {
+  color: var(--gm-accent);
+}
+
+.gm-surface .gm-nav__count {
+  color: var(--gm-mute);
+  font-variant-numeric: tabular-nums;
+}
+
+.gm-surface .gm-hero {
+  padding: 36px 0 8px;
+}
+
+.gm-surface .gm-hero__title {
+  margin: 0;
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.gm-surface .gm-hero__lead {
+  margin: 10px 0 0;
+  color: var(--gm-mute);
+  max-width: 40em;
+}
+
+.gm-surface .gm-group {
+  margin-top: 36px;
+}
+
+.gm-surface .gm-group__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 16px;
+  margin-bottom: 12px;
+}
+
+.gm-surface .gm-group__title {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.gm-surface .gm-group__num {
+  margin-left: 6px;
+  padding: 2px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--gm-line);
+  color: var(--gm-accent);
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.gm-surface .gm-group__note {
+  margin: 0;
+  color: var(--gm-mute);
+  font-size: 0.88rem;
+}
+
+.gm-surface .gm-group__intro {
+  color: var(--gm-accent);
+  text-decoration: none;
+}
+
+.gm-surface .gm-group__intro:hover,
+.gm-surface .gm-group__intro:focus-visible {
+  text-decoration: underline;
+}
+
+/* 목록 — 좁은 화면 1열, 넓어지면 2열·3열. 한 화면에 많이 보이도록 줄 높이를 낮게 잡았다. */
+.gm-surface .gm-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+}
+
+@media (min-width: 640px) {
+  .gm-surface .gm-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 980px) {
+  .gm-surface .gm-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.gm-surface .gm-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 64px;
+  padding: 10px 14px;
+  border: 1px solid var(--gm-line);
+  border-radius: 14px;
+  background: var(--gm-panel);
+  color: inherit;
+  text-decoration: none;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.gm-surface .gm-row:hover,
+.gm-surface .gm-row:focus-visible {
+  border-color: var(--gm-accent);
+  outline: none;
+}
+
+.gm-surface .gm-row:active {
+  transform: scale(0.99);
+}
+
+.gm-surface .gm-row__icon {
+  flex: 0 0 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  font-size: 1.3rem;
+}
+
+.gm-surface .gm-row__text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.gm-surface .gm-row__name {
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.gm-surface .gm-row__desc {
+  color: var(--gm-mute);
+  font-size: 0.85rem;
+  line-height: 1.35;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gm-surface .gm-row__go {
+  flex: none;
+  color: var(--gm-accent);
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.gm-surface .gm-foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px 16px;
+  margin-top: 48px;
+  padding-top: 18px;
+  border-top: 1px solid var(--gm-line);
+  color: var(--gm-mute);
+  font-size: 0.82rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gm-surface .gm-row {
+    transition: none;
+  }
+}

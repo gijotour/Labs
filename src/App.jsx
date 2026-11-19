@@ -4,6 +4,7 @@ import GijoLab from './labs/GijoLab';
 import LabsSection from './labs/LabsSection';
 const GijoTourApp = lazy(() => import('./tour-app/GijoTourApp'));
 const ProductPagesApp = lazy(() => import('./product-pages/ProductPagesApp'));
+const GamesApp = lazy(() => import('./games/GamesApp'));
 
 /**
  * GIJO LABS 셸.
@@ -43,6 +44,8 @@ const SERVICES = [
   { id: 'talk', name: 'GIJO Talk 소개', basePath: '/talk', element: <ProductPagesApp page="talk" /> },
   { id: 'arcade', name: 'GIJO Arcade 소개', basePath: '/arcade', element: <ProductPagesApp page="arcade" /> },
   { id: 'drink', name: 'GIJO Drink 소개', basePath: '/drink', element: <ProductPagesApp page="drink" /> },
+  // 게임 목록. Arcade·Drink 에 든 게임을 하나씩 보여 주고 바로 연다.
+  { id: 'games', name: '게임 목록', basePath: '/games', element: <GamesApp /> },
   // 새 서비스는 여기에 추가한다. 예:
   // { id: 'gijopay', name: '지아이조 페이', basePath: '/gijopay', element: <GijoPayApp /> },
 ];

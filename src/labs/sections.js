@@ -105,6 +105,13 @@ export const SECTIONS = [
     },
 
     list: { kicker: '전체 목록', title: '투어 서비스' },
+
+    // 앱 안 화면으로 가는 맺음말은 action.to 를 쓴다(바깥 주소는 action.href).
+    closing: {
+      title: '게임만 바로 열고 싶다면',
+      text: 'GIJO Arcade와 GIJO Drink에 든 게임을 하나씩 모아 둔 목록입니다. 누르면 그 게임이 바로 열립니다.',
+      action: { label: '게임 목록 보기', to: '/games' },
+    },
   },
 ];
 

@@ -94,14 +94,20 @@ const LabsSection = ({ section: sectionId }) => {
                 <h2 className="lab-block__title">{closing.title}</h2>
                 <p className="lab-closing__text">{closing.text}</p>
               </div>
-              <a
-                className="lab-closing__btn"
-                href={closing.action.href}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {closing.action.label} <span aria-hidden="true">→</span>
-              </a>
+              {closing.action.to ? (
+                <Link className="lab-closing__btn" to={closing.action.to}>
+                  {closing.action.label} <span aria-hidden="true">→</span>
+                </Link>
+              ) : (
+                <a
+                  className="lab-closing__btn"
+                  href={closing.action.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {closing.action.label} <span aria-hidden="true">→</span>
+                </a>
+              )}
             </div>
           </section>
         )}
