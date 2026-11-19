@@ -217,8 +217,8 @@ const ProductPage = ({ page }) => {
       <nav className="pp-nav" aria-label="제품 소개">
         <div className="pp-shell pp-nav__inner">
           {/* 소개 페이지는 전부 기술 쪽 제품이다. 돌아가는 곳은 허브가 아니라 기술 갈래다. */}
-          <Link className="pp-nav__back" to="/tech">
-            <span aria-hidden="true">←</span> 기술 제품
+          <Link className="pp-nav__back" to={page.back?.to ?? '/tech'}>
+            <span aria-hidden="true">←</span> {page.back?.label ?? '기술 제품'}
           </Link>
           <ul className="pp-nav__links">
             {PAGES.map((other) => (

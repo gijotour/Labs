@@ -27,8 +27,8 @@ const joined = allText.join('\n');
 
 describe('제품 소개 문안 — 공개 규칙', () => {
   it('글을 실제로 읽었다 (헛통과 방지)', () => {
-    expect(PAGES).toHaveLength(3);
-    expect(tiles).toHaveLength(3);
+    expect(PAGES).toHaveLength(7);
+    expect(tiles).toHaveLength(7);
     expect(SECTIONS).toHaveLength(2);
     expect(allText.length).toBeGreaterThan(150);
   });
@@ -99,6 +99,24 @@ describe('제품 소개 문안 — 공개 규칙', () => {
     expect(findPage('없는것')).toBeNull();
     for (const tile of tiles) {
       expect(PAGES.map((p) => p.path)).toContain(tile.page);
+    }
+  });
+});
+
+describe('여행길 앱·BridgeAI 소개', () => {
+  it('Drink 에 연령 표기를 쓰지 않는다', () => {
+    const drink = collect([findPage('drink')]).join('\n');
+    expect(drink).not.toMatch(/19\s*세|19금|18\+|성인|미성년/);
+  });
+
+  it('BridgeAI 에 기계·제품 이름을 쓰지 않는다', () => {
+    const bridge = collect([findPage('bridgeai')]).join('\n');
+    expect(bridge).not.toMatch(/GB10|RTX|Mac Studio|M4|4090/);
+  });
+
+  it('투어 쪽 소개는 투어 갈래로 돌아간다', () => {
+    for (const id of ['talk', 'arcade', 'drink']) {
+      expect(findPage(id).back.to).toBe('/travel');
     }
   });
 });

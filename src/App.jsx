@@ -39,6 +39,10 @@ const SERVICES = [
   { id: 'aster', name: 'GIJO ASTER 소개', basePath: '/aster', element: <ProductPagesApp page="aster" /> },
   { id: 'gster', name: 'Gster 소개', basePath: '/gster', element: <ProductPagesApp page="gster" /> },
   { id: 'mdstudio', name: 'MD Studio 소개', basePath: '/mdstudio', element: <ProductPagesApp page="mdstudio" /> },
+  { id: 'bridgeai', name: 'BridgeAI 소개', basePath: '/bridgeai', element: <ProductPagesApp page="bridgeai" /> },
+  { id: 'talk', name: 'GIJO Talk 소개', basePath: '/talk', element: <ProductPagesApp page="talk" /> },
+  { id: 'arcade', name: 'GIJO Arcade 소개', basePath: '/arcade', element: <ProductPagesApp page="arcade" /> },
+  { id: 'drink', name: 'GIJO Drink 소개', basePath: '/drink', element: <ProductPagesApp page="drink" /> },
   // 새 서비스는 여기에 추가한다. 예:
   // { id: 'gijopay', name: '지아이조 페이', basePath: '/gijopay', element: <GijoPayApp /> },
 ];
