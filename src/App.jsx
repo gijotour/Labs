@@ -1,6 +1,7 @@
 import { useEffect, lazy, Suspense } from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import GijoLab from './labs/GijoLab';
+import LabsSection from './labs/LabsSection';
 const GijoTourApp = lazy(() => import('./tour-app/GijoTourApp'));
 const ProductPagesApp = lazy(() => import('./product-pages/ProductPagesApp'));
 
@@ -37,6 +38,7 @@ const SERVICES = [
   // 제품 소개 페이지. 두 주소가 같은 폴더(src/product-pages)를 쓰고 글만 다르다.
   { id: 'aster', name: 'GIJO ASTER 소개', basePath: '/aster', element: <ProductPagesApp page="aster" /> },
   { id: 'gster', name: 'Gster 소개', basePath: '/gster', element: <ProductPagesApp page="gster" /> },
+  { id: 'mdstudio', name: 'MD Studio 소개', basePath: '/mdstudio', element: <ProductPagesApp page="mdstudio" /> },
   // 새 서비스는 여기에 추가한다. 예:
   // { id: 'gijopay', name: '지아이조 페이', basePath: '/gijopay', element: <GijoPayApp /> },
 ];
@@ -55,6 +57,9 @@ function App() {
           <Routes location={location} key={location.pathname}>
             {/* ── GIJO LABS 자체 화면 ── */}
             <Route path="/" element={<GijoLab />} />
+            {/* 허브의 두 갈래. 서비스가 아니라 Labs 자신의 화면이다(제품 타일을 나눠 보여 줄 뿐). */}
+            <Route path="/tech" element={<LabsSection section="tech" />} />
+            <Route path="/travel" element={<LabsSection section="travel" />} />
 
             {/* ── 서비스 ── 각 서비스가 자기 내비·푸터·인증을 소유한다 */}
             {SERVICES.map((service) => (

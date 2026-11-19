@@ -22,16 +22,19 @@
  * · 진행률 같은 주관적 수치는 넣지 않는다. 검증 가능한 신호만 쓴다
  *   (라이브 데모 유무, 마지막 커밋일, 주 언어).
  *
+ * ── 갈래 ─────────────────────────────────────────────────────────────
+ * 허브(/)는 두 문만 보여 주고, 타일은 갈래 화면에 나뉘어 나온다(2026-11-19).
+ *   group: 'tech'   → /tech   (보안·AI 기술 — 간판 「지아이조 테크놀로지」)
+ *   group: 'travel' → /travel (여행 서비스 — 간판 「GIJO Tour」)
+ * 갈래 글과 제품 구성(단계)은 sections.js 에 있다.
+ *
  * ── 그리드 규칙 ───────────────────────────────────────────────────────
- * 데스크톱은 3열이고 각 타일의 span 합이 행을 정확히 채워야 한다.
- *   테크놀로지(2) + 투어(1) = 3
- *   Gster(1) + ASTER(2) = 3
- *   Talk(1) + Arcade(1) + Drink(1) = 3
- *   BridgeAI(1) + MD Studio(2) = 3
- * 둘째 행에서 Gster 를 왼쪽에 두는 이유: 2열(태블릿)에서 「투어 + Gster」가 한 줄을 채운다.
- * ASTER 를 먼저 두면 투어 옆에 빈 칸이 남는다.
- * MD Studio 의 2칸은 칸 수를 맞추려는 것이고 강조가 아니다(2열 이하에서는 1칸으로 줄어든다).
+ * 데스크톱은 3열이고 **갈래마다** 타일의 span 합이 행을 정확히 채워야 한다.
+ *   기술: 테크놀로지(2) + ASTER(1) = 3 / MD Studio(1) + BridgeAI(1) + Gster(1) = 3
+ *   투어: 투어(2) + Talk(1) = 3 / Arcade(1) + Drink(2) = 3
+ * Drink 의 2칸은 칸 수를 맞추려는 것이고 강조가 아니다(2열 이하에서는 1칸으로 줄어든다).
  * 제품을 넣거나 뺄 때 순서와 span 합을 다시 맞출 것. 빈 칸이 남으면 깨져 보인다.
+ * content.test.js 가 갈래별 합을 감시한다.
  *
  * ── 갱신 방법 ─────────────────────────────────────────────────────────
  *   gh repo list gijotour --limit 100 \
@@ -51,12 +54,15 @@
  *   internal?: string,      // 앱 내부 경로. 있으면 react-router 로 이동한다
  *   site?: string,          // 잠금 없이 바로 여는 외부 주소 (사업 사이트 등)
  *   page?: string,          // 잠금 없이 바로 여는 앱 내부 소개 페이지 (/aster 등)
+ *   group: 'tech'|'travel', // 어느 갈래 화면에 나오는가
+ *   hideOnDoor?: boolean,   // 허브의 문에 이름을 올리지 않는다 (사내 도구)
  *   span?: 1|2,             // 데스크톱 3열 그리드에서 차지할 열 수 (기본 1)
  *   featured?: boolean,     // 강조 타일
  *   status?: string,        // 상태 배지 문구
  * }[]}
  */
 export const PRODUCTS = [
+  // ── 기술 (/tech) ──────────────────────────────────────────────────
   {
     // 본업. 보안 제품 공급과 기술지원.
     // 설명은 gijo.ai/gijohome 의 카피에서 가져왔다. 지어내지 않았다.
@@ -71,39 +77,10 @@ export const PRODUCTS = [
     repo: null,
     live: null,
     site: 'https://gijo.ai/gijohome/user/main/user_main',
+    group: 'tech',
     span: 2,
     featured: true,
     status: '핵심 사업',
-  },
-  {
-    id: 'gijotour',
-    name: '지아이조 투어',
-    summary:
-      '전문 여행설계사와 비즈니스를 연결하는 B2B 투어 플랫폼. ' +
-      '고객이 조건을 남기면 검증된 현지 전문가를 1:1로 매칭한다.',
-    lang: 'React · Vite',
-    updated: '2026-09-02',
-    repo: null,
-    live: null,
-    internal: '/gijotour',
-    span: 1,
-    featured: true,
-    status: '서비스 중',
-  },
-  {
-    // 사내 도구. 판매 상품이 아니다. 소개 페이지는 잠금 없이 열고 검색에는 안 잡히게 한다.
-    id: 'gster',
-    name: 'Gster',
-    summary:
-      'GIJO 안에서 개발·관리·운영을 말로 맡기는 AI 비서. ' +
-      '사내 장비의 로컬 두뇌로 동작하고, 바깥 AI에 물을지는 사람이 정합니다.',
-    lang: '사내 운영 중 · 판매 상품 아님',
-    updated: '',
-    repo: null,
-    live: null,
-    page: '/gster',
-    span: 1,
-    status: '사내 도구',
   },
   {
     // 옛 이름 GIJO AS. 이름 풀이 「자율 보안 운영 시스템」은 고정이다.
@@ -117,49 +94,10 @@ export const PRODUCTS = [
     repo: null,
     live: null,
     page: '/aster',
-    span: 2,
+    group: 'tech',
+    span: 1,
     featured: true,
     status: '개발 중',
-  },
-  {
-    id: 'gijotalk',
-    name: 'GIJO Talk',
-    summary: '투어 일정표와 현지 생활영어·타갈로그 회화를 함께 보는 여행 동반 앱',
-    lang: 'TypeScript',
-    updated: '2026-08-30',
-    repo: 'https://github.com/gijotour/gijotalk',
-    live: 'https://gijotour.github.io/gijotalk/',
-    span: 1,
-  },
-  {
-    id: 'gijoarcade',
-    name: 'GIJO Arcade',
-    summary: '설치 없이 브라우저에서 도는 오프라인 레트로 아케이드 게임 5종',
-    lang: 'HTML',
-    updated: '2026-08-24',
-    repo: 'https://github.com/gijotour/gijoarcade',
-    live: 'https://gijotour.github.io/gijoarcade/',
-    span: 1,
-  },
-  {
-    id: 'gijodrink',
-    name: 'GIJO Drink',
-    summary: '모임 자리에서 바로 켜는 웹 술게임 7종',
-    lang: 'HTML',
-    updated: '2026-08-24',
-    repo: 'https://github.com/gijotour/gijodrink',
-    live: 'https://gijotour.github.io/gijodrink/',
-    span: 1,
-  },
-  {
-    id: 'gijo-bridge-ai',
-    name: 'GIJO BridgeAI',
-    summary: '노트북에서 집에 둔 GPU 서버의 VRAM을 네트워크로 끌어 쓰는 원격 오프로드 브릿지',
-    lang: 'JavaScript',
-    updated: '2026-08-12',
-    repo: 'https://github.com/gijotour/GIJO_BridgeAI',
-    live: null,
-    span: 1,
   },
   {
     id: 'gijo-smart-md-studio',
@@ -170,6 +108,91 @@ export const PRODUCTS = [
     updated: '2026-08-20',
     repo: 'https://github.com/gijotour/gijo-smart-md-studio',
     live: null,
+    page: '/mdstudio',
+    group: 'tech',
+    span: 1,
+  },
+  {
+    id: 'gijo-bridge-ai',
+    name: 'GIJO BridgeAI',
+    summary: '노트북에서 집에 둔 GPU 서버의 VRAM을 네트워크로 끌어 쓰는 원격 오프로드 브릿지',
+    lang: 'JavaScript',
+    updated: '2026-08-12',
+    repo: 'https://github.com/gijotour/GIJO_BridgeAI',
+    live: null,
+    group: 'tech',
+    span: 1,
+  },
+  {
+    // 사내 도구. 판매 상품이 아니다. 소개 페이지는 잠금 없이 열고 검색에는 안 잡히게 한다.
+    id: 'gster',
+    name: 'Gster',
+    summary:
+      'GIJO 안에서 개발·관리·운영을 말로 맡기는 AI 비서. ' +
+      '사내 장비의 로컬 두뇌로 동작하고, 바깥 AI에 물을지는 사람이 정합니다.',
+    lang: '사내 운영 중 · 판매 상품 아님',
+    updated: '',
+    repo: null,
+    live: null,
+    page: '/gster',
+    group: 'tech',
+    hideOnDoor: true,
+    span: 1,
+    status: '사내 도구',
+  },
+
+  // ── 투어 (/travel) ────────────────────────────────────────────────
+  {
+    id: 'gijotour',
+    name: '지아이조 투어',
+    summary:
+      '전문 여행설계사와 비즈니스를 연결하는 B2B 투어 플랫폼. ' +
+      '고객이 조건을 남기면 검증된 현지 전문가를 1:1로 매칭한다.',
+    lang: 'React · Vite',
+    updated: '2026-11-19',
+    repo: null,
+    live: null,
+    internal: '/gijotour',
+    group: 'travel',
+    span: 2,
+    featured: true,
+    status: '서비스 중',
+  },
+  {
+    id: 'gijotalk',
+    name: 'GIJO Talk',
+    // 저장소에 README 가 없다. 설명은 실제 앱 화면에서 확인한 것만 적었다(2026-11-19):
+    // 일정 · 만남 대화 · 단원 학습 · 내 단어장 · 오프라인 저장.
+    summary:
+      '투어 일정표와 상황별 만남 대화·단원 학습을 담은 여행 동반 앱. ' +
+      '출국 전에 받아 두면 현지에서 인터넷 없이 씁니다.',
+    lang: 'TypeScript',
+    updated: '2026-11-18',
+    repo: 'https://github.com/gijotour/gijotalk',
+    live: 'https://gijotour.github.io/gijotalk/',
+    group: 'travel',
+    span: 1,
+  },
+  {
+    id: 'gijoarcade',
+    name: 'GIJO Arcade',
+    summary: '설치 없이 브라우저에서 도는 오프라인 레트로 아케이드 게임 5종',
+    lang: 'HTML',
+    updated: '2026-08-24',
+    repo: 'https://github.com/gijotour/gijoarcade',
+    live: 'https://gijotour.github.io/gijoarcade/',
+    group: 'travel',
+    span: 1,
+  },
+  {
+    id: 'gijodrink',
+    name: 'GIJO Drink',
+    summary: '모임 자리에서 바로 켜는 웹 술게임 7종',
+    lang: 'HTML',
+    updated: '2026-08-24',
+    repo: 'https://github.com/gijotour/gijodrink',
+    live: 'https://gijotour.github.io/gijodrink/',
+    group: 'travel',
     span: 2,
   },
 ];
