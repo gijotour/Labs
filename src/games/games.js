@@ -41,6 +41,8 @@ export const GAMES = [
   { id: 'snake', group: 'solo', play: 'snake', icon: '🐍', name: '뱀 키우기', desc: '먹이를 먹고 길어지는 스네이크' },
   { id: 'brick', group: 'solo', play: 'brick', icon: '🏓', name: '벽돌 깨기', desc: '공을 튕겨 벽돌을 모두 깨기' },
   { id: 'shoot', group: 'solo', play: 'shoot', icon: '✈️', name: '비행기 슈팅', desc: '끌어서 피하고 자동으로 쏘는 슈팅' },
+  { id: 'tower', group: 'solo', play: 'tower', icon: '🏗️', name: '타워 쌓기', desc: '오가는 블록을 눌러 멈춰 높이 쌓기' },
+  { id: 'mines', group: 'solo', play: 'mines', icon: '🚩', name: '지뢰찾기', desc: '숫자를 단서로 지뢰를 피해 칸 열기' },
 
   // ── 모임 게임 (GIJO Drink) ──
   { id: 'roulette', group: 'party', play: 'roulette', icon: '🎡', name: '미션 룰렛', desc: '미션을 적고 돌려서 정하기' },
