@@ -30,6 +30,7 @@ const GamesApp = () => {
           <h1 className="gm-hero__title">게임 목록</h1>
           <p className="gm-hero__lead">
             설치 없이 브라우저에서 바로 엽니다. 누르면 새 탭에서 그 게임이 열립니다.
+            게임 앱을 연 뒤 브라우저 메뉴에서 「홈 화면에 추가」를 누르면 폰에 담겨 인터넷 없이도 열립니다.
           </p>
         </header>
 
