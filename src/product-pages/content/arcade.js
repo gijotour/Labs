@@ -2,7 +2,7 @@
  * GIJO Arcade (/arcade) 소개 글.
  *
  * ── 공개 원칙 ─────────────────────────────────────────────────────────
- * · README 는 5종이라 적지만 실제 화면에는 9종이 있다. 공개 저장소 코드에서 확인한 것만 적는다.
+ * · README 는 5종이라 적지만 실제 화면에는 11종이 있다. 공개 저장소 코드에서 확인한 것만 적는다.
  * · 없는 기능·숫자·가격을 적지 않는다. 한계는 「미리 알려 드립니다」에 숨기지 않고 적는다.
  */
 /** 브라우저에서 바로 여는 공개 주소다. */
@@ -12,19 +12,19 @@ export const ARCADE = {
   id: 'arcade',
   path: '/arcade',
   navName: 'GIJO Arcade',
-  docTitle: 'GIJO Arcade — 비행기와 대기 시간에 여는 게임 9종',
+  docTitle: 'GIJO Arcade — 비행기와 대기 시간에 여는 게임 11종',
   description:
-    'GIJO Slots, Block Drop, Space Shooter, Snake, Brick Breaker, Neon 2048, Flappy Neon, Neon Tower, Neon Mines까지 아홉 가지 1인용 게임을 설치와 로그인 없이 브라우저에서 여는 모음입니다.',
+    'GIJO Slots, Block Drop, Space Shooter, Snake, Brick Breaker, Neon 2048, Flappy Neon, Neon Tower, Neon Mines, Neon Memory, Neon Pop까지 열한 가지 1인용 게임을 설치와 로그인 없이 브라우저에서 여는 모음입니다.',
   noindex: false,
   maker: 'GIJO Tour',
   back: { to: '/travel', label: '투어 서비스' },
 
   hero: {
-    pills: [{ text: '브라우저 게임 9종', accent: true }, { text: '1인용' }],
+    pills: [{ text: '브라우저 게임 11종', accent: true }, { text: '1인용' }],
     title: 'GIJO Arcade',
-    subtitle: '비행기와 대기 시간에 여는 게임 9종',
+    subtitle: '비행기와 대기 시간에 여는 게임 11종',
     lead:
-      '슬롯머신부터 블록 쌓기, 비행기 슈팅, 뱀 키우기, 벽돌 깨기, 숫자 퍼즐, 장애물 피하기, 타워 쌓기, 지뢰찾기까지 아홉 가지 게임을 한 화면에 모았습니다. ' +
+      '슬롯머신부터 블록 쌓기, 비행기 슈팅, 뱀 키우기, 벽돌 깨기, 숫자 퍼즐, 장애물 피하기, 타워 쌓기, 지뢰찾기, 패턴 기억, 컬러 팝까지 열한 가지 게임을 한 화면에 모았습니다. ' +
       '앱 설치나 로그인 없이 브라우저에서 바로 열고, 점수와 크레딧은 내 기기에만 남습니다.',
     actions: [
       { label: '바로 열기', href: LIVE_URL, external: true, primary: true },
@@ -37,7 +37,7 @@ export const ARCADE = {
       type: 'cards',
       id: 'features',
       kicker: '하는 일',
-      title: ['아홉 가지 1인용 게임을', '한 화면에서 고릅니다'],
+      title: ['열한 가지 1인용 게임을', '한 화면에서 고릅니다'],
       columns: 3,
       items: [
         {
@@ -77,6 +77,14 @@ export const ARCADE = {
           title: 'Neon Mines',
           text: '9×12 격자에서 숫자를 단서로 지뢰 16개를 피해 칸을 엽니다. 첫 탭과 그 주변은 안전하고, 길게 누르거나 깃발 모드로 깃발을 꽂습니다. 가장 짧은 클리어 시간이 기록으로 남습니다.',
         },
+        {
+          title: 'Neon Memory',
+          text: '네 개의 패드가 반짝이는 순서를 기억해 같은 순서로 누릅니다. 맞힐 때마다 순서가 한 칸씩 길어지고, 통과한 라운드 수가 점수입니다.',
+        },
+        {
+          title: 'Neon Pop',
+          text: '8×10 격자에서 상하좌우로 이어진 같은 색 타일을 두 개 이상 눌러 지웁니다. 한 번에 많이 지울수록 점수가 크고, 모두 지우면 보너스가 붙습니다.',
+        },
       ],
     },
     {
@@ -104,7 +112,7 @@ export const ARCADE = {
       title: ['미리 알려 드립니다'],
       items: [
         'GIJO Slots는 가상 크레딧 전용이며 현금 결제나 환전 기능은 없습니다. 크레딧이 떨어지면 화면에서 1,000 크레딧을 다시 채울 수 있습니다.',
-        '아홉 게임 모두 혼자 하는 1인용입니다. 온라인 순위표나 여러 사람이 함께하는 기능은 없습니다.',
+        '열한 게임 모두 혼자 하는 1인용입니다. 온라인 순위표나 여러 사람이 함께하는 기능은 없습니다.',
         '점수와 크레딧은 사용 중인 기기의 브라우저에만 저장됩니다. 기기를 바꾸거나 브라우저 데이터를 지우면 기록이 이어지지 않습니다.',
         '저장소에 오프라인 캐시용 서비스 워커는 포함되어 있지 않아, 웹 주소로 처음 열 때는 인터넷 연결이 필요합니다. 열린 뒤 게임 진행과 기록 저장은 서버 통신 없이 동작합니다.',
       ],

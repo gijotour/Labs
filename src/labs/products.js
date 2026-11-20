@@ -178,8 +178,8 @@ export const PRODUCTS = [
   {
     id: 'gijoarcade',
     name: 'GIJO Arcade',
-    // README 는 5종이라 적지만 실제 화면에는 9종이 있다(2026-11-20 코드 확인).
-    summary: '설치 없이 브라우저에서 여는 1인용 아케이드 게임 9종',
+    // README 는 5종이라 적지만 실제 화면에는 11종이 있다(2026-11-20 코드 확인).
+    summary: '설치 없이 브라우저에서 여는 1인용 아케이드 게임 11종',
     lang: 'HTML',
     updated: '2026-08-24',
     repo: 'https://github.com/gijotour/gijoarcade',
@@ -191,7 +191,7 @@ export const PRODUCTS = [
   {
     id: 'gijodrink',
     name: 'GIJO Drink',
-    summary: '모임 자리에서 폰 한 대로 여는 웹 게임 8종',
+    summary: '모임 자리에서 폰 한 대로 여는 웹 게임 11종',
     lang: 'HTML',
     updated: '2026-08-24',
     repo: 'https://github.com/gijotour/gijodrink',

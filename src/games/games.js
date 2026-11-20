@@ -43,6 +43,8 @@ export const GAMES = [
   { id: 'shoot', group: 'solo', play: 'shoot', icon: '✈️', name: '비행기 슈팅', desc: '끌어서 피하고 자동으로 쏘는 슈팅' },
   { id: 'tower', group: 'solo', play: 'tower', icon: '🏗️', name: '타워 쌓기', desc: '오가는 블록을 눌러 멈춰 높이 쌓기' },
   { id: 'mines', group: 'solo', play: 'mines', icon: '🚩', name: '지뢰찾기', desc: '숫자를 단서로 지뢰를 피해 칸 열기' },
+  { id: 'memory', group: 'solo', play: 'memory', icon: '🧠', name: '패턴 기억', desc: '반짝이는 순서를 기억해 따라 누르기' },
+  { id: 'pop', group: 'solo', play: 'pop', icon: '🫧', name: '컬러 팝', desc: '이어진 같은 색 타일을 눌러 지우기' },
 
   // ── 모임 게임 (GIJO Drink) ──
   { id: 'roulette', group: 'party', play: 'roulette', icon: '🎡', name: '미션 룰렛', desc: '미션을 적고 돌려서 정하기' },
@@ -52,6 +54,9 @@ export const GAMES = [
   { id: 'titanic', group: 'party', play: 'titanic', icon: '🚢', name: '찰랑찰랑 타이타닉', desc: '잔이 가라앉지 않게 조금씩 채우기' },
   { id: 'touch', group: 'party', play: 'finger', icon: '👆', name: '터치 룰렛', desc: '손가락을 올리고 기다리면 당첨자 결정' },
   { id: 'liar', group: 'party', play: 'liar', icon: '🕵️', name: '여행자 라이어 게임', desc: '여행 단어를 보고 대화로 라이어 찾기' },
+  { id: 'tensec', group: 'party', play: 'tensec', icon: '⏱️', name: '10초 맞추기', desc: '가려진 시계를 감으로 멈춰 겨루기' },
+  { id: 'forehead', group: 'party', play: 'forehead', icon: '🙆', name: '이마 단어 퀴즈', desc: '이마에 댄 단어를 설명 듣고 맞히기' },
+  { id: 'react', group: 'party', play: 'react', icon: '⚡', name: '번개 반응 대결', desc: '신호가 오면 가장 먼저 누르기' },
   { id: 'bridge', group: 'party', play: 'bridge', icon: '🤝', name: '러브 드링크', desc: '손가락을 올린 사람 중 둘을 연결' },
 ];
 
