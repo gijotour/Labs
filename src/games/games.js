@@ -76,6 +76,9 @@ export const GAMES = [
   { id: 'dragontiger', group: 'casino', play: 'dragontiger', icon: '🐉', name: '드래곤 타이거', desc: '카드 한 장씩, 높은 쪽 맞히기' },
   { id: 'threecard', group: 'casino', play: 'threecard', icon: '♠️', name: '쓰리카드 포커', desc: '세 장 족보로 딜러와 겨루기' },
   { id: 'craps', group: 'casino', play: 'craps', icon: '🧊', name: '크랩스', desc: '주사위 두 개, 패스 라인 배우기' },
+  { id: 'videopoker', group: 'casino', play: 'videopoker', icon: '🎞️', name: '비디오 포커', desc: '다섯 장 포커 족보 익히기' },
+  { id: 'holdem', group: 'casino', play: 'holdem', icon: '🤠', name: '카지노 홀덤', desc: '텍사스 홀덤 방식으로 딜러와 겨루기' },
+  { id: 'bigwheel', group: 'casino', play: 'bigwheel', icon: '🎡', name: '빅휠', desc: '큰 바퀴가 멈출 칸 맞히기' },
 ];
 
 export const playUrl = (game) => {
