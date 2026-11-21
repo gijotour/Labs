@@ -95,6 +95,13 @@ const ProductGrid = ({ products }) => {
               </Link>
             )}
 
+            {/* 소개 페이지가 아닌 안내 화면(규칙 설명 등)도 잠금 없이 연다. */}
+            {proj.guide && (
+              <Link className="lab-tile__cta" to={proj.guide.to} aria-label={`${proj.name} ${proj.guide.label}`}>
+                {proj.guide.label} <span className="lab-arrow" aria-hidden="true">→</span>
+              </Link>
+            )}
+
             {/* 코드(저장소) 링크는 노출하지 않는다. 실행 가능한 것만 잠금 뒤에 둔다. */}
             {(proj.internal || proj.live) &&
               (gate?.id === proj.id ? (

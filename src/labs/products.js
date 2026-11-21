@@ -31,8 +31,7 @@
  * ── 그리드 규칙 ───────────────────────────────────────────────────────
  * 데스크톱은 3열이고 **갈래마다** 타일의 span 합이 행을 정확히 채워야 한다.
  *   기술: 테크놀로지(2) + ASTER(1) = 3 / MD Studio(1) + BridgeAI(1) + Gster(1) = 3
- *   투어: 투어(2) + Talk(1) = 3 / Arcade(1) + Drink(2) = 3
- * Drink 의 2칸은 칸 수를 맞추려는 것이고 강조가 아니다(2열 이하에서는 1칸으로 줄어든다).
+ *   투어: 투어(2) + Talk(1) = 3 / 혼자 하는 게임(1) + 모임 게임(1) + 카지노 룰 연습판(1) = 3
  * 제품을 넣거나 뺄 때 순서와 span 합을 다시 맞출 것. 빈 칸이 남으면 깨져 보인다.
  * content.test.js 가 갈래별 합을 감시한다.
  *
@@ -54,6 +53,7 @@
  *   internal?: string,      // 앱 내부 경로. 있으면 react-router 로 이동한다
  *   site?: string,          // 잠금 없이 바로 여는 외부 주소 (사업 사이트 등)
  *   page?: string,          // 잠금 없이 바로 여는 앱 내부 소개 페이지 (/aster 등)
+ *   guide?: { to: string, label: string }, // 소개 페이지가 아닌 앱 내부 안내 화면 (/casino 등)
  *   group: 'tech'|'travel', // 어느 갈래 화면에 나오는가
  *   hideOnDoor?: boolean,   // 허브의 문에 이름을 올리지 않는다 (사내 도구)
  *   span?: 1|2,             // 데스크톱 3열 그리드에서 차지할 열 수 (기본 1)
@@ -175,13 +175,16 @@ export const PRODUCTS = [
     group: 'travel',
     span: 1,
   },
+  // ── 게임 3칸 ── 이름은 게임 목록(/games)의 묶음 이름과 같게 쓴다(2026-11-22).
   {
     id: 'gijoarcade',
-    name: 'GIJO Arcade',
-    // README 는 5종이라 적지만 실제 화면에는 11종이 있다(2026-11-20 코드 확인).
-    summary: '설치 없이 브라우저에서 여는 1인용 아케이드 게임 11종',
-    lang: 'HTML',
-    updated: '2026-08-24',
+    name: '혼자 하는 게임',
+    // 게임 수와 이름은 src/games/games.js 의 solo 묶음에서 가져왔다.
+    summary:
+      '비행기나 대기 시간에 혼자 하는 게임 11종. ' +
+      '777 슬롯·2048 퍼즐·블록 쌓기·지뢰찾기 등을 설치 없이 브라우저에서 엽니다.',
+    lang: 'GIJO Arcade',
+    updated: '2026-11-21',
     repo: 'https://github.com/gijotour/gijoarcade',
     live: 'https://gijotour.github.io/gijoarcade/',
     page: '/arcade',
@@ -190,14 +193,34 @@ export const PRODUCTS = [
   },
   {
     id: 'gijodrink',
-    name: 'GIJO Drink',
-    summary: '모임 자리에서 폰 한 대로 여는 웹 게임 11종',
-    lang: 'HTML',
-    updated: '2026-08-24',
+    name: '모임 게임',
+    // 게임 수와 이름은 src/games/games.js 의 party 묶음에서 가져왔다.
+    summary:
+      '폰 한 대로 여럿이 하는 게임 11종. ' +
+      '미션 룰렛·시간 폭탄·라이어 게임·10초 맞추기 등을 모임 자리에서 바로 엽니다.',
+    lang: 'GIJO Drink',
+    updated: '2026-11-20',
     repo: 'https://github.com/gijotour/gijodrink',
     live: 'https://gijotour.github.io/gijodrink/',
     page: '/drink',
     group: 'travel',
-    span: 2,
+    span: 1,
+  },
+  {
+    // GIJO Arcade 안의 카지노 화면이다. 규칙 설명은 제품 소개 페이지가 아니라 /casino 에 있어
+    // page 대신 guide 로 건다(page 는 src/product-pages 의 글과 짝을 이뤄야 한다).
+    id: 'gijocasino',
+    name: '카지노 룰 연습판',
+    // 게임 수와 이름은 src/games/games.js 의 casino 묶음에서 가져왔다.
+    summary:
+      '블랙잭·바카라·룰렛·홀덤 등 10종의 규칙을 가상 칩으로 익히는 연습판. ' +
+      '쉬운 규칙 설명이 함께 있고 현금 거래는 없습니다.',
+    lang: 'GIJO Arcade',
+    updated: '2026-11-21',
+    repo: 'https://github.com/gijotour/gijoarcade',
+    live: 'https://gijotour.github.io/gijoarcade/?mode=casino',
+    guide: { to: '/casino', label: '규칙 설명 보기' },
+    group: 'travel',
+    span: 1,
   },
 ];
