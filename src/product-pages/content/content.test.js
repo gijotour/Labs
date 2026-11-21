@@ -79,9 +79,13 @@ describe('제품 소개 문안 — 공개 규칙', () => {
     expect(GSTER.maker).toBeUndefined();
   });
 
-  it('MD Studio 는 저장소 릴리즈로만 내보내고, ASTER 로 이어 쓴다고 적지 않는다', () => {
+  it('MD Studio 는 웹판과 저장소 릴리즈로만 내보내고, ASTER 로 이어 쓴다고 적지 않는다', () => {
     const externals = collect(MDSTUDIO).filter((s) => /^https?:\/\//.test(s));
-    expect(externals).toEqual(['https://github.com/gijotour/gijo-smart-md-studio/releases']);
+    // 웹판(설치 없이 여는 주소)을 먼저, 데스크톱 설치판(릴리즈 목록)을 그다음에 둔다. 그 밖의 바깥 주소는 없다.
+    expect(externals).toEqual([
+      'https://gijotour.github.io/gijo-smart-md-studio/',
+      'https://github.com/gijotour/gijo-smart-md-studio/releases',
+    ]);
     const text = collect(MDSTUDIO).join('\n');
     expect(text).not.toMatch(/반입|이어 쓸 수|이어 쓰려면|연동|가격|유료/);
   });
