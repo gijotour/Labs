@@ -45,7 +45,7 @@ const GamesApp = () => {
                 <p className="gm-group__note">
                   {group.note} ·{' '}
                   <Link className="gm-group__intro" to={group.intro}>
-                    소개 보기
+                    {group.introLabel || '소개 보기'}
                   </Link>
                 </p>
               </div>

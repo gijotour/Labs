@@ -4,6 +4,7 @@
  * ── 게임을 더할 때 ────────────────────────────────────────────────────
  * 아래 GAMES 에 한 줄 넣는다. 그게 전부다. 화면(GamesApp.jsx)은 이 표만 읽는다.
  *   group : 'solo'(혼자 하는 게임 — GIJO Arcade) | 'party'(모임 게임 — GIJO Drink)
+ *           | 'casino'(카지노 룰 연습판 — GIJO Arcade. 규칙 설명은 /casino 에 있다)
  *   play  : 그 앱 안에서 게임을 바로 여는 이름. 주소 끝에 `#play=<play>` 로 붙는다.
  *           두 앱(gijoarcade · gijodrink)이 이 꼴의 주소를 받아 해당 게임을 바로 연다.
  *
@@ -29,6 +30,14 @@ export const GROUPS = [
     note: 'GIJO Drink · 폰 한 대로 여럿이',
     base: DRINK_URL,
     intro: '/drink',
+  },
+  {
+    id: 'casino',
+    title: '카지노 룰 연습판',
+    note: 'GIJO Arcade · 가상 칩으로 규칙 익히기',
+    base: ARCADE_URL,
+    intro: '/casino',
+    introLabel: '규칙 설명 보기',
   },
 ];
 
@@ -58,6 +67,12 @@ export const GAMES = [
   { id: 'forehead', group: 'party', play: 'forehead', icon: '🙆', name: '이마 단어 퀴즈', desc: '이마에 댄 단어를 설명 듣고 맞히기' },
   { id: 'react', group: 'party', play: 'react', icon: '⚡', name: '번개 반응 대결', desc: '신호가 오면 가장 먼저 누르기' },
   { id: 'bridge', group: 'party', play: 'bridge', icon: '🤝', name: '러브 드링크', desc: '손가락을 올린 사람 중 둘을 연결' },
+
+  // ── 카지노 룰 연습판 (GIJO Arcade) ──
+  { id: 'blackjack', group: 'casino', play: 'blackjack', icon: '🃏', name: '블랙잭', desc: '21에 가깝게 만들어 딜러 이기기' },
+  { id: 'baccarat', group: 'casino', play: 'baccarat', icon: '🎴', name: '바카라', desc: '9에 가까울 쪽을 맞히기' },
+  { id: 'roulette-table', group: 'casino', play: 'roulette', icon: '🎯', name: '룰렛', desc: '구슬이 멈출 숫자나 색 맞히기' },
+  { id: 'sicbo', group: 'casino', play: 'sicbo', icon: '🎲', name: '다이사이', desc: '주사위 세 개의 결과 맞히기' },
 ];
 
 export const playUrl = (game) => {

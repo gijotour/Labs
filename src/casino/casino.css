@@ -1,0 +1,348 @@
+/* 카지노 룰 이해하기 (/casino). 모든 규칙은 .cs-surface 아래에 둔다 — 다른 화면에 새지 않게. */
+.cs-surface {
+  --cs-bg: #06140f;
+  --cs-felt: #0b2a1f;
+  --cs-panel: #0d2019;
+  --cs-line: rgba(232, 201, 122, 0.22);
+  --cs-line-soft: rgba(255, 255, 255, 0.08);
+  --cs-text: #f1efe6;
+  --cs-mute: #a9b8ad;
+  --cs-gold: #e8c97a;
+  --cs-red: #ff8b8b;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background:
+    radial-gradient(ellipse at 50% -10%, rgba(24, 110, 78, 0.55), transparent 60%),
+    var(--cs-bg);
+  color: var(--cs-text);
+  font-family: 'Pretendard', 'Noto Sans KR', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  line-height: 1.65;
+  word-break: keep-all;
+  scroll-behavior: smooth;
+}
+
+.cs-surface *,
+.cs-surface *::before,
+.cs-surface *::after {
+  box-sizing: border-box;
+}
+
+.cs-surface .cs-shell {
+  width: 100%;
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 20px 16px 48px;
+  padding-left: max(16px, env(safe-area-inset-left));
+  padding-right: max(16px, env(safe-area-inset-right));
+}
+
+.cs-surface .cs-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--cs-line-soft);
+  font-size: 0.9rem;
+}
+
+.cs-surface .cs-nav__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  color: var(--cs-mute);
+  text-decoration: none;
+}
+
+.cs-surface .cs-nav__back:hover,
+.cs-surface .cs-nav__back:focus-visible {
+  color: var(--cs-gold);
+}
+
+.cs-surface .cs-nav__count {
+  color: var(--cs-mute);
+  font-variant-numeric: tabular-nums;
+}
+
+.cs-surface .cs-hero {
+  padding: 32px 0 8px;
+  text-align: center;
+}
+
+.cs-surface .cs-hero__kicker {
+  margin: 0 0 6px;
+  color: var(--cs-gold);
+  letter-spacing: 0.5em;
+  font-size: 0.95rem;
+}
+
+.cs-surface .cs-hero__title {
+  margin: 0;
+  font-size: clamp(1.8rem, 6vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.cs-surface .cs-hero__lead {
+  margin: 12px auto 0;
+  max-width: 34em;
+  color: var(--cs-mute);
+}
+
+.cs-surface .cs-hero__note {
+  display: inline-block;
+  margin: 14px 0 0;
+  padding: 6px 14px;
+  border: 1px solid var(--cs-line);
+  border-radius: 999px;
+  color: var(--cs-gold);
+  font-size: 0.85rem;
+}
+
+.cs-surface .cs-jump {
+  list-style: none;
+  margin: 22px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.cs-surface .cs-jump__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 8px 16px;
+  border: 1px solid var(--cs-line-soft);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--cs-text);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.cs-surface .cs-jump__chip:hover,
+.cs-surface .cs-jump__chip:focus-visible {
+  border-color: var(--cs-gold);
+  outline: none;
+}
+
+.cs-surface .cs-card {
+  margin-top: 28px;
+  padding: 22px 18px;
+  border: 1px solid var(--cs-line);
+  border-radius: 20px;
+  background: linear-gradient(180deg, var(--cs-felt), var(--cs-panel));
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+  scroll-margin-top: 16px;
+}
+
+.cs-surface .cs-card__head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.cs-surface .cs-card__icon {
+  flex: 0 0 56px;
+  height: 56px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--cs-line);
+  border-radius: 16px;
+  background: rgba(0, 0, 0, 0.25);
+  font-size: 1.8rem;
+}
+
+.cs-surface .cs-card__titles {
+  min-width: 0;
+}
+
+.cs-surface .cs-card__title {
+  margin: 0;
+  font-size: 1.45rem;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.cs-surface .cs-card__en {
+  margin-left: 6px;
+  color: var(--cs-gold);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.cs-surface .cs-card__one {
+  margin: 2px 0 0;
+  color: var(--cs-mute);
+  font-size: 0.95rem;
+}
+
+.cs-surface .cs-card__goal {
+  margin: 16px 0 0;
+  font-size: 1.02rem;
+}
+
+.cs-surface .cs-card__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+@media (min-width: 760px) {
+  .cs-surface .cs-card {
+    padding: 28px;
+  }
+
+  .cs-surface .cs-card__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* 진행 순서는 글이 길어 오른쪽 칸을 두 줄 높이로 쓴다 */
+  .cs-surface .cs-card__grid > .cs-block:nth-child(2) {
+    grid-row: span 2;
+  }
+}
+
+.cs-surface .cs-block {
+  padding: 14px 16px;
+  border: 1px solid var(--cs-line-soft);
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.22);
+}
+
+.cs-surface .cs-block__title {
+  margin: 0 0 8px;
+  color: var(--cs-gold);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.cs-surface .cs-pairs {
+  margin: 0;
+}
+
+.cs-surface .cs-pairs__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 7px 0;
+  border-top: 1px dashed var(--cs-line-soft);
+  font-size: 0.93rem;
+}
+
+.cs-surface .cs-pairs__row:first-child {
+  border-top: 0;
+}
+
+.cs-surface .cs-pairs dt {
+  flex: 0 0 auto;
+  max-width: 55%;
+  font-weight: 700;
+}
+
+.cs-surface .cs-pairs dd {
+  margin: 0;
+  color: var(--cs-mute);
+  text-align: right;
+}
+
+.cs-surface .cs-pairs--pay dd {
+  color: var(--cs-gold);
+  font-weight: 600;
+}
+
+.cs-surface .cs-steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: cs-step;
+}
+
+.cs-surface .cs-steps li {
+  position: relative;
+  padding: 6px 0 6px 34px;
+  font-size: 0.95rem;
+  counter-increment: cs-step;
+}
+
+.cs-surface .cs-steps li::before {
+  content: counter(cs-step);
+  position: absolute;
+  left: 0;
+  top: 7px;
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--cs-gold);
+  color: #1b1405;
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.cs-surface .cs-card__tip {
+  margin: 14px 0 0;
+  padding: 10px 14px;
+  border-left: 3px solid var(--cs-gold);
+  border-radius: 0 10px 10px 0;
+  background: rgba(232, 201, 122, 0.08);
+  font-size: 0.92rem;
+}
+
+.cs-surface .cs-card__play {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 52px;
+  margin-top: 16px;
+  padding: 12px 20px;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #f3d98f, #d4a943);
+  color: #1b1405;
+  font-size: 1.02rem;
+  font-weight: 800;
+  text-decoration: none;
+  transition: filter 0.15s ease, transform 0.15s ease;
+}
+
+.cs-surface .cs-card__play:hover,
+.cs-surface .cs-card__play:focus-visible {
+  filter: brightness(1.08);
+  outline: none;
+}
+
+.cs-surface .cs-card__play:active {
+  transform: scale(0.99);
+}
+
+.cs-surface .cs-foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px 16px;
+  margin-top: 48px;
+  padding-top: 18px;
+  border-top: 1px solid var(--cs-line-soft);
+  color: var(--cs-mute);
+  font-size: 0.82rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cs-surface {
+    scroll-behavior: auto;
+  }
+
+  .cs-surface .cs-card__play {
+    transition: none;
+  }
+}

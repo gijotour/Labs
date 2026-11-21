@@ -5,6 +5,7 @@ import LabsSection from './labs/LabsSection';
 const GijoTourApp = lazy(() => import('./tour-app/GijoTourApp'));
 const ProductPagesApp = lazy(() => import('./product-pages/ProductPagesApp'));
 const GamesApp = lazy(() => import('./games/GamesApp'));
+const CasinoApp = lazy(() => import('./casino/CasinoApp'));
 
 /**
  * GIJO LABS 셸.
@@ -46,6 +47,8 @@ const SERVICES = [
   { id: 'drink', name: 'GIJO Drink 소개', basePath: '/drink', element: <ProductPagesApp page="drink" /> },
   // 게임 목록. Arcade·Drink 에 든 게임을 하나씩 보여 주고 바로 연다.
   { id: 'games', name: '게임 목록', basePath: '/games', element: <GamesApp /> },
+  // 카지노 룰 이해하기. 규칙 설명과 Arcade 연습판 바로가기.
+  { id: 'casino', name: '카지노 룰 이해하기', basePath: '/casino', element: <CasinoApp /> },
   // 새 서비스는 여기에 추가한다. 예:
   // { id: 'gijopay', name: '지아이조 페이', basePath: '/gijopay', element: <GijoPayApp /> },
 ];
