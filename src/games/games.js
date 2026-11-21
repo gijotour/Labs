@@ -73,6 +73,9 @@ export const GAMES = [
   { id: 'baccarat', group: 'casino', play: 'baccarat', icon: '🎴', name: '바카라', desc: '9에 가까울 쪽을 맞히기' },
   { id: 'roulette-table', group: 'casino', play: 'roulette', icon: '🎯', name: '룰렛', desc: '구슬이 멈출 숫자나 색 맞히기' },
   { id: 'sicbo', group: 'casino', play: 'sicbo', icon: '🎲', name: '다이사이', desc: '주사위 세 개의 결과 맞히기' },
+  { id: 'dragontiger', group: 'casino', play: 'dragontiger', icon: '🐉', name: '드래곤 타이거', desc: '카드 한 장씩, 높은 쪽 맞히기' },
+  { id: 'threecard', group: 'casino', play: 'threecard', icon: '♠️', name: '쓰리카드 포커', desc: '세 장 족보로 딜러와 겨루기' },
+  { id: 'craps', group: 'casino', play: 'craps', icon: '🧊', name: '크랩스', desc: '주사위 두 개, 패스 라인 배우기' },
 ];
 
 export const playUrl = (game) => {
