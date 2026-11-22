@@ -5,6 +5,7 @@ import markImg from '../assets/gijo-mark.png';
 import { PRODUCTS } from './products';
 import { SECTIONS } from './sections';
 import { LAB_STYLES } from './labStyles';
+import InstallApp from './InstallApp';
 // 이 화면은 .lab-surface 위에서 --t-* 토큰을 쓴다. 토큰은 Labs 자기 파일에 있다.
 // 예전에는 투어의 tour-theme.css 를 가져다 썼다(부모가 자식에 의존). 2026-11-22 에 끊었다.
 import './lab-theme.css';
@@ -73,6 +74,7 @@ const GijoLab = () => (
 
       <footer className="lab-foot">
         <span className="lab-foot__brand">GIJO Tour LaB</span>
+        <InstallApp />
         <span className="lab-foot__copy">
           © {new Date().getFullYear()} GIJO Tour LaB. All rights reserved.
         </span>

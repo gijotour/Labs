@@ -238,6 +238,63 @@ export const LAB_STYLES = `
         }
         .lab-foot__copy { font-size: 0.75rem; opacity: 0.32; }
 
+        /* ── 홈 화면에 추가(설치) 단추와 안내 창 ── InstallApp.jsx */
+        .lab-install {
+          min-height: 40px;
+          padding: 0.5rem 0.875rem;
+          border: 1px solid var(--t-line-strong);
+          border-radius: 10px;
+          background: transparent;
+          color: var(--t-fg-muted);
+          font: inherit;
+          font-size: 0.8125rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: color 0.2s ease, border-color 0.2s ease;
+        }
+        .lab-install:hover { color: var(--t-fg); border-color: var(--t-accent-line); }
+        .lab-install:focus-visible,
+        .lab-install-close:focus-visible { outline: 2px solid var(--t-accent); outline-offset: 2px; }
+        .lab-install-sheet {
+          position: fixed;
+          inset: 0;
+          z-index: 1000;
+          display: flex;
+          align-items: flex-end;
+          justify-content: center;
+          padding: 1rem;
+          padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+          background: rgba(0, 0, 0, 0.62);
+        }
+        .lab-install-card {
+          width: 100%;
+          max-width: 420px;
+          padding: 1.25rem;
+          border: 1px solid var(--t-line-strong);
+          border-radius: 14px;
+          background: var(--t-surface-2);
+          color: var(--t-fg);
+          text-align: left;
+        }
+        .lab-install-head { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+        .lab-install-head img { border-radius: 10px; }
+        .lab-install-title { margin: 0; font-size: 1.0625rem; font-weight: 700; line-height: 1.3; color: var(--t-fg); word-break: keep-all; }
+        .lab-install-steps { margin: 0 0 0.875rem; padding-left: 1.25em; font-size: 0.9375rem; line-height: 1.7; color: var(--t-fg-muted); word-break: keep-all; }
+        .lab-install-steps b { color: var(--t-fg); }
+        .lab-install-note { margin: 0 0 0.875rem; font-size: 0.8125rem; line-height: 1.5; color: var(--t-fg-subtle); word-break: keep-all; }
+        .lab-install-close {
+          width: 100%;
+          min-height: 48px;
+          border: 0;
+          border-radius: 10px;
+          background: var(--t-accent);
+          color: var(--t-accent-ink);
+          font: inherit;
+          font-size: 0.9375rem;
+          font-weight: 700;
+          cursor: pointer;
+        }
+
         .lab-arrow {
           display: inline-block;
           transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
