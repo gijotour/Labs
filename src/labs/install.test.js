@@ -14,6 +14,7 @@ const html = readFileSync(resolve(root, 'index.html'), 'utf8');
 
 describe('홈 화면에 추가(설치) 정보', () => {
   it('매니페스트가 설치에 필요한 칸을 갖춘다', () => {
+    expect(manifest.id).toBe('/');
     expect(manifest.name).toBe('GIJO Tour LaB');
     expect(manifest.short_name.length).toBeLessThanOrEqual(12);
     expect(manifest.start_url).toBe('/');
@@ -39,7 +40,14 @@ describe('홈 화면에 추가(설치) 정보', () => {
     expect(existsSync(resolve(root, 'public', touch[1]))).toBe(true);
   });
 
-  it('서비스워커를 등록하지 않는다 — 새로 배포한 판이 캐시에 가려지지 않게', () => {
-    expect(html).not.toContain('serviceWorker');
+  it('서비스 워커는 아무것도 캐시하지 않는다 — 새로 배포한 판이 옛 판에 가려지지 않게', () => {
+    const sw = readFileSync(resolve(root, 'public/sw.js'), 'utf8')
+      .split(/\r?\n/)
+      .filter((line) => !line.trim().startsWith('//'))
+      .join(' ');
+    expect(sw).toContain("addEventListener('fetch'");
+    expect(sw).not.toContain('caches');
+    expect(sw).not.toContain('respondWith');
+    expect(html).toContain('register("/sw.js")');
   });
 });

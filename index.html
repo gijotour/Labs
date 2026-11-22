@@ -4,13 +4,30 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- 폰 홈 화면에 추가(설치)할 때 쓰는 정보. 서비스워커는 두지 않는다(배포한 새 판이 캐시에 가려지지 않게). -->
+    <!-- 폰 홈 화면에 추가(설치)할 때 쓰는 정보. 서비스 워커(/sw.js)는 아무것도 캐시하지 않는다. -->
     <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#070b12" />
     <link rel="apple-touch-icon" href="/icon-180.png" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="GIJO LaB" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <script>
+      // 설치 창 신호(beforeinstallprompt)는 화면이 그려지기 전에, 또는 허브가 아닌 주소에서 올 수 있다.
+      // 여기서 잡아 두고 허브의 「홈 화면에 추가」 단추(src/labs/InstallApp.jsx)가 꺼내 쓴다.
+      window.addEventListener("beforeinstallprompt", function (e) {
+        e.preventDefault();
+        window.__labInstallPrompt = e;
+      });
+      window.addEventListener("appinstalled", function () {
+        window.__labInstallPrompt = null;
+      });
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", function () {
+          navigator.serviceWorker.register("/sw.js").catch(function () {});
+        });
+      }
+    </script>
     <title>보안·AI 기술을 만드는 GIJO Tour LaB</title>
     <meta name="description" content="보안 제품 공급과 기술지원, 그리고 자체 제품을 만드는 GIJO Tour LaB." />
 

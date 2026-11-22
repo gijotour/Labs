@@ -275,9 +275,12 @@ export const LAB_STYLES = `
           background: var(--t-surface-2);
           color: var(--t-fg);
           text-align: left;
+          /* 가로로 눕힌 폰이나 글자를 키운 화면에서 위쪽이 잘리지 않게 창 안에서 스크롤한다. */
+          max-height: 100%;
+          overflow-y: auto;
         }
         .lab-install-head { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
-        .lab-install-head img { border-radius: 10px; }
+        .lab-install-head img { border-radius: 10px; flex-shrink: 0; }
         .lab-install-title { margin: 0; font-size: 1.0625rem; font-weight: 700; line-height: 1.3; color: var(--t-fg); word-break: keep-all; }
         .lab-install-steps { margin: 0 0 0.875rem; padding-left: 1.25em; font-size: 0.9375rem; line-height: 1.7; color: var(--t-fg-muted); word-break: keep-all; }
         .lab-install-steps b { color: var(--t-fg); }
