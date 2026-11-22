@@ -32,6 +32,8 @@ const InstallApp = () => {
   const [open, setOpen] = useState(false);
   const [ios] = useState(isIOS);
   const deferred = useRef(null);
+  const triggerRef = useRef(null);
+  const closeRef = useRef(null);
 
   useEffect(() => {
     const onPrompt = (e) => {
@@ -57,7 +59,14 @@ const InstallApp = () => {
       if (e.key === 'Escape') setOpen(false);
     };
     window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
+    // 안내 창이 열리면 초점을 창 안(닫기 단추)으로 옮기고, 닫히면 열었던 단추로 돌려준다.
+    // 그러지 않으면 키보드·화면 낭독기 사용자의 초점이 가려진 뒤쪽 화면에 남는다.
+    const trigger = triggerRef.current;
+    closeRef.current?.focus();
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      trigger?.focus();
+    };
   }, [open]);
 
   if (hidden) return null;
@@ -79,7 +88,7 @@ const InstallApp = () => {
 
   return (
     <>
-      <button type="button" className="lab-install" onClick={onClick}>
+      <button type="button" className="lab-install" onClick={onClick} ref={triggerRef}>
         홈 화면에 추가
       </button>
 
@@ -131,7 +140,12 @@ const InstallApp = () => {
               추가해 두면 홈 화면 아이콘으로 바로 열립니다. 인터넷이 연결돼 있어야 열립니다.
               {ios ? ' 아이폰에서는 사파리로 열어야 추가할 수 있습니다.' : ''}
             </p>
-            <button type="button" className="lab-install-close" onClick={() => setOpen(false)}>
+            <button
+              type="button"
+              className="lab-install-close"
+              onClick={() => setOpen(false)}
+              ref={closeRef}
+            >
               닫기
             </button>
           </div>
