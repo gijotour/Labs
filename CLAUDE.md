@@ -69,7 +69,7 @@ npm run build && sha256sum dist/assets/index-*.css
 배포 전 게이트 — 하나라도 실패하면 푸시하지 않는다.
 
 ```bash
-npm run lint     # 현재 2 errors 잔존(미사용 변수). 신규 오류만 차단
+npm run lint     # 오류 0 (2026-11-22 확인). 하나라도 나오면 차단
 npm run build
 npm test                                          # vitest
 cd backend && .venv/Scripts/python -m pytest -q   # pytest (계약 테스트 포함)
