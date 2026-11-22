@@ -1,0 +1,57 @@
+/* ==========================================================================
+   GIJO Labs 허브(/ · /tech · /travel) 디자인 토큰
+   --------------------------------------------------------------------------
+   .lab-surface 를 붙인 요소 안에서만 적용된다. 규칙은 이 하나뿐이고,
+   화면 스타일은 labStyles.js 가 이 토큰을 써서 그린다.
+
+   값은 투어(src/tour-app/tour-theme.css)의 --t-* 토큰과 같게 맞춰 둔다.
+   예전에는 Labs 가 투어의 CSS 파일을 그대로 가져다 썼다(부모가 자식에 의존).
+   서비스가 남의 CSS 에 기대지 않도록 여기에 따로 둔다. 톤을 바꿀 때는 두 파일을 같이 본다.
+   ========================================================================== */
+
+.lab-surface {
+  /* ── 중성 단계 (배경에서 전경 순) ── */
+  --t-bg: #070b12;
+  --t-surface-1: #0c111a;
+  --t-surface-2: #111827;
+  --t-surface-3: #1a2333;
+  --t-line: rgba(255, 255, 255, 0.09);
+  --t-line-strong: rgba(255, 255, 255, 0.16);
+
+  /* ── 전경 (전부 AA 이상) ── */
+  --t-fg: #f2f5f9;          /* 17.4:1 */
+  --t-fg-muted: #b6c2d2;    /* 10.2:1 */
+  --t-fg-subtle: #8b9bb4;   /*  6.4:1 */
+
+  /* ── 액센트: 시안 하나만 ── */
+  --t-accent: #35d6ff;
+  --t-accent-ink: #04121a;  /* 액센트 위에 얹는 글자색 */
+  --t-accent-weak: rgba(53, 214, 255, 0.12);
+  --t-accent-line: rgba(53, 214, 255, 0.32);
+
+  /* ── 상태색 (최소한만) ── */
+  --t-danger: #ff8095;
+
+  /* ── 타이포 3단계 ── */
+  --t-display: 3.25rem;     /* 페이지당 1회 */
+  --t-title: 1.875rem;      /* 섹션 제목 */
+  --t-body: 1rem;
+  --t-small: 0.875rem;
+
+  /* ── 여백 스케일 (4의 배수) ── */
+  --t-gap-xs: 0.5rem;
+  --t-gap-sm: 0.75rem;
+  --t-gap: 1.25rem;
+  --t-gap-lg: 2rem;
+  --t-gap-xl: 3rem;
+  --t-section: 6rem;
+
+  --t-radius: 14px;
+  --t-radius-sm: 10px;
+
+  --t-shell: min(1180px, calc(100% - 3rem));
+
+  background: var(--t-bg);
+  color: var(--t-fg);
+  font-family: 'Outfit', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+}

@@ -6,7 +6,7 @@
  *  · CSS 파일로 만들어 import 하면 dist/assets/index-*.css 에 섞여 들어가 기존 캐스케이드
  *    (src/styles/01~08)와 순서 싸움을 한다. 문자열로 두면 그 산출물이 한 바이트도 안 변한다.
  *
- * 토큰(--t-*)은 .lab-surface 가 준다(정의는 tour-app/tour-theme.css — 알려진 잔여 문제).
+ * 토큰(--t-*)은 .lab-surface 가 준다(정의는 ./lab-theme.css).
  */
 export const LAB_STYLES = `
         /* 모서리 반경 체계 - 페이지 전체에서 이 셋만 쓴다

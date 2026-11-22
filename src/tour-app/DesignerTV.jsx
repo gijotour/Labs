@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './tour-theme.css';
+// tour-theme.css 는 여기서 다시 import 하지 않는다. 이 화면은 GijoTourApp 이 지연 로드하고,
+// 테마는 GijoTourApp 조각에 이미 들어 있다. 여기서도 import 하면 번들러가 테마를 따로 떼어
+// 랜딩 CSS 뒤에 싣게 되어, 같은 무게의 규칙끼리 이기는 쪽이 뒤집힌다(2026-11-22 확인).
 
 function DesignerTV({ videos = [] }) {
   const navigate = useNavigate();

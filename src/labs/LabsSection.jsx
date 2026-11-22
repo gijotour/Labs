@@ -3,8 +3,8 @@ import { PRODUCTS } from './products';
 import { SECTIONS, findSection } from './sections';
 import ProductGrid from './ProductGrid';
 import { LAB_STYLES } from './labStyles';
-// --t-* 토큰 정의. GijoLab.jsx 와 같은 이유로 의존을 명시한다(알려진 잔여 문제).
-import '../tour-app/tour-theme.css';
+// --t-* 토큰 정의. Labs 자기 파일이다(투어 CSS 에 기대지 않는다).
+import './lab-theme.css';
 
 /**
  * Labs 갈래 화면 (/tech · /travel).

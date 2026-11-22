@@ -41,8 +41,11 @@ GIJO LABS  (gijo.co.kr)
 
 ### 알려진 잔여 문제
 
-- `src/labs/*.jsx` 가 `../tour-app/tour-theme.css` 를 import 한다. 부모가 자식에 의존하는 형태다.
-  Labs 전용 테마를 분리해야 하나 CSS 캐스케이드 정리가 선행돼야 한다.
+- Labs 토큰(`src/labs/lab-theme.css`)과 투어 토큰(`src/tour-app/tour-theme.css`)은 값이 같은 사본이다.
+  2026-11-22 에 Labs 가 투어 CSS 를 import 하던 것을 끊으면서 나눴다. 톤을 바꿀 때는 두 파일을 같이 본다.
+- 투어의 지연 로드 화면(`DashboardShell` · `DesignerTV` · `AdminGuideUserManager`)은 `tour-theme.css` 를
+  다시 import 하지 않는다. import 하면 테마가 별도 조각으로 떨어져 랜딩 CSS **뒤에** 실리고,
+  `.tour-surface h2` 와 `.t-form__head h2` 처럼 무게가 같은 규칙의 승패가 뒤집힌다.
 - `src/styles/05-payment-lab-hub.css` 에 Labs 랜딩(`.lab-*`) 스타일이 투어 결제 스타일과 섞여 있다.
 
 ## CSS 를 건드릴 때
