@@ -40,6 +40,7 @@ const SERVICES = [
   // 제품 소개 페이지. 두 주소가 같은 폴더(src/product-pages)를 쓰고 글만 다르다.
   { id: 'aster', name: 'GIJO ASTER 소개', basePath: '/aster', element: <ProductPagesApp page="aster" /> },
   { id: 'gster', name: 'Gster 소개', basePath: '/gster', element: <ProductPagesApp page="gster" /> },
+  { id: 'secmusou', name: '보안무쌍 소개', basePath: '/secmusou', element: <ProductPagesApp page="secmusou" /> },
   { id: 'mdstudio', name: 'MD Studio 소개', basePath: '/mdstudio', element: <ProductPagesApp page="mdstudio" /> },
   { id: 'bridgeai', name: 'BridgeAI 소개', basePath: '/bridgeai', element: <ProductPagesApp page="bridgeai" /> },
   { id: 'talk', name: 'GIJO Talk 소개', basePath: '/talk', element: <ProductPagesApp page="talk" /> },

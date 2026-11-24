@@ -30,7 +30,8 @@
  *
  * ── 그리드 규칙 ───────────────────────────────────────────────────────
  * 데스크톱은 3열이고 **갈래마다** 타일의 span 합이 행을 정확히 채워야 한다.
- *   기술: 테크놀로지(2) + ASTER(1) = 3 / MD Studio(1) + BridgeAI(1) + Gster(1) = 3
+ *   기술: 보안무쌍(2) + ASTER(1) = 3 / 테크놀로지(2) + MD Studio(1) = 3 / BridgeAI(2) + Gster(1) = 3
+ *     (2026-11-24 보안무쌍을 기술 갈래 맨 앞에 두면서 다시 맞췄다. 사장님 결정: 「기술 갈래 맨 앞」)
  *   투어: 투어(2) + Talk(1) = 3 / 혼자 하는 게임(1) + 모임 게임(1) + 카지노 룰 연습판(1) = 3
  * 제품을 넣거나 뺄 때 순서와 span 합을 다시 맞출 것. 빈 칸이 남으면 깨져 보인다.
  * content.test.js 가 갈래별 합을 감시한다.
@@ -64,23 +65,22 @@
 export const PRODUCTS = [
   // ── 기술 (/tech) ──────────────────────────────────────────────────
   {
-    // 본업. 보안 제품 공급과 기술지원.
-    // 설명은 gijo.ai/gijohome 의 카피에서 가져왔다. 지어내지 않았다.
-    id: 'gijo-technology',
-    name: '지아이조 테크놀로지',
+    // 보안담당자용 학습 게임. 기술 갈래 맨 앞(2026-11-24 사장님 결정). 소개 글은 product-pages/content/secmusou.js.
+    // summary 는 저장소 README 첫 문단에서 가져왔다.
+    id: 'secmusou',
+    name: '보안무쌍',
     summary:
-      'IT 인프라의 취약점을 외부자와 내부자 양쪽 관점에서 점검하고, ' +
-      '서버에 쌓이는 개인정보를 검출·암호화·접근제어까지 이어서 관리합니다. ' +
-      '보안 제품 공급과 기술지원이 본업입니다.',
-    lang: '보안 솔루션 공급 · 기술지원',
-    updated: '',
-    repo: null,
-    live: null,
-    site: 'https://gijo.ai/gijohome/user/main/user_main',
+      '보안담당자를 위한 스트레스 해소 + 보안 학습 무쌍 액션 게임. ' +
+      '버그·웜·랜섬웨어를 수백 마리씩 쓸어버리면서 OWASP Top 10, 실제로 악용된 CVE, 로그 분석, 침해사고 대응을 익힙니다.',
+    lang: '브라우저 게임 · PC · 휴대폰',
+    updated: '2026-11-24',
+    repo: 'https://github.com/gijotour/secmusou',
+    live: 'https://gijotour.github.io/secmusou/',
+    page: '/secmusou',
     group: 'tech',
     span: 2,
     featured: true,
-    status: '핵심 사업',
+    status: '새로 나옴',
   },
   {
     // 옛 이름 GIJO AS. 이름 풀이 「자율 보안 운영 시스템」은 고정이다.
@@ -98,6 +98,25 @@ export const PRODUCTS = [
     span: 1,
     featured: true,
     status: '개발 중',
+  },
+  {
+    // 본업. 보안 제품 공급과 기술지원.
+    // 설명은 gijo.ai/gijohome 의 카피에서 가져왔다. 지어내지 않았다.
+    id: 'gijo-technology',
+    name: '지아이조 테크놀로지',
+    summary:
+      'IT 인프라의 취약점을 외부자와 내부자 양쪽 관점에서 점검하고, ' +
+      '서버에 쌓이는 개인정보를 검출·암호화·접근제어까지 이어서 관리합니다. ' +
+      '보안 제품 공급과 기술지원이 본업입니다.',
+    lang: '보안 솔루션 공급 · 기술지원',
+    updated: '',
+    repo: null,
+    live: null,
+    site: 'https://gijo.ai/gijohome/user/main/user_main',
+    group: 'tech',
+    span: 2,
+    featured: true,
+    status: '핵심 사업',
   },
   {
     id: 'gijo-smart-md-studio',
@@ -123,7 +142,7 @@ export const PRODUCTS = [
     live: null,
     page: '/bridgeai',
     group: 'tech',
-    span: 1,
+    span: 2, // 2026-11-24 보안무쌍이 들어오며 행을 맞추려고 넓혔다
   },
   {
     // 사내 도구. 판매 상품이 아니다. 소개 페이지는 잠금 없이 열고 검색에는 안 잡히게 한다.

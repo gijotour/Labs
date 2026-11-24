@@ -27,8 +27,8 @@ const joined = allText.join('\n');
 
 describe('제품 소개 문안 — 공개 규칙', () => {
   it('글을 실제로 읽었다 (헛통과 방지)', () => {
-    expect(PAGES).toHaveLength(7);
-    expect(tiles).toHaveLength(7);
+    expect(PAGES).toHaveLength(8);
+    expect(tiles).toHaveLength(8);
     expect(SECTIONS).toHaveLength(2);
     expect(allText.length).toBeGreaterThan(150);
   });
@@ -104,6 +104,33 @@ describe('제품 소개 문안 — 공개 규칙', () => {
     for (const tile of tiles) {
       expect(PAGES.map((p) => p.path)).toContain(tile.page);
     }
+  });
+});
+
+describe('보안무쌍 소개', () => {
+  const page = findPage('secmusou');
+  const text = collect([page]).join('\n');
+
+  it('게임(GitHub Pages)과 공개 저장소로만 내보낸다', () => {
+    const externals = [...new Set(collect([page]).filter((s) => /^https?:\/\//.test(s)))];
+    expect(externals).toEqual(['https://gijotour.github.io/secmusou/', 'https://github.com/gijotour/secmusou']);
+  });
+
+  it('기술 갈래 맨 앞 타일이고 소개 페이지와 짝을 이룬다', () => {
+    const tech = PRODUCTS.filter((p) => p.group === 'tech');
+    expect(tech[0].id).toBe('secmusou');
+    expect(tech[0].page).toBe('/secmusou');
+    expect(tech[0].live).toBe('https://gijotour.github.io/secmusou/');
+  });
+
+  it('매달 바뀌는 CVE 총 개수를 적지 않는다(월간 팩이 들어올 때마다 틀려지므로)', () => {
+    expect(text).not.toMatch(/CVE\s*\d{2,}\s*종|\d{2,}\s*종의?\s*CVE/);
+    expect(text).toMatch(/기본 10종/);
+  });
+
+  it('공개판에 없는 팀 랭킹을 있다고 적지 않고, 옛 이름을 쓰지 않는다', () => {
+    expect(text).toMatch(/랭킹은 이 공개판에는 없습니다/);
+    expect(text).not.toMatch(/GIJO AS(?!TER)/);
   });
 });
 
