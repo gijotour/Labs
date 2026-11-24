@@ -64,7 +64,9 @@ function App() {
     <div className="app-main">
       <main>
         <Suspense fallback={<div className="route-fallback" />}>
-          <Routes location={location} key={location.pathname}>
+          {/* key 는 첫 마디(/gijotour, /aster …)만 쓴다. 전체 주소를 쓰면 서비스 안에서 화면만 옮겨도
+              서비스가 통째로 새로 그려져 상태를 잃는다(투어: 고른 상품이 결제 화면에 못 가고 첫 화면으로 튕겼다). */}
+          <Routes location={location} key={location.pathname.split('/')[1] || '/'}>
             {/* ── GIJO LABS 자체 화면 ── */}
             <Route path="/" element={<GijoLab />} />
             {/* 허브의 두 갈래. 서비스가 아니라 Labs 자신의 화면이다(제품 타일을 나눠 보여 줄 뿐). */}

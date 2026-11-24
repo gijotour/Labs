@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { hasKakaoChannel, kakaoChannelUrl } from './kakaoConfig';
 
 /**
  * 투어 서비스 푸터.
@@ -54,14 +55,23 @@ const Footer = () => {
                 <li key={item} className="t-foot__soon">{item}</li>
               ))}
             </ul>
-            <p className="t-foot__note">전화·이메일로 먼저 문의해 주세요.</p>
+            <p className="t-foot__note">준비 중인 항목입니다.</p>
           </div>
 
           <div className="t-foot__col">
             <h2 className="t-foot__head">문의</h2>
             <ul>
-              <li><a href="mailto:contact@gijotour.com">contact@gijotour.com</a></li>
-              <li><a href="tel:+82212345678">+82 (0)2-1234-5678</a></li>
+              {/* 예전에 있던 contact@gijotour.com 과 02-1234-5678 은 쓰지 않는 주소·번호였다
+                  (gijotour.com 도메인이 없다). 실제 창구가 정해지면 여기에 넣는다. */}
+              {hasKakaoChannel ? (
+                <li>
+                  <a href={kakaoChannelUrl} target="_blank" rel="noopener noreferrer">
+                    카카오 채널
+                  </a>
+                </li>
+              ) : (
+                <li className="t-foot__soon">문의 창구 준비 중</li>
+              )}
             </ul>
           </div>
         </div>

@@ -1,8 +1,12 @@
 import { useState } from 'react';
 import './tour-theme.css';
 
+// 결제 대행(PG) 연동이 아직 없다. 결제 단추는 막아 두고, 결제가 된 것처럼 보이는 화면은 띄우지 않는다.
+// 연동이 붙으면 ONLINE_PAYMENT 를 켜고 handlePayment 에 실제 결제를 넣는다.
+const ONLINE_PAYMENT = false;
+
 const METHODS = [
-  { key: 'paypal', name: 'PayPal (MCP Secured)', desc: '전 세계 어디서나 안전한 결제' },
+  { key: 'paypal', name: 'PayPal', desc: '해외 카드·계정 결제' },
   { key: 'card', name: '신용 · 체크카드', desc: '법인카드 및 개인카드' }
 ];
 
@@ -29,7 +33,7 @@ const PaymentPage = ({ pkg, onBack }) => {
   }
 
   const handlePayment = () => {
-    // PayPal MCP 연동 시 이 부분에 로직이 들어갈 예정
+    if (!ONLINE_PAYMENT) return;
     setStep(2);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -165,15 +169,28 @@ const PaymentPage = ({ pkg, onBack }) => {
               </fieldset>
 
               <div className="pay__actions">
-                <button type="button" className="t-btn t-btn--primary" onClick={handlePayment}>
-                  {paymentMethod === 'paypal' ? 'PayPal로 안전 결제' : '카드로 결제하기'}
+                {!ONLINE_PAYMENT && (
+                  <p className="t-error" role="note">
+                    온라인 결제는 아직 열지 않았습니다. 결제는 담당 여행설계사와 상담한 뒤 안내해 드립니다.
+                  </p>
+                )}
+                <button
+                  type="button"
+                  className="t-btn t-btn--primary"
+                  onClick={handlePayment}
+                  disabled={!ONLINE_PAYMENT}
+                >
+                  {!ONLINE_PAYMENT
+                    ? '온라인 결제 준비 중'
+                    : paymentMethod === 'paypal'
+                      ? 'PayPal로 결제'
+                      : '카드로 결제하기'}
                 </button>
                 <button type="button" className="t-btn t-btn--secondary" onClick={onBack}>
                   주문 취소
                 </button>
               </div>
 
-              <p className="pay__trust">🔒 SSL 암호화 · 🛡️ 이상거래 탐지 · 💳 PCI DSS</p>
             </div>
           </aside>
         </div>

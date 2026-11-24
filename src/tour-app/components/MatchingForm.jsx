@@ -16,7 +16,8 @@ const MatchingForm = ({
   onUpdateForm,
   onSubmit,
   hasKakao,
-  onOpenKakao
+  onOpenKakao,
+  acceptsOnline = true
 }) => {
   if (receipt) {
     return (
@@ -31,7 +32,7 @@ const MatchingForm = ({
         )}
 
         {/* 저장 실패를 조용히 넘기지 않는다 */}
-        {receipt.apiConfigured && !receipt.savedToServer && (
+        {!receipt.savedToServer && (
           <p className="t-error t-receipt__warn">
             서버 접수 처리에 실패했습니다. 아래 카카오 채널로 문의해 주시면 즉시 도와드리겠습니다.
           </p>
@@ -95,8 +96,18 @@ const MatchingForm = ({
         );
       })}
 
-      <button type="submit" className="t-btn t-btn--primary t-form__submit" disabled={submitting}>
-        {submitting ? '접수 중…' : '무료로 매칭받기'}
+      {!acceptsOnline && (
+        <p className="t-error" role="note">
+          온라인 신청은 아직 받지 않습니다. 여기에 적은 내용은 어디에도 보내지지 않습니다.
+        </p>
+      )}
+
+      <button
+        type="submit"
+        className="t-btn t-btn--primary t-form__submit"
+        disabled={submitting || !acceptsOnline}
+      >
+        {submitting ? '접수 중…' : acceptsOnline ? '무료로 매칭받기' : '온라인 신청 준비 중'}
       </button>
 
       {hasKakao && (

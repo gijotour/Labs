@@ -6,6 +6,7 @@ import PainPoints from './components/PainPoints';
 import Solutions from './components/Solutions';
 import FeatureLinks from './components/FeatureLinks';
 import { hasKakaoChannel, openKakaoChannel } from './kakaoConfig';
+import { isRailwayApiEnabled } from '../services/railwayApi';
 
 const initialForm = {
   people: '',
@@ -62,6 +63,8 @@ const PremiumLanding = ({ onCreateMatchingRequest }) => {
     onUpdateForm: updateForm,
     onSubmit: submitMatchingRequest,
     hasKakao: hasKakaoChannel,
+    // 신청을 받아 둘 서버가 없으면 폼을 받지 않는다. 받는 척하면 고객은 연락을 기다리게 된다.
+    acceptsOnline: isRailwayApiEnabled(),
     onOpenKakao: openKakaoChannel
   };
 

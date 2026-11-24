@@ -83,9 +83,11 @@ const Navbar = ({ isLoggedIn, onLogout, userName, userRole }) => {
         </div>
       </div>
 
-      {menuOpen && !isStaffArea && (
+      {/* 폰 폭(600px 이하)에서는 위의 「파트너 로그인」·이름 링크가 숨는다. 그래서 여기에도 둔다.
+          관리자·설계사 화면에서도 메뉴 단추가 보이므로, 그때도 계정 메뉴는 연다. */}
+      {menuOpen && (
         <nav className="t-nav__mobile" id="t-nav-mobile" aria-label="모바일 메뉴">
-          {MENU.map((item) => (
+          {!isStaffArea && MENU.map((item) => (
             <NavLink
               key={item.to}
               to={item.to}
@@ -95,13 +97,40 @@ const Navbar = ({ isLoggedIn, onLogout, userName, userRole }) => {
               {item.label}
             </NavLink>
           ))}
-          <Link
-            to="/gijotour#request"
-            className="t-nav__mobile-link is-cta"
-            onClick={() => setMenuOpen(false)}
-          >
-            무료 상담 신청
-          </Link>
+          {isLoggedIn ? (
+            <>
+              <Link
+                to={userRole === 'admin' ? '/gijotour/admin' : '/gijotour/designer'}
+                className="t-nav__mobile-link"
+                onClick={() => setMenuOpen(false)}
+              >
+                {userName} 대시보드
+              </Link>
+              <button
+                type="button"
+                className="t-nav__mobile-link"
+                onClick={() => {
+                  setMenuOpen(false);
+                  onLogout();
+                }}
+              >
+                로그아웃
+              </button>
+            </>
+          ) : (
+            <Link to="/gijotour/login" className="t-nav__mobile-link" onClick={() => setMenuOpen(false)}>
+              파트너 로그인
+            </Link>
+          )}
+          {!isStaffArea && (
+            <Link
+              to="/gijotour#request"
+              className="t-nav__mobile-link is-cta"
+              onClick={() => setMenuOpen(false)}
+            >
+              무료 상담 신청
+            </Link>
+          )}
         </nav>
       )}
 
@@ -254,6 +283,15 @@ const Navbar = ({ isLoggedIn, onLogout, userName, userRole }) => {
           color: #b6c2d2;
           text-decoration: none;
           border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        /* 로그아웃은 단추라 링크와 같은 모양으로 맞춘다 */
+        button.t-nav__mobile-link {
+          width: 100%;
+          text-align: left;
+          background: none;
+          border-width: 0 0 1px;
+          font-family: inherit;
+          cursor: pointer;
         }
         .t-nav__mobile-link.is-cta {
           margin-top: 0.75rem;
