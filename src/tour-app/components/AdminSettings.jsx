@@ -30,7 +30,7 @@ const initialLogs = [
 
 const AdminSettings = () => {
   const [settings, setSettings] = useState(() => {
-    const saved = localStorage.getItem('gijo_admin_settings');
+    const saved = localStorage.getItem('gijotour_admin_settings');
     return saved ? JSON.parse(saved) : initialSettings;
   });
   const [saved, setSaved] = useState(false);
@@ -42,7 +42,7 @@ const AdminSettings = () => {
   };
 
   const saveSettings = () => {
-    localStorage.setItem('gijo_admin_settings', JSON.stringify(settings));
+    localStorage.setItem('gijotour_admin_settings', JSON.stringify(settings));
     setSaved(true);
     setTimeout(() => setSaved(false), 3000);
   };
@@ -50,7 +50,7 @@ const AdminSettings = () => {
   const resetSettings = () => {
     if (window.confirm('모든 설정을 초기값으로 되돌리시겠습니까?')) {
       setSettings(initialSettings);
-      localStorage.removeItem('gijo_admin_settings');
+      localStorage.removeItem('gijotour_admin_settings');
       setSaved(false);
     }
   };

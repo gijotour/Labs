@@ -7,9 +7,11 @@ const DemoNotice = () => {
     <div className="t-demo" role="note">
       <div className="t-demo__inner">
         <strong className="t-demo__tag">체험판</strong>
-        <span>
+        <span className="t-demo__long">
           설계사·후기·가격·공지·영상은 예시입니다. 상담 신청·결제·파트너 로그인은 아직 열지 않았습니다.
         </span>
+        {/* 폰에서는 긴 문장이 세 줄이 되어 화면 위쪽을 많이 차지한다. 같은 뜻을 짧게 쓴다. */}
+        <span className="t-demo__short">내용은 예시이고, 신청·결제·로그인은 아직 안 됩니다.</span>
       </div>
 
       <style>{`
@@ -39,8 +41,14 @@ const DemoNotice = () => {
           font-size: 0.75rem;
           font-weight: 700;
         }
+        .t-demo__short { display: none; }
+        /* 폰에서는 글자와 여백을 줄이고 짧은 문장을 쓴다. */
         @media (max-width: 600px) {
-          .t-demo__inner { width: calc(100% - 2rem); }
+          .t-demo { font-size: 0.75rem; line-height: 1.4; }
+          .t-demo__inner { width: calc(100% - 2rem); padding: 0.4375rem 0; gap: 0.5rem; }
+          .t-demo__tag { font-size: 0.6875rem; padding: 0.0625rem 0.4375rem; }
+          .t-demo__long { display: none; }
+          .t-demo__short { display: inline; }
         }
       `}</style>
     </div>

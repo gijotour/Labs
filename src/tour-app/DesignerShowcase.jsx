@@ -101,9 +101,12 @@ const DesignerShowcase = ({ packages = [], onRate, selectedRegion = '전체', on
                   <button type="button" className="ds__act" onClick={() => open('reviews', pkg)}>
                     후기 {pkg.reviewCount ?? reviews.length}개
                   </button>
-                  <button type="button" className="ds__act" onClick={() => open('rating', pkg)}>
-                    평점 남기기
-                  </button>
+                  {/* 체험판의 설계사는 예시라 평점을 받지 않는다(demo.js). */}
+                  {!TOUR_DEMO && (
+                    <button type="button" className="ds__act" onClick={() => open('rating', pkg)}>
+                      평점 남기기
+                    </button>
+                  )}
                 </div>
               </li>
             ))}

@@ -9,17 +9,27 @@ function DesignerTV({ videos = [] }) {
   const navigate = useNavigate();
   const [selectedVideo, setSelectedVideo] = useState(null);
 
-  // 댓글 상태 관리 (로컬 스토리지 연동)
+  // 댓글 상태 관리 (로컬 스토리지 연동). 키는 서비스 접두사 규칙(gijotour_*)을 따른다.
+  // 예전 키(gijo_tv_comments)는 체험판 예시 영상에 남긴 기록뿐이라 옮기지 않는다.
   const [comments, setComments] = useState(() => {
-    const saved = localStorage.getItem('gijo_tv_comments');
-    return saved ? JSON.parse(saved) : {};
+    try {
+      const saved = localStorage.getItem('gijotour_tv_comments');
+      const parsed = saved ? JSON.parse(saved) : {};
+      return parsed && typeof parsed === 'object' ? parsed : {};
+    } catch {
+      return {};
+    }
   });
 
   const [newComment, setNewComment] = useState('');
   const [nickname, setNickname] = useState('');
 
   useEffect(() => {
-    localStorage.setItem('gijo_tv_comments', JSON.stringify(comments));
+    try {
+      localStorage.setItem('gijotour_tv_comments', JSON.stringify(comments));
+    } catch {
+      // 저장소를 못 쓰는 브라우저에서도 화면은 그대로 쓴다
+    }
   }, [comments]);
 
   // 모달이 열려 있을 때 Esc로 닫기
@@ -148,6 +158,10 @@ function DesignerTV({ videos = [] }) {
                   의견 나누기 <span>{currentComments.length}</span>
                 </h3>
 
+                {/* 체험판의 영상은 예시라 의견을 받지 않는다(demo.js). */}
+                {TOUR_DEMO ? (
+                  <p className="tv__nocomment">체험판이라 의견을 남길 수 없습니다.</p>
+                ) : (
                 <form
                   className="tv__commentform"
                   onSubmit={(e) => {
@@ -179,6 +193,7 @@ function DesignerTV({ videos = [] }) {
                     등록
                   </button>
                 </form>
+                )}
 
                 <ul className="tv__commentlist">
                   {currentComments.length > 0 ? currentComments.map((c) => (
@@ -190,7 +205,7 @@ function DesignerTV({ videos = [] }) {
                       <p>{c.text}</p>
                     </li>
                   )) : (
-                    <li className="tv__nocomment">첫 번째 의견을 남겨보세요.</li>
+                    !TOUR_DEMO && <li className="tv__nocomment">첫 번째 의견을 남겨보세요.</li>
                   )}
                 </ul>
               </aside>
