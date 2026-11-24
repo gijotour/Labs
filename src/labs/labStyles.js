@@ -36,11 +36,8 @@ export const LAB_STYLES = `
         }
 
         /* ── 히어로 ── 좌측 정렬 비대칭 스플릿
-           클래스명이 lab-hero 가 아니라 lab-intro 인 이유:
-           05-payment-lab-hub.css:291 에 이미 .lab-hero 가 있고
-           align-items:center + text-align:center 를 건다.
-           내 규칙에 text-align 선언이 없으면 그게 그대로 상속돼 스플릿이 깨진다.
-           전역 규칙을 고치면 투어 화면에 영향이 가므로 이름을 피했다. */
+           클래스명이 lab-intro 인 이유: 예전 05-payment-lab-hub.css 에 쓰지 않는 .lab-hero 규칙
+           (가운데 정렬)이 있어 이름을 피했다. 그 규칙은 2026-11-24 에 걷어냈다. */
         .lab-intro {
           /* 리드·CTA·상태 패널을 걷어내 우측 열이 비었다. 단일 열로 되돌린다. */
           padding: 3.5rem 0 2.5rem;

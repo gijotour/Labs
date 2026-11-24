@@ -46,7 +46,9 @@ GIJO LABS  (gijo.co.kr)
 - 투어의 지연 로드 화면(`DashboardShell` · `DesignerTV` · `AdminGuideUserManager`)은 `tour-theme.css` 를
   다시 import 하지 않는다. import 하면 테마가 별도 조각으로 떨어져 랜딩 CSS **뒤에** 실리고,
   `.tour-surface h2` 와 `.t-form__head h2` 처럼 무게가 같은 규칙의 승패가 뒤집힌다.
-- `src/styles/05-payment-lab-hub.css` 에 Labs 랜딩(`.lab-*`) 스타일이 투어 결제 스타일과 섞여 있다.
+- `src/styles/05-payment-lab-hub.css` 에 섞여 있던 예전 Labs 랜딩(`.lab-*`) 규칙은 어느 화면도 쓰지 않아
+  2026-11-24 에 걷어냈다(계산된 스타일 대조로 화면 불변 확인). 파일 이름은 그대로 둔다.
+  `:root` 의 `--lab-accent` · `--lab-gradient` 도 이제 쓰는 곳이 없지만 01 파일은 건드리지 않았다.
 
 ## CSS 를 건드릴 때
 
