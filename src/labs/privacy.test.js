@@ -42,6 +42,16 @@ describe('보안무쌍 앱 주소', () => {
     expect(toml).toMatch(/from = "\/games\/secmusou\/\*"\s+to = "https:\/\/gijotour\.github\.io\/secmusou\/:splat"\s+status = 200/);
   });
 
+  it('assetlinks.json 이 안드로이드 앱과 이 도메인을 잇는다(없거나 깨지면 앱에 주소창이 뜬다)', () => {
+    const links = JSON.parse(readFileSync(resolve(root, 'public/.well-known/assetlinks.json'), 'utf8'));
+    const app = links.find((l) => l.target?.package_name === 'kr.co.gijo.secmusou');
+    expect(app.relation).toContain('delegate_permission/common.handle_all_urls');
+    expect(app.target.namespace).toBe('android_app');
+    // 업로드 키(첫 줄) — 플레이 콘솔의 「앱 서명 키」 지문을 받으면 그 아래에 더한다
+    expect(app.target.sha256_cert_fingerprints.length).toBeGreaterThan(0);
+    for (const fp of app.target.sha256_cert_fingerprints) expect(fp).toMatch(/^([0-9A-F]{2}:){31}[0-9A-F]{2}$/);
+  });
+
   it('끝 빗금만 붙이는 넘기기 규칙이 없다(Netlify 에서는 자기 자신으로 도는 고리가 된다)', () => {
     expect(toml).not.toMatch(/from = "\/games\/secmusou"\s/);
   });

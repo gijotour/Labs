@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "kr.co.gijo.secmusou",
+      "sha256_cert_fingerprints": [
+        "8F:A0:F3:6A:3D:E6:67:93:F1:85:6D:72:96:A9:32:CD:0E:5A:98:20:54:0C:79:32:0A:CE:CE:BB:65:AA:78:44"
+      ]
+    }
+  }
+]
