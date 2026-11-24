@@ -1,23 +1,25 @@
 import { useNavigate } from 'react-router-dom';
 import { TOUR_DEMO } from './demo';
 import './tour-theme.css';
+// 2026-11-24: 아직 열지 않은 체험판이라, 하고 있는 것처럼 읽히는 문구를 「준비하는 것」 투로 바꿨다(사장님 결정).
+// 실제 서비스가 열리면 그때 실제로 하는 것만 다시 적는다.
 
 const FEATURES = [
   {
-    title: '후불 정산 시스템',
-    description: '상품 만족도와 서비스에 이상이 없음을 확인한 후 가이드에게 비용을 지급합니다. 최고의 품질을 보장합니다.'
+    title: '후불 정산 구조',
+    description: '상품 만족도와 서비스에 이상이 없음을 확인한 뒤 가이드에게 비용을 정산하려 합니다.'
   },
   {
-    title: '최소 선불 부킹비',
-    description: '예약 시 발생하는 선불 결제는 최소화하였습니다. 기업의 자금 유동성을 고려한 최적의 시스템입니다.'
+    title: '최소 선불 예약금',
+    description: '예약할 때 내는 선불 부담을 줄여, 기업의 자금 흐름을 고려한 정산 구조를 마련할 계획입니다.'
   },
   {
-    title: '완벽한 증빙 처리',
-    description: '법인 카드 결제는 물론, 투명한 세금계산서 발행 시스템을 통해 기업 회계 처리를 완벽하게 지원합니다.'
+    title: '기업 증빙 처리',
+    description: '법인카드 결제와 세금계산서 발행을 준비해 기업 회계 처리를 돕고자 합니다.'
   },
   {
     title: '가이드 전문성 관리',
-    description: "검증된 '여행설계사'들이 직접 비대면으로 선택지를 제안하며, 전문적인 관리팀이 뒤를 받쳐줍니다."
+    description: '검증을 거친 여행설계사가 비대면으로 선택지를 제안하고, 전담 관리팀이 뒷받침하는 운영을 준비하고 있습니다.'
   }
 ];
 
@@ -29,10 +31,10 @@ const B2BInfo = () => {
       <section className="t-section">
         <div className="t-shell">
           <span className="t-eyebrow">B2B Partnership</span>
-          <h1>여행설계사를 위한 차별화된 플랫폼 서비스</h1>
+          <h1>여행설계사를 위한 새 플랫폼을 준비합니다</h1>
           <p className="t-lead">
-            GIJO Tour LaB의 여행 서비스는 전문 여행설계사들이 자신의 역량을 마음껏 펼칠 수 있는
-            안전하고 투명한 엔터프라이즈 환경을 제공합니다.
+            GIJO Tour LaB은 전문 여행설계사가 역량을 마음껏 펼칠 수 있는 안전하고 투명한
+            비즈니스 환경을 준비하고 있습니다.
           </p>
 
           <div className="t-b2b-grid">
@@ -51,8 +53,8 @@ const B2BInfo = () => {
           <div className="t-card t-b2b-cta">
             <div>
               <span className="t-eyebrow">Join as a partner</span>
-              <h2>글로벌 여행 시장의 새로운 기준이 되세요</h2>
-              <p>지금 바로 GIJO Tour LaB와 함께 프리미엄 여행 설계의 미래를 시작하세요.</p>
+              <h2>함께할 여행설계사를 찾습니다</h2>
+              <p>제휴 신청은 서비스를 열 때 받습니다.</p>
             </div>
             {/* 체험판인 동안 제휴 신청은 받지 않는다. 받아 둘 서버가 없다(demo.js). */}
             <button

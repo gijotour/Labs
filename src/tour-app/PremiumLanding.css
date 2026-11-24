@@ -39,6 +39,17 @@
   padding-top: var(--t-gap-lg);
 }
 
+/* 칩 위의 「준비하고 있는 것」 머리말. 칩이 지금 하는 일로 읽히지 않게 한다(체험판). */
+.t-hero__plan {
+  margin: var(--t-gap-lg) 0 0;
+  font-size: var(--t-small);
+  color: var(--t-fg-subtle);
+}
+
+.t-hero__plan + .t-hero__proof {
+  margin-top: var(--t-gap-xs);
+}
+
 .t-hero__proof {
   list-style: none;
   margin: var(--t-gap-lg) 0 0;

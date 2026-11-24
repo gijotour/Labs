@@ -69,7 +69,7 @@ const DesignerShowcase = ({ packages = [], onRate, selectedRegion = '전체', on
             <>
               <h1>전문 여행설계사의 맞춤 제안</h1>
               <p className="t-lead">
-                전문가들이 완벽한 여정을 위해 준비한 비대면 맞춤형 프리미엄 서비스입니다.
+                여행설계사가 비대면으로 맞춤 일정을 제안하는 모습을 예시로 보여 드립니다.
               </p>
             </>
           ) : (

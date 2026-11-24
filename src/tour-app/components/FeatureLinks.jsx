@@ -5,19 +5,19 @@ const LINKS = [
     to: '/gijotour/proposals',
     label: '제안서',
     title: '상담 후 고객에게 보여줄 맞춤 제안',
-    hint: '지역별 전문 설계사의 실제 제안 사례'
+    hint: '지역별 맞춤 제안 예시'
   },
   {
     to: '/gijotour/reviews',
     label: '후기·공지',
     title: '신뢰 확보용 후기와 운영 소식',
-    hint: '고객 후기와 플랫폼 안내사항'
+    hint: '후기와 서비스 안내 예시'
   },
   {
     to: '/gijotour/tv',
     label: '설계사 TV',
     title: '콘텐츠와 영상으로 신뢰 강화',
-    hint: '설계사가 직접 촬영한 현지 영상'
+    hint: '설계사 현지 영상 예시'
   },
   {
     to: '/gijotour/about',
