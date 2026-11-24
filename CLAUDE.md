@@ -93,6 +93,7 @@ npm run lint     # 오류 0 (2026-11-22 확인). 하나라도 나오면 차단
 npm run build
 npm test                                          # vitest
 cd backend && .venv/Scripts/python -m pytest -q   # pytest (계약 테스트 포함)
+# backend/.venv 가 없으면: cd backend && python -m venv .venv && .venv/Scripts/python -m pip install -r requirements-dev.txt
 ```
 
 ## 스킬 등록 시
