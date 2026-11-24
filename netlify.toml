@@ -11,6 +11,28 @@
   status = 301
   force = true
 
+# 보안무쌍 게임을 gijo.co.kr 주소로 연다(플레이 스토어 안드로이드 앱이 이 주소를 띄운다).
+# 게임 파일은 Labs 에 두지 않는다 — 공개 저장소 gijotour/secmusou 의 GitHub Pages 를 그대로 받아 넘긴다(status 200 = 대리 전송).
+# 앱이 이 도메인의 주인임을 증명하는 /.well-known/assetlinks.json 은 public/ 에 둔다.
+# 이 규칙들은 아래 SPA 폴백보다 먼저 와야 한다.
+[[redirects]]
+  from = "/games/secmusou"
+  to = "/games/secmusou/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/games/secmusou/*"
+  to = "https://gijotour.github.io/secmusou/:splat"
+  status = 200
+  force = true
+
+# 같은 게임이 두 주소로 검색에 잡히지 않게 한다(검색 정본은 소개 페이지 /secmusou 와 GitHub Pages).
+[[headers]]
+  for = "/games/*"
+  [headers.values]
+    X-Robots-Tag = "noindex"
+
 # Gster 는 사내 도구 소개라 검색에 잡히지 않게 한다.
 # 화면에서도 meta robots 를 달지만 그건 스크립트가 돈 뒤에야 생긴다. 응답 머리가 먼저 막는다.
 [[headers]]
