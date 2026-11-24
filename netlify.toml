@@ -14,13 +14,9 @@
 # 보안무쌍 게임을 gijo.co.kr 주소로 연다(플레이 스토어 안드로이드 앱이 이 주소를 띄운다).
 # 게임 파일은 Labs 에 두지 않는다 — 공개 저장소 gijotour/secmusou 의 GitHub Pages 를 그대로 받아 넘긴다(status 200 = 대리 전송).
 # 앱이 이 도메인의 주인임을 증명하는 /.well-known/assetlinks.json 은 public/ 에 둔다.
-# 이 규칙들은 아래 SPA 폴백보다 먼저 와야 한다.
-[[redirects]]
-  from = "/games/secmusou"
-  to = "/games/secmusou/"
-  status = 301
-  force = true
-
+# 이 규칙은 아래 SPA 폴백보다 먼저 와야 한다.
+# 「/games/secmusou → /games/secmusou/」 넘기기 규칙을 따로 두지 말 것: Netlify 는 끝 빗금 유무를 같은 주소로 보아
+# 자기 자신으로 계속 넘기는 고리가 된다(2026-11-24 배포에서 확인). 앱은 끝 빗금이 있는 주소로만 연다.
 [[redirects]]
   from = "/games/secmusou/*"
   to = "https://gijotour.github.io/secmusou/:splat"

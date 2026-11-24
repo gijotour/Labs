@@ -41,4 +41,8 @@ describe('보안무쌍 앱 주소', () => {
     expect(proxy).toBeLessThan(fallback);
     expect(toml).toMatch(/from = "\/games\/secmusou\/\*"\s+to = "https:\/\/gijotour\.github\.io\/secmusou\/:splat"\s+status = 200/);
   });
+
+  it('끝 빗금만 붙이는 넘기기 규칙이 없다(Netlify 에서는 자기 자신으로 도는 고리가 된다)', () => {
+    expect(toml).not.toMatch(/from = "\/games\/secmusou"\s/);
+  });
 });
