@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { TOUR_DEMO } from './demo';
 import { useNavigate } from 'react-router-dom';
 // tour-theme.css 는 여기서 다시 import 하지 않는다. 이 화면은 GijoTourApp 이 지연 로드하고,
 // 테마는 GijoTourApp 조각에 이미 들어 있다. 여기서도 import 하면 번들러가 테마를 따로 떼어
@@ -106,12 +107,17 @@ function DesignerTV({ videos = [] }) {
             <div className="tv__modalgrid">
               <div className="tv__player">
                 <div className="tv__frame">
-                  <iframe
-                    src={`${selectedVideo.youtubeUrl}?autoplay=1`}
-                    title={selectedVideo.title}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
+                  {/* 체험판의 예시 영상은 실제로 없는 영상이라 재생하지 않는다(demo.js). */}
+                  {TOUR_DEMO ? (
+                    <p className="tv__demo-video" role="note">예시 영상 자리입니다. 체험판이라 재생되지 않습니다.</p>
+                  ) : (
+                    <iframe
+                      src={`${selectedVideo.youtubeUrl}?autoplay=1`}
+                      title={selectedVideo.title}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  )}
                 </div>
 
                 <div className="tv__playerinfo">
@@ -291,6 +297,19 @@ function DesignerTV({ videos = [] }) {
 
         .tv__modalgrid { display: grid; grid-template-columns: 1.6fr 1fr; }
         .tv__frame { position: relative; aspect-ratio: 16 / 9; background: #000; }
+        .tv__demo-video {
+          position: absolute;
+          inset: 0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0;
+          padding: 1rem;
+          color: var(--t-fg-subtle);
+          font-size: var(--t-small);
+          text-align: center;
+          border: 1px dashed var(--t-line-strong);
+        }
         .tv__frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
         .tv__playerinfo { padding: var(--t-gap-lg); }
         .tv__modaltitle { font-size: 1.375rem; margin: 0.375rem 0 var(--t-gap); }

@@ -157,7 +157,8 @@ export const PRODUCTS = [
     group: 'travel',
     span: 2,
     featured: true,
-    status: '서비스 중',
+    // 2026-11-24: 예시 내용으로 도는 체험판이다(src/tour-app/demo.js). 실제 서비스가 열리면 바꾼다.
+    status: '체험판',
   },
   {
     id: 'gijotalk',

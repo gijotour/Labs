@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { TOUR_DEMO } from './demo';
 import './tour-theme.css';
 
 const FEATURES = [
@@ -53,12 +54,14 @@ const B2BInfo = () => {
               <h2>글로벌 여행 시장의 새로운 기준이 되세요</h2>
               <p>지금 바로 GIJO Tour LaB와 함께 프리미엄 여행 설계의 미래를 시작하세요.</p>
             </div>
+            {/* 체험판인 동안 제휴 신청은 받지 않는다. 받아 둘 서버가 없다(demo.js). */}
             <button
               type="button"
               className="t-btn t-btn--primary"
               onClick={() => navigate('/gijotour/login', { state: { initialView: 'signup' } })}
+              disabled={TOUR_DEMO}
             >
-              여행설계사 제휴 문의하기
+              {TOUR_DEMO ? '제휴 신청 준비 중' : '여행설계사 제휴 문의하기'}
             </button>
           </div>
         </div>

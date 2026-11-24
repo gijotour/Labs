@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { TOUR_DEMO } from './demo';
 import { NavLink, Link, useLocation } from 'react-router-dom';
 // GIJO 공식 심볼. Labs 허브와 같은 자산을 쓴다(3KB, 이전 logo.png 는 229KB).
 import logoImg from '../assets/gijo-mark.png';
@@ -22,7 +23,9 @@ const Navbar = ({ isLoggedIn, onLogout, userName, userRole }) => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const isStaffArea = location.pathname.includes('/admin') || location.pathname.includes('/designer');
+  // 체험판인 동안 관리 화면은 닫혀 있다. 그 아래 없는 주소에서도 고객 메뉴를 보여 준다.
+  const isStaffArea =
+    !TOUR_DEMO && (location.pathname.includes('/admin') || location.pathname.includes('/designer'));
 
   return (
     <header className={`t-nav ${scrolled ? 'is-scrolled' : ''}`}>
@@ -63,7 +66,8 @@ const Navbar = ({ isLoggedIn, onLogout, userName, userRole }) => {
               </button>
             </>
           ) : (
-            <Link to="/gijotour/login" className="t-nav__who">파트너 로그인</Link>
+            // 체험판인 동안 파트너 로그인은 닫는다(demo.js)
+            !TOUR_DEMO && <Link to="/gijotour/login" className="t-nav__who">파트너 로그인</Link>
           )}
 
           {!isStaffArea && (
@@ -118,9 +122,11 @@ const Navbar = ({ isLoggedIn, onLogout, userName, userRole }) => {
               </button>
             </>
           ) : (
-            <Link to="/gijotour/login" className="t-nav__mobile-link" onClick={() => setMenuOpen(false)}>
-              파트너 로그인
-            </Link>
+            !TOUR_DEMO && (
+              <Link to="/gijotour/login" className="t-nav__mobile-link" onClick={() => setMenuOpen(false)}>
+                파트너 로그인
+              </Link>
+            )
           )}
           {!isStaffArea && (
             <Link

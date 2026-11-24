@@ -2,6 +2,8 @@ import { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import { Routes, Route, useNavigate, useLocation, Navigate, Link } from 'react-router-dom';
 import Navbar from './Navbar';
 import Footer from './Footer';
+import DemoNotice from './DemoNotice';
+import { TOUR_DEMO } from './demo';
 import PremiumLanding from './PremiumLanding';
 import DesignerShowcase from './DesignerShowcase';
 import PaymentPage from './PaymentPage';
@@ -69,8 +71,9 @@ function GijoTourApp() {
 
   // ── 세션 (목업 인증) ────────────────────────────────────────────────
   // 주의: 서버 검증이 아니다. 화면 분기용이며 실제 보안 장치가 아니다.
+  // 체험판인 동안에는 예전에 로그인해 둔 값이 남아 있어도 로그인하지 않은 것으로 본다(demo.js).
   const [isLoggedIn, setIsLoggedIn] = useState(
-    () => localStorage.getItem('gijotour_auth') === 'true'
+    () => !TOUR_DEMO && localStorage.getItem('gijotour_auth') === 'true'
   );
   const [userRole, setUserRole] = useState(
     () => localStorage.getItem('gijotour_role') || 'designer'
@@ -283,6 +286,8 @@ function GijoTourApp() {
         onLogout={handleNavbarLogout}
       />
 
+      <DemoNotice />
+
       <Suspense fallback={<div className="route-fallback" />}>
         <Routes>
         {/* ── 고객 여정 ── */}
@@ -331,7 +336,10 @@ function GijoTourApp() {
         <Route
           path="login"
           element={
-            isLoggedIn
+            // 체험판인 동안 파트너 로그인·관리 화면은 닫는다(demo.js).
+            TOUR_DEMO
+              ? <Navigate to="/gijotour" replace />
+              : isLoggedIn
               ? <Navigate to={userRole === 'admin' ? '/gijotour/admin' : '/gijotour/designer'} replace />
               : (
                 <Login
@@ -348,7 +356,7 @@ function GijoTourApp() {
         {/* ── 설계사 여정 ── */}
         <Route
           path="designer"
-          element={guard(['designer', 'admin'], (
+          element={TOUR_DEMO ? <Navigate to="/gijotour" replace /> : guard(['designer', 'admin'], (
             <DesignerDashboard
               userName={userName}
               onLogout={handleLogout}
@@ -364,7 +372,7 @@ function GijoTourApp() {
         {/* ── 관리자 여정 ── */}
         <Route
           path="admin"
-          element={guard(['admin'], (
+          element={TOUR_DEMO ? <Navigate to="/gijotour" replace /> : guard(['admin'], (
             <AdminPanel
               onLogout={handleLogout}
               designers={designers}
@@ -376,7 +384,10 @@ function GijoTourApp() {
             />
           ))}
         />
-        <Route path="admin/guides" element={guard(['admin'], <AdminGuideUserManager />)} />
+        <Route
+          path="admin/guides"
+          element={TOUR_DEMO ? <Navigate to="/gijotour" replace /> : guard(['admin'], <AdminGuideUserManager />)}
+        />
 
         <Route path="*" element={<NotFound />} />
         </Routes>

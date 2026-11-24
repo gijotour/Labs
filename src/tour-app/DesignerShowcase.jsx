@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { TOUR_DEMO } from './demo';
 import './tour-theme.css';
 
 const formatYoutubeUrl = (url) => {
@@ -247,7 +248,11 @@ const DesignerShowcase = ({ packages = [], onRate, selectedRegion = '전체', on
                 </div>
               </div>
 
-              {selected.youtubeUrl && (
+              {/* 체험판의 예시 영상은 실제로 없는 영상이라 재생하지 않는다(demo.js). */}
+              {selected.youtubeUrl && TOUR_DEMO && (
+                <p className="ds__demo-video" role="note">예시 영상 자리입니다. 체험판이라 재생되지 않습니다.</p>
+              )}
+              {selected.youtubeUrl && !TOUR_DEMO && (
                 <div className="ds__frame">
                   <iframe
                     src={formatYoutubeUrl(selected.youtubeUrl)}
@@ -491,6 +496,15 @@ const DesignerShowcase = ({ packages = [], onRate, selectedRegion = '전체', on
         .ds__quote em { font-style: normal; font-size: 0.75rem; color: var(--t-fg-subtle); }
 
         .ds__frame { position: relative; aspect-ratio: 16/9; border-radius: var(--t-radius-sm); overflow: hidden; background: #000; }
+        .ds__demo-video {
+          margin: 0;
+          padding: 1.25rem;
+          border: 1px dashed var(--t-line-strong);
+          border-radius: var(--t-radius-sm);
+          color: var(--t-fg-subtle);
+          font-size: var(--t-small);
+          text-align: center;
+        }
         .ds__frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 
         .ds__detailgrid { display: grid; grid-template-columns: 1.4fr 1fr; gap: var(--t-gap-lg); }
