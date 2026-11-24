@@ -115,9 +115,10 @@ export const PRODUCTS = [
   {
     id: 'gijo-bridge-ai',
     name: 'GIJO BridgeAI',
-    summary: '노트북에서 집에 둔 GPU 서버의 VRAM을 네트워크로 끌어 쓰는 원격 오프로드 브릿지',
-    lang: 'JavaScript',
-    updated: '2026-08-12',
+    // 2026-11-24: 「VRAM 을 끌어 쓴다」는 실제와 달랐다(메모리를 합치지 않는다). 요청을 서버로 넘기는 것이다.
+    summary: '노트북에서 집·사무실의 GPU 서버에 SSH 로 연결해, 편집기의 AI 요청을 그 서버로 넘기는 Windows 앱',
+    lang: 'Windows 설치판 · JavaScript',
+    updated: '2026-11-24',
     repo: 'https://github.com/gijotour/GIJO_BridgeAI',
     live: null,
     page: '/bridgeai',

@@ -113,6 +113,17 @@ describe('여행길 앱·BridgeAI 소개', () => {
     expect(drink).not.toMatch(/19\s*세|19금|18\+|성인|미성년/);
   });
 
+  it('BridgeAI 는 설치 파일(릴리스)과 저장소로만 내보내고, 설치 파일이 없다고 적지 않는다', () => {
+    const page = findPage('bridgeai');
+    const externals = collect([page]).filter((s) => /^https?:\/\//.test(s));
+    expect([...new Set(externals)]).toEqual([
+      'https://github.com/gijotour/GIJO_BridgeAI/releases',
+      'https://github.com/gijotour/GIJO_BridgeAI',
+    ]);
+    const text = collect([page]).join('\n');
+    expect(text).not.toMatch(/설치 파일이나|설치 파일은 없|VRAM 을 끌어|VRAM을 끌어|무료|가격/);
+  });
+
   it('BridgeAI 에 기계·제품 이름을 쓰지 않는다', () => {
     const bridge = collect([findPage('bridgeai')]).join('\n');
     expect(bridge).not.toMatch(/GB10|RTX|Mac Studio|M4|4090/);
